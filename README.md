@@ -1,2 +1,2 @@
-# JeB-n-vole.fr
+# JeBenevole.fr
 Projet JeBénévole.fr
