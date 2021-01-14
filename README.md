@@ -12,4 +12,4 @@ Sur JeBénévole.fr, vous trouverez les organisations et les bénévoles à prox
 
 ## Participer
 
-Veuillez suivre les instructions dans le fichier [CONTRIBUTING.md file](https://github.com/Nouvelle-Techno-fr/JeBenevole.fr/blob/main/CONTRIBUTING.md) si vous souhaitez participer à ce projet.
+Veuillez suivre les instructions dans le fichier [CONTRIBUTING.md](https://github.com/Nouvelle-Techno-fr/JeBenevole.fr/blob/main/CONTRIBUTING.md) si vous souhaitez participer à ce projet.
