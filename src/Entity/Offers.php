@@ -29,7 +29,7 @@ class Offers
     private $address;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=5)
      */
     private $zip;
 
@@ -182,7 +182,7 @@ class Offers
         return $this->zip;
     }
 
-    public function setZip(int $zip): self
+    public function setZip(string $zip): self
     {
         $this->zip = $zip;
 
