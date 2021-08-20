@@ -29,7 +29,7 @@ class Offers
     private $address;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255)
      */
     private $zip;
 
@@ -177,7 +177,7 @@ class Offers
         return $this;
     }
 
-    public function getZip(): ?int
+    public function getZip(): ?string
     {
         return $this->zip;
     }

@@ -82,12 +82,12 @@ class Users implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=10, nullable=true)
+     * @ORM\Column(type="string", length=12, nullable=true)
      */
     private $fixNumber;
 
     /**
-     * @ORM\Column(type="string", length=10, nullable=true)
+     * @ORM\Column(type="string", length=12, nullable=true)
      */
     private $cellNumber;
 
