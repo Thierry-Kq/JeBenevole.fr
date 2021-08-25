@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\OffersRepository;
+use DateTime;
 use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,132 +18,132 @@ class Offers
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private string $title;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $address;
+    private string $address;
 
     /**
      * @ORM\Column(type="string", length=10)
      */
-    private $zip;
+    private string $zip;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $city;
+    private string $city;
 
     /**
      * @ORM\Column(type="datetime_immutable")
      */
-    private $createdAt;
+    private DateTimeImmutable $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $updatedAt;
+    private ?DateTimeInterface $updatedAt = null;
 
     /**
      * @ORM\Column(type="float", nullable=true)
      */
-    private $longitude;
+    private ?float $longitude = null;
 
     /**
      * @ORM\Column(type="float", nullable=true)
      */
-    private $latitude;
+    private ?float $latitude = null;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isPublished;
+    private bool $isPublished = false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isActived;
+    private bool $isActived = false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isUrgent;
+    private bool $isUrgent = false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isDeleted;
+    private bool $isDeleted = false;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $slug;
+    private string $slug;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $description;
+    private string $description;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $status;
+    private bool $status = false;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dateStart;
+    private DateTimeInterface $dateStart;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dateEnd;
+    private DateTimeInterface $dateEnd;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $file;
+    private ?string $file = null;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $recommended;
+    private bool $recommended = false;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $contactExternalName;
+    private ?string $contactExternalName = null;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=180, nullable=true)
      */
-    private $contactExternalEmail;
+    private ?string $contactExternalEmail = null;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=20, nullable=true)
      */
-    private $contactExternalTel;
+    private ?string $contactExternalTel = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="offerId")
+     * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="offers")
      */
-    private $users;
+    private Users $users;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Associations::class, inversedBy="offerId")
+     * @ORM\ManyToOne(targetEntity=Associations::class, inversedBy="offers")
      */
-    private $associations;
+    private Associations $associations;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Categories::class, inversedBy="offerId")
+     * @ORM\ManyToOne(targetEntity=Categories::class, inversedBy="offers")
      */
-    private $categories;
+    private Categories $categories;
 
     public function __construct()
     {
@@ -201,24 +203,17 @@ class Offers
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -333,24 +328,24 @@ class Offers
         return $this;
     }
 
-    public function getDateStart(): ?\DateTimeInterface
+    public function getDateStart(): ?DateTimeInterface
     {
         return $this->dateStart;
     }
 
-    public function setDateStart(\DateTimeInterface $dateStart): self
+    public function setDateStart(DateTimeInterface $dateStart): self
     {
         $this->dateStart = $dateStart;
 
         return $this;
     }
 
-    public function getDateEnd(): ?\DateTimeInterface
+    public function getDateEnd(): ?DateTimeInterface
     {
         return $this->dateEnd;
     }
 
-    public function setDateEnd(\DateTimeInterface $dateEnd): self
+    public function setDateEnd(DateTimeInterface $dateEnd): self
     {
         $this->dateEnd = $dateEnd;
 

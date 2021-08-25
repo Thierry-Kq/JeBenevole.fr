@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CategoriesRepository;
 use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,67 +19,69 @@ class Categories
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\Column(type="datetime_immutable")
      */
-    private $createdAt;
+    private DateTimeImmutable $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $updatedAt;
+    private ?DateTimeInterface $updatedAt = null;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isActived;
+    private bool $isActived = false;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $slug;
+    private string $slug;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $description;
+    private string $description;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $picture;
+    private string $picture;
 
     /**
      * @ORM\Column(type="string", length=25)
      */
-    private $color;
+    private string $color;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity=Categories::class, inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id")
      */
-    private $parentId;
+    private Categories $parentId;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
+     * @ORM\OneToMany(targetEntity=Categories::class, mappedBy="parentId")
      */
-    private $children = [];
+    private Collection $children;
 
     /**
      * @ORM\OneToMany(targetEntity=Offers::class, mappedBy="categories")
      */
-    private $offerId;
+    private Collection $offers;
 
     public function __construct()
     {
-        $this->offerId = new ArrayCollection();
+        $this->offers = new ArrayCollection();
         $this->createdAt = new DateTimeImmutable();
+        $this->children = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -103,19 +106,12 @@ class Categories
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -182,54 +178,94 @@ class Categories
         return $this;
     }
 
-    public function getParentId(): ?int
+    /**
+     * @return Collection|Offers[]
+     */
+    public function getOffers(): Collection
+    {
+        return $this->offers;
+    }
+
+    public function addOffers(Offers $offers): self
+    {
+        if (!$this->offers->contains($offers)) {
+            $this->offers[] = $offers;
+            $offers->setCategories($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffers(Offers $offers): self
+    {
+        if ($this->offers->removeElement($offers)) {
+            // set the owning side to null (unless already changed)
+            if ($offers->getCategories() === $this) {
+                $offers->setCategories(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getParentId(): ?self
     {
         return $this->parentId;
     }
 
-    public function setParentId(?int $parentId): self
+    public function setParentId(?self $parentId): self
     {
         $this->parentId = $parentId;
 
         return $this;
     }
 
-    public function getChildren(): ?array
+    /**
+     * @return Collection|Categories[]
+     */
+    public function getChildren(): Collection
     {
         return $this->children;
     }
 
-    public function setChildren(?array $children): self
+    public function addChild(Categories $child): self
     {
-        $this->children = $children;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Offers[]
-     */
-    public function getOfferId(): Collection
-    {
-        return $this->offerId;
-    }
-
-    public function addOfferId(Offers $offerId): self
-    {
-        if (!$this->offerId->contains($offerId)) {
-            $this->offerId[] = $offerId;
-            $offerId->setCategories($this);
+        if (!$this->children->contains($child)) {
+            $this->children[] = $child;
+            $child->setParentId($this);
         }
 
         return $this;
     }
 
-    public function removeOfferId(Offers $offerId): self
+    public function removeChild(Categories $child): self
     {
-        if ($this->offerId->removeElement($offerId)) {
+        if ($this->children->removeElement($child)) {
             // set the owning side to null (unless already changed)
-            if ($offerId->getCategories() === $this) {
-                $offerId->setCategories(null);
+            if ($child->getParentId() === $this) {
+                $child->setParentId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addOffer(Offers $offer): self
+    {
+        if (!$this->offers->contains($offer)) {
+            $this->offers[] = $offer;
+            $offer->setCategories($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffer(Offers $offer): self
+    {
+        if ($this->offers->removeElement($offer)) {
+            // set the owning side to null (unless already changed)
+            if ($offer->getCategories() === $this) {
+                $offer->setCategories(null);
             }
         }
 

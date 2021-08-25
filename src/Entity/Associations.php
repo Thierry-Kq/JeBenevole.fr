@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AssociationsRepository;
 use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,127 +19,127 @@ class Associations
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private string $name;
+
+    /**
+     * @ORM\Column(type="string", length=180, unique=true)
+     */
+    private string $email;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $email;
+    private string $address;
+
+    /**
+     * @ORM\Column(type="string", length=10)
+     */
+    private string $zip;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $address;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $zip;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $city;
+    private string $city;
 
     /**
      * @ORM\Column(type="datetime_immutable")
      */
-    private $createdAt;
+    private DateTimeImmutable $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $updatedAt;
+    private ?DateTimeInterface $updatedAt = null;
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
      */
-    private $fixNumber;
+    private ?string $fixNumber = null;
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
      */
-    private $cellNumber;
+    private ?string $cellNumber = null;
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
      */
-    private $faxNumber;
+    private ?string $faxNumber = null;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isBanned;
+    private bool $isBanned = false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isActived;
+    private bool $isActived = false;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $slug;
+    private string $slug;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $description;
+    private ?string $description = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $picture;
+    private ?string $picture = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $webSite;
+    private ?string $webSite = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $facebook;
+    private ?string $facebook = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $linkedin;
+    private ?string $linkedin = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $youtube;
+    private ?string $youtube = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $twitter;
+    private ?string $twitter = null;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isDeleted;
+    private bool $isDeleted = false;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="associationId")
+     * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="associations")
      */
     private $users;
 
     /**
      * @ORM\OneToMany(targetEntity=Offers::class, mappedBy="associations")
      */
-    private $offerId;
+    private Collection $offers;
 
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
-        $this->offerId = new ArrayCollection();
+        $this->offers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -182,12 +183,12 @@ class Associations
         return $this;
     }
 
-    public function getZip(): ?int
+    public function getZip(): ?string
     {
         return $this->zip;
     }
 
-    public function setZip(int $zip): self
+    public function setZip(string $zip): self
     {
         $this->zip = $zip;
 
@@ -211,19 +212,12 @@ class Associations
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -413,30 +407,32 @@ class Associations
     /**
      * @return Collection|Offers[]
      */
-    public function getOfferId(): Collection
+    public function getOffers(): Collection
     {
-        return $this->offerId;
+        return $this->offers;
     }
 
-    public function addOfferId(Offers $offerId): self
+    public function addOffer(Offers $offer): self
     {
-        if (!$this->offerId->contains($offerId)) {
-            $this->offerId[] = $offerId;
-            $offerId->setAssociations($this);
+        if (!$this->offers->contains($offer)) {
+            $this->offers[] = $offer;
+            $offer->setAssociations($this);
         }
 
         return $this;
     }
 
-    public function removeOfferId(Offers $offerId): self
+    public function removeOffer(Offers $offer): self
     {
-        if ($this->offerId->removeElement($offerId)) {
+        if ($this->offers->removeElement($offer)) {
             // set the owning side to null (unless already changed)
-            if ($offerId->getAssociations() === $this) {
-                $offerId->setAssociations(null);
+            if ($offer->getAssociations() === $this) {
+                $offer->setAssociations(null);
             }
         }
 
         return $this;
     }
+
+
 }

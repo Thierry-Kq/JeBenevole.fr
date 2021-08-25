@@ -3,123 +3,126 @@
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
+use DateTime;
 use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UsersRepository::class)
  */
-class Users implements UserInterface
+class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $email;
+    private string $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50)
      */
-    private $firstName;
+    private string $firstName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50)
      */
-    private $lastName;
+    private string $lastName;
 
     /**
      * @ORM\Column(type="datetime_immutable")
      */
-    private $createdAt;
+    private DateTimeImmutable $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $updatedAt;
+    private ?DateTimeInterface $updatedAt = null;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isVerified;
+    private bool $isVerified = false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isBanned;
+    private bool $isBanned = false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isDeleted;
+    private bool $isDeleted = false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $rgpd;
+    private bool $rgpd = false;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $description;
+    private ?string $description = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $picture;
+    private ?string $picture = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $password;
+    private string $password;
 
     /**
      * @ORM\Column(type="string", length=20, nullable=true)
      */
-    private $fixNumber;
+    private ?string $fixNumber = null;
 
     /**
      * @ORM\Column(type="string", length=20, nullable=true)
      */
-    private $cellNumber;
+    private ?string $cellNumber = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $facebookId;
+    private ?string $facebookId = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $slug;
+    private string $slug;
 
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * @ORM\OneToMany(targetEntity=Associations::class, mappedBy="users")
      */
-    private $associationId;
+    private Collection $associations;
 
     /**
      * @ORM\OneToMany(targetEntity=Offers::class, mappedBy="users")
      */
-    private $offerId;
+    private Collection $offers;
 
     public function __construct()
     {
-        $this->associationId = new ArrayCollection();
-        $this->offerId = new ArrayCollection();
+        $this->associations = new ArrayCollection();
+        $this->offers = new ArrayCollection();
         $this->createdAt = new DateTimeImmutable();
     }
 
@@ -169,19 +172,12 @@ class Users implements UserInterface
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -260,8 +256,8 @@ class Users implements UserInterface
         return $this;
     }
 
-     /**
-     * @see UserInterface
+    /**
+     * @see PasswordAuthenticatedUserInterface
      */
     public function getPassword(): ?string
     {
@@ -284,7 +280,7 @@ class Users implements UserInterface
         return (string) $this->email;
     }
 
-     /**
+    /**
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
      *
@@ -362,7 +358,7 @@ class Users implements UserInterface
         return (string) $this->email;
     }
 
-   /**
+    /**
      * @see UserInterface
      */
     public function getRoles(): array
@@ -384,27 +380,27 @@ class Users implements UserInterface
     /**
      * @return Collection|Associations[]
      */
-    public function getAssociationId(): Collection
+    public function getAssociations(): Collection
     {
-        return $this->associationId;
+        return $this->associations;
     }
 
-    public function addAssociationId(Associations $associationId): self
+    public function addAssociation(Associations $association): self
     {
-        if (!$this->associationId->contains($associationId)) {
-            $this->associationId[] = $associationId;
-            $associationId->setUsers($this);
+        if (!$this->associations->contains($association)) {
+            $this->associations[] = $association;
+            $association->setUsers($this);
         }
 
         return $this;
     }
 
-    public function removeAssociationId(Associations $associationId): self
+    public function removeAssociation(Associations $association): self
     {
-        if ($this->associationId->removeElement($associationId)) {
+        if ($this->associations->removeElement($association)) {
             // set the owning side to null (unless already changed)
-            if ($associationId->getUsers() === $this) {
-                $associationId->setUsers(null);
+            if ($association->getUsers() === $this) {
+                $association->setUsers(null);
             }
         }
 
@@ -414,30 +410,32 @@ class Users implements UserInterface
     /**
      * @return Collection|Offers[]
      */
-    public function getOfferId(): Collection
+    public function getOffers(): Collection
     {
-        return $this->offerId;
+        return $this->offers;
     }
 
-    public function addOfferId(Offers $offerId): self
+    public function addOffer(Offers $offer): self
     {
-        if (!$this->offerId->contains($offerId)) {
-            $this->offerId[] = $offerId;
-            $offerId->setUsers($this);
+        if (!$this->offers->contains($offer)) {
+            $this->offers[] = $offer;
+            $offer->setUsers($this);
         }
 
         return $this;
     }
 
-    public function removeOfferId(Offers $offerId): self
+    public function removeOffer(Offers $offer): self
     {
-        if ($this->offerId->removeElement($offerId)) {
+        if ($this->offers->removeElement($offer)) {
             // set the owning side to null (unless already changed)
-            if ($offerId->getUsers() === $this) {
-                $offerId->setUsers(null);
+            if ($offer->getUsers() === $this) {
+                $offer->setUsers(null);
             }
         }
 
         return $this;
     }
+
+
 }
