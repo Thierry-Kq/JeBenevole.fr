@@ -2,8 +2,12 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\CreatedAtTrait;
+use App\Entity\Traits\IdTrait;
+use App\Entity\Traits\IsDeletedTrait;
+use App\Entity\Traits\SlugTrait;
+use App\Entity\Traits\UpdatedAtTrait;
 use App\Repository\OffersRepository;
-use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,12 +17,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Offers
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private int $id;
+    use IsDeletedTrait;
+    use IdTrait;
+    use CreatedAtTrait;
+    use UpdatedAtTrait;
+    use SlugTrait;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -39,16 +42,6 @@ class Offers
      * @ORM\Column(type="string", length=255)
      */
     private string $city;
-
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
-    private DateTimeImmutable $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private ?DateTimeInterface $updatedAt = null;
 
     /**
      * @ORM\Column(type="float", nullable=true)
@@ -74,16 +67,6 @@ class Offers
      * @ORM\Column(type="boolean")
      */
     private bool $isUrgent = false;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private bool $isDeleted = false;
-
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
-    private string $slug;
 
     /**
      * @ORM\Column(type="text")
@@ -150,11 +133,6 @@ class Offers
         $this->createdAt = new DateTimeImmutable();
     }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     public function getTitle(): ?string
     {
         return $this->title;
@@ -199,23 +177,6 @@ class Offers
     public function setCity(string $city): self
     {
         $this->city = $city;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function getUpdatedAt(): ?DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -276,30 +237,6 @@ class Offers
     public function setIsUrgent(bool $isUrgent): self
     {
         $this->isUrgent = $isUrgent;
-
-        return $this;
-    }
-
-    public function getIsDeleted(): ?bool
-    {
-        return $this->isDeleted;
-    }
-
-    public function setIsDeleted(bool $isDeleted): self
-    {
-        $this->isDeleted = $isDeleted;
-
-        return $this;
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
 
         return $this;
     }

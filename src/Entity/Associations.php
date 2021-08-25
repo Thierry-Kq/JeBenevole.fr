@@ -2,9 +2,14 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\CreatedAtTrait;
+use App\Entity\Traits\EmailTrait;
+use App\Entity\Traits\IdTrait;
+use App\Entity\Traits\IsDeletedTrait;
+use App\Entity\Traits\SlugTrait;
+use App\Entity\Traits\UpdatedAtTrait;
 use App\Repository\AssociationsRepository;
 use DateTimeImmutable;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,22 +19,17 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Associations
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private int $id;
+    use IsDeletedTrait;
+    use IdTrait;
+    use EmailTrait;
+    use CreatedAtTrait;
+    use UpdatedAtTrait;
+    use SlugTrait;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private string $name;
-
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
-    private string $email;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -45,16 +45,6 @@ class Associations
      * @ORM\Column(type="string", length=255)
      */
     private string $city;
-
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
-    private DateTimeImmutable $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private ?DateTimeInterface $updatedAt = null;
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
@@ -80,11 +70,6 @@ class Associations
      * @ORM\Column(type="boolean")
      */
     private bool $isActived = false;
-
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
-    private string $slug;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -122,11 +107,6 @@ class Associations
     private ?string $twitter = null;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private bool $isDeleted = false;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="associations")
      */
     private $users;
@@ -142,11 +122,6 @@ class Associations
         $this->offers = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     public function getName(): ?string
     {
         return $this->name;
@@ -155,18 +130,6 @@ class Associations
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
 
         return $this;
     }
@@ -203,23 +166,6 @@ class Associations
     public function setCity(string $city): self
     {
         $this->city = $city;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function getUpdatedAt(): ?DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -280,18 +226,6 @@ class Associations
     public function setIsActived(bool $isActived): self
     {
         $this->isActived = $isActived;
-
-        return $this;
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
 
         return $this;
     }
@@ -380,18 +314,6 @@ class Associations
         return $this;
     }
 
-    public function getIsDeleted(): ?bool
-    {
-        return $this->isDeleted;
-    }
-
-    public function setIsDeleted(bool $isDeleted): self
-    {
-        $this->isDeleted = $isDeleted;
-
-        return $this;
-    }
-
     public function getUsers(): ?Users
     {
         return $this->users;
@@ -433,6 +355,4 @@ class Associations
 
         return $this;
     }
-
-
 }
