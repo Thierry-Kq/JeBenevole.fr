@@ -51,12 +51,11 @@ class Categories
 
     /**
      * @ORM\ManyToOne(targetEntity=Categories::class, inversedBy="children")
-     * @ORM\JoinColumn(name="parent_id")
      */
-    private Categories $parentId;
+    private Categories $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity=Categories::class, mappedBy="parentId")
+     * @ORM\OneToMany(targetEntity=Categories::class, mappedBy="parent")
      */
     private Collection $children;
 
@@ -162,14 +161,14 @@ class Categories
         return $this;
     }
 
-    public function getParentId(): ?self
+    public function getParent(): ?self
     {
-        return $this->parentId;
+        return $this->parent;
     }
 
-    public function setParentId(?self $parentId): self
+    public function setParent(?self $parent): self
     {
-        $this->parentId = $parentId;
+        $this->parent = $parent;
 
         return $this;
     }
@@ -186,7 +185,7 @@ class Categories
     {
         if (!$this->children->contains($child)) {
             $this->children[] = $child;
-            $child->setParentId($this);
+            $child->setParent($this);
         }
 
         return $this;
@@ -196,8 +195,8 @@ class Categories
     {
         if ($this->children->removeElement($child)) {
             // set the owning side to null (unless already changed)
-            if ($child->getParentId() === $this) {
-                $child->setParentId(null);
+            if ($child->getParent() === $this) {
+                $child->setParent(null);
             }
         }
 
