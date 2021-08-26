@@ -11,6 +11,21 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AssociationController extends AbstractController
 {
+
+    /**
+     * @Route("/associations", name="associations")
+     */
+    public function list(): Response
+    {
+
+        $associations = $this->getDoctrine()->getRepository(Associations::class)->findAll();
+
+        return $this->render('association/list.html.twig', [
+            'controller_name' => 'AssociationController',
+            'associations' => $associations,
+        ]);
+    }
+
     /**
      * @Route("/association/modification/{slug}", name="edit_association")
      */
