@@ -12,11 +12,11 @@ class AssociationController extends AbstractController
     /**
      * @Route("/association/modification/{slug}", name="edit_association")
      */
-    public function edit(string $slug): Response
+    public function edit(Associations $association, string $slug): Response
     {
 
-        $association = $this->getDoctrine()->getRepository(Associations::class)->find($slug);
-
+        
+        
         return $this->render('association/edit.html.twig', [
             'controller_name' => 'AssociationController',
         ]);
@@ -33,12 +33,13 @@ class AssociationController extends AbstractController
     /**
      * @Route("/association/{slug}", name="show_association")
      */
-    public function show(string $slug): Response
+    public function show(Associations $association, string $slug): Response
     {
-        $association = $this->getDoctrine()->getRepository(Associations::class)->find($slug);
+        
 
         return $this->render('association/show.html.twig', [
             'controller_name' => 'AssociationController',
+            'association' => $association,
         ]);
     }
 }
