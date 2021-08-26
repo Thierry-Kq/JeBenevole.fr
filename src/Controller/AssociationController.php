@@ -18,7 +18,7 @@ class AssociationController extends AbstractController
     public function list(): Response
     {
 
-        $associations = $this->getDoctrine()->getRepository(Associations::class)->findAll();
+        $associations = $this->getDoctrine()->getRepository(Associations::class)->findAllAssociations();
 
         return $this->render('association/list.html.twig', [
             'controller_name' => 'AssociationController',
