@@ -17,14 +17,9 @@ class AssociationType extends AbstractType
             ->add('address')
             ->add('zip')
             ->add('city')
-            ->add('createdAt')
-            ->add('updatedAt')
             ->add('fixNumber')
             ->add('cellNumber')
             ->add('faxNumber')
-            ->add('isBanned')
-            ->add('isActived')
-            ->add('slug')
             ->add('description')
             ->add('picture')
             ->add('webSite')
@@ -32,8 +27,6 @@ class AssociationType extends AbstractType
             ->add('linkedin')
             ->add('youtube')
             ->add('twitter')
-            ->add('isDeleted')
-            ->add('users')
         ;
     }
 
