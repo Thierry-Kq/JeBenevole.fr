@@ -13,6 +13,30 @@ class AssociationController extends AbstractController
 {
 
     /**
+     * @Route("/association/creation", name="new_association")
+     */
+    public function create(Request $request): Response
+    {
+
+        $association = new Associations();
+
+        $form = $this->createForm(AssociationType::class, $association);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $this->getDoctrine()->getManager()->persist($association);
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('show_association');
+        }
+
+        return $this->render('association/create.html.twig', [
+            'controller_name' => 'AssociationController',
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/associations", name="associations")
      */
     public function list(): Response
@@ -54,7 +78,7 @@ class AssociationController extends AbstractController
     {
         $association->setIsDeleted(1);
         $this->getDoctrine()->getManager()->flush();
-        return $this->redirectToRoute('homepage');
+        return $this->redirectToRoute('associations'); // In futur this should redirect user to homepage
     }
 
     /**
