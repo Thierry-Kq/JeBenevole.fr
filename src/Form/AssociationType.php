@@ -6,6 +6,7 @@ use App\Entity\Associations;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class AssociationType extends AbstractType
 {
@@ -27,6 +28,7 @@ class AssociationType extends AbstractType
             ->add('linkedin')
             ->add('youtube')
             ->add('twitter')
+            ->add('modifier', SubmitType::class, ['label' => 'form_btn_edit'])
         ;
     }
 

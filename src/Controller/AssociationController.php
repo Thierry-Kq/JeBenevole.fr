@@ -19,6 +19,12 @@ class AssociationController extends AbstractController
         $form = $this->createForm(AssociationType::class, $association);
         $form->handleRequest($request);
 
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $association = $form->getData();
+            $this->$this->getDoctrine()->getManager()->flush();
+        };
+
         return $this->render('association/edit.html.twig', [
             'controller_name' => 'AssociationController',
             'form' => $form->createView(),
