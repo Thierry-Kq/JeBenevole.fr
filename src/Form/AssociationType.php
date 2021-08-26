@@ -28,7 +28,6 @@ class AssociationType extends AbstractType
             ->add('linkedin')
             ->add('youtube')
             ->add('twitter')
-            ->add('modifier', SubmitType::class, ['label' => 'form_btn_edit'])
         ;
     }
 

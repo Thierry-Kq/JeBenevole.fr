@@ -5,7 +5,6 @@
 {% block body %}
     <h1>Create Association</h1>
 
-    {{ form_start(form) }}
-    {{ form_end(form) }}
+    {{ include('association/_form.html.twig', {form: form, button: 'Créer'}) }}
 
 {% endblock %}
