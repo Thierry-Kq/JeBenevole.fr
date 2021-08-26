@@ -22,7 +22,7 @@ class AssociationController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             $association = $form->getData();
-            $this->$this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()->getManager()->flush();
         };
 
         return $this->render('association/edit.html.twig', [
@@ -33,12 +33,14 @@ class AssociationController extends AbstractController
     }
 
     /**
-     * @Route("/association/suppression/{slug}", name="delete_association", methods="DELETE")
+     * @Route("/association/suppression/{slug}", name="delete_association")
      */
-    // public function delete(): Response
-    // {
-    
-    // }
+    public function delete(Associations $association, string $slug): Response
+    {
+        $association->setIsDeleted(1);
+        $this->getDoctrine()->getManager()->flush();
+        return $this->redirectToRoute('homepage');
+    }
 
     /**
      * @Route("/association/{slug}", name="show_association")
