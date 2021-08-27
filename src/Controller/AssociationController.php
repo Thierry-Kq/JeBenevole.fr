@@ -11,13 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AssociationController extends AbstractController
 {
     /**
      * @Route("/association/creation", name="new_association")
      */
-    public function create(Request $request, EntityManagerInterface $em, AssociationService $assoService): Response
+    public function create(Request $request, EntityManagerInterface $em, AssociationService $assoService, SluggerInterface $slugger): Response
     {
 
         $association = new Associations();
@@ -30,9 +31,12 @@ class AssociationController extends AbstractController
 
             $assoService->uploadImage($form->get('picture')->getData(), $association);
             
+            $slug = $slugger->slug($association->getName());
+            $association->setSlug($slug);
+
             $em->persist($association);
             $em->flush();
-            return $this->redirectToRoute('show_association');
+            return $this->redirectToRoute('show_association', ['slug' => $slug] );
         }
 
         return $this->render('association/create.html.twig', [
@@ -85,6 +89,22 @@ class AssociationController extends AbstractController
     public function delete(Associations $association, string $slug, EntityManagerInterface $em): Response
     {
         $association->setIsDeleted(1);
+
+        $association->setName("deleted");
+        $association->setEmail("deleted".$association->getId()."@deleted.del");
+        $association->setAddress("deleted");
+        $association->setZip("00000");
+        $association->setCity("deleted");
+        $association->setFixNumber(0000000000);
+        $association->setCellNumber(0000000000);
+        $association->setFaxNumber(0000000000);
+        $association->setDescription("deleted");
+        $association->setWebSite("deleted");
+        $association->setFacebook("deleted");
+        $association->setLinkedin("deleted");
+        $association->setYoutube("deleted");
+        $association->setTwitter("deleted");
+
         $em->flush();
         return $this->redirectToRoute('associations'); // In futur this should redirect user to homepage
     }
