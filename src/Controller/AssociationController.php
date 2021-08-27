@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Associations;
 use App\Form\AssociationType;
 use App\Repository\AssociationsRepository;
+use App\Service\AssociationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,7 @@ class AssociationController extends AbstractController
     /**
      * @Route("/association/creation", name="new_association")
      */
-    public function create(Request $request,EntityManagerInterface $em): Response
+    public function create(Request $request, EntityManagerInterface $em, AssociationService $assoService): Response
     {
 
         $association = new Associations();
@@ -26,6 +27,9 @@ class AssociationController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
+
+            $assoService->uploadImage($form->get('picture')->getData(), $association);
+            
             $em->persist($association);
             $em->flush();
             return $this->redirectToRoute('show_association');
@@ -54,13 +58,16 @@ class AssociationController extends AbstractController
     /**
      * @Route("/association/modification/{slug}", name="edit_association")
      */
-    public function edit(Request $request, Associations $association, string $slug, EntityManagerInterface $em): Response
+    public function edit(Request $request, Associations $association, string $slug, EntityManagerInterface $em, AssociationService $assoService): Response
     {
         $form = $this->createForm(AssociationType::class, $association);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
         {
+
+            $assoService->uploadImage($form->get('picture')->getData(), $association);
+
             $association = $form->getData();
             $em->flush();
         };
