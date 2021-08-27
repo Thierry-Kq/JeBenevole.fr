@@ -4,18 +4,19 @@ namespace App\Controller;
 
 use App\Entity\Associations;
 use App\Form\AssociationType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\AssociationsRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AssociationController extends AbstractController
 {
-
     /**
      * @Route("/association/creation", name="new_association")
      */
-    public function create(Request $request): Response
+    public function create(Request $request,EntityManagerInterface $em): Response
     {
 
         $association = new Associations();
@@ -25,8 +26,8 @@ class AssociationController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $this->getDoctrine()->getManager()->persist($association);
-            $this->getDoctrine()->getManager()->flush();
+            $em->persist($association);
+            $em->flush();
             return $this->redirectToRoute('show_association');
         }
 
@@ -39,10 +40,10 @@ class AssociationController extends AbstractController
     /**
      * @Route("/associations", name="associations")
      */
-    public function list(): Response
+    public function list(AssociationsRepository $repository): Response
     {
 
-        $associations = $this->getDoctrine()->getRepository(Associations::class)->findAllAssociations();
+        $associations = $repository->findAllAssociations();
 
         return $this->render('association/list.html.twig', [
             'controller_name' => 'AssociationController',
@@ -53,7 +54,7 @@ class AssociationController extends AbstractController
     /**
      * @Route("/association/modification/{slug}", name="edit_association")
      */
-    public function edit(Request $request, Associations $association, string $slug): Response
+    public function edit(Request $request, Associations $association, string $slug, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(AssociationType::class, $association);
         $form->handleRequest($request);
@@ -61,7 +62,7 @@ class AssociationController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             $association = $form->getData();
-            $this->getDoctrine()->getManager()->flush();
+            $em->flush();
         };
 
         return $this->render('association/edit.html.twig', [
@@ -74,10 +75,10 @@ class AssociationController extends AbstractController
     /**
      * @Route("/association/suppression/{slug}", name="delete_association")
      */
-    public function delete(Associations $association, string $slug): Response
+    public function delete(Associations $association, string $slug, EntityManagerInterface $em): Response
     {
         $association->setIsDeleted(1);
-        $this->getDoctrine()->getManager()->flush();
+        $em->flush();
         return $this->redirectToRoute('associations'); // In futur this should redirect user to homepage
     }
 
