@@ -16,7 +16,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class AssociationController extends AbstractController
 {
     /**
-     * @Route("/association/creation", name="new_association")
+     * @Route("/associations/creation", name="new_association")
      */
     public function create(Request $request, EntityManagerInterface $em, AssociationService $assoService, SluggerInterface $slugger): Response
     {
@@ -60,7 +60,7 @@ class AssociationController extends AbstractController
     }
 
     /**
-     * @Route("/association/modification/{slug}", name="edit_association")
+     * @Route("/associations/modification/{slug}", name="edit_association")
      */
     public function edit(Request $request, Associations $association, string $slug, EntityManagerInterface $em, AssociationService $assoService): Response
     {
@@ -91,7 +91,7 @@ class AssociationController extends AbstractController
     }
 
     /**
-     * @Route("/association/suppression/{slug}", name="delete_association")
+     * @Route("/associations/suppression/{slug}", name="delete_association")
      */
     public function delete(Associations $association, string $slug, EntityManagerInterface $em): Response
     {
@@ -117,7 +117,7 @@ class AssociationController extends AbstractController
     }
 
     /**
-     * @Route("/association/{slug}", name="show_association")
+     * @Route("/associations/{slug}", name="show_association")
      */
     public function show(Associations $association, string $slug): Response
     {
