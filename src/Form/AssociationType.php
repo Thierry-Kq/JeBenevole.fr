@@ -74,7 +74,7 @@ class AssociationType extends AbstractType
                             "image/jpg", 
                             "image/gif"
                         ],
-                        'mimeTypesMessage' => 'Image non valide. Probléme de format ou de taille.',
+                        'mimeTypesMessage' => 'Image non valide. Problème de format ou de taille.',
                     ])
                 ],
                 'data_class' => null])
