@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Associations;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -64,6 +65,18 @@ class AssociationType extends AbstractType
             ->add('picture', FileType::class, [
                 'label' => 'association_picture',
                 'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            "image/png", 
+                            "image/jpeg", 
+                            "image/jpg", 
+                            "image/gif"
+                        ],
+                        'mimeTypesMessage' => 'Image non valide. Probléme de format ou de taille.',
+                    ])
+                ],
                 'data_class' => null])
             ->add('webSite', UrlType::class, [
                 'label' => 'association_website',
