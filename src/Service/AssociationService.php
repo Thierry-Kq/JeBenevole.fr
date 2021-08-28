@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Associations;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class AssociationService
@@ -13,7 +14,7 @@ class AssociationService
         $this->params = $params;
     }
 
-    public function uploadImage($image, $association)
+    public function uploadImage(object $image, Associations $association)
     {
             $imageName = md5(uniqid()). '.' .$image->guessExtension();
             $image->move($this->params->get('association_images_directory'), $imageName);
