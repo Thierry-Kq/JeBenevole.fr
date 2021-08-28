@@ -17,8 +17,15 @@ class AssociationService
     {
         if ($image) {
             $imageName = md5(uniqid()). '.' .$image->guessExtension();
-            $image->move($this->params->get('images_directory'), $imageName);
+            $image->move($this->params->get('association_images_directory'), $imageName);
             $association->setPicture($imageName);
+        };
+    }
+
+    public function deleteImage($image)
+    {
+        if ($image != null) {  
+            unlink($this->params->get('association_images_directory'). '/' .$image);
         };
     }
 }

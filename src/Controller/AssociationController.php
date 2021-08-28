@@ -64,13 +64,18 @@ class AssociationController extends AbstractController
      */
     public function edit(Request $request, Associations $association, string $slug, EntityManagerInterface $em, AssociationService $assoService): Response
     {
+        $associationOldPicture = $association->getPicture();
+
         $form = $this->createForm(AssociationType::class, $association);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
         {
-
-            $assoService->uploadImage($form->get('picture')->getData(), $association);
+            $imageChange = $form->get('picture')->getData();
+            if($imageChange != null){
+                $assoService->deleteImage($associationOldPicture);
+            } 
+            $assoService->uploadImage($imageChange, $association);
 
             $association = $form->getData();
             $em->flush();
