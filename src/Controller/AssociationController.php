@@ -74,8 +74,10 @@ class AssociationController extends AbstractController
             $imageChange = $form->get('picture')->getData();
             if($imageChange != null){
                 $assoService->deleteImage($associationOldPicture);
-            } 
-            $assoService->uploadImage($imageChange, $association);
+                $assoService->uploadImage($imageChange, $association);
+            }else{
+                $association->setPicture($associationOldPicture);
+            }
 
             $association = $form->getData();
             $em->flush();
