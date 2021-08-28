@@ -15,11 +15,9 @@ class AssociationService
 
     public function uploadImage($image, $association)
     {
-        if ($image) {
             $imageName = md5(uniqid()). '.' .$image->guessExtension();
             $image->move($this->params->get('association_images_directory'), $imageName);
             $association->setPicture($imageName);
-        };
     }
 
     public function deleteImage($image)
