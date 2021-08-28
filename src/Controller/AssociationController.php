@@ -62,7 +62,7 @@ class AssociationController extends AbstractController
     /**
      * @Route("/associations/modification/{slug}", name="edit_association")
      */
-    public function edit(Request $request, Associations $association, string $slug, EntityManagerInterface $em, AssociationService $assoService): Response
+    public function edit(Request $request, Associations $association, EntityManagerInterface $em, AssociationService $assoService): Response
     {
         $associationOldPicture = $association->getPicture();
 
@@ -93,7 +93,7 @@ class AssociationController extends AbstractController
     /**
      * @Route("/associations/suppression/{slug}", name="delete_association")
      */
-    public function delete(Associations $association, string $slug, EntityManagerInterface $em): Response
+    public function delete(Associations $association, EntityManagerInterface $em): Response
     {
         $association->setIsDeleted(1);
 
@@ -119,7 +119,7 @@ class AssociationController extends AbstractController
     /**
      * @Route("/associations/{slug}", name="show_association")
      */
-    public function show(Associations $association, string $slug): Response
+    public function show(Associations $association): Response
     {
 
         return $this->render('association/show.html.twig', [
