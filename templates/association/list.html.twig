@@ -1,22 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}JeBenevole - lister des associations{% endblock %}
+{% block title %}JeBenevole - {% trans %}association_list_page_title{% endtrans %}{% endblock %}
 
 {% block body %}
-    <h1>List Association</h1>
+    <h1>{% trans %}association_list_title{% endtrans %}</h1>
 
-    {% for association in associations %}
-        {{ association.name }}
-        {{ association.email }}
-        {{ association.address }}
-        {{ association.zip }}
-        {{ association.city }}
-        {{ association.fixNumber }}
-        {{ association.cellNumber }}
-        {{ association.faxNumber }}
-        {{ association.description }}
-        {{ association.picture }}
-        {{ association.website }}
-    {% endfor %}
+    <table>
+        <thead>
+            <tr>
+                <th>Associations</th>
+                <th>Emails</th>
+                <th>Villes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for association in associations %}
+                <tr>
+                    <td>{{ association.name }}</td>
+                    <td>{{ association.email }}</td>
+                    <td>{{ association.city }}({{ association.zip }})</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>   
 
 {% endblock %}

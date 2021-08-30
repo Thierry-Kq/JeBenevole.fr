@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}JeBenevole - créer ou éditer une association{% endblock %}
+{% block title %}JeBenevole - {% trans %}association_create_page_title{% endtrans %}{% endblock %}
 
 {% block body %}
     {%if app.request.attributes.get('_route') == 'new_association' %}
-        <h1>Create Association</h1>
-        {{ include('association/_form.html.twig', {form: form, button: 'Créer'}) }}
+        <h1>{% trans %}association_create_title{% endtrans %}</h1>
+        {{ include('association/_form.html.twig', {form: form, button: 'form_btn_creer'|trans}) }}
     {% endif %}
 
     {%if app.request.attributes.get('_route') == 'edit_association' %}
-        <h1>Edit Association</h1>
-        {{ include('association/_form.html.twig', {form: form, button: 'Modifier'}) }}
+        <h1>{% trans %}association_edit_title{% endtrans %}</h1>
+        {{ include('association/_form.html.twig', {form: form, button: 'form_btn_modifier'|trans}) }}
     {% endif %}
 
 {% endblock %}

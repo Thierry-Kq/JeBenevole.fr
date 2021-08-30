@@ -3,17 +3,34 @@
 {% block title %}JeBenevole - {{ association.name }}{% endblock %}
 
 {% block body %}
-    <h1>Show Association</h1>
-
-    {{ association.name }}
-    {{ association.email }}
-    {{ association.address }}
-    {{ association.zip }}
-    {{ association.city }}
-    {{ association.fixNumber }}
-    {{ association.cellNumber }}
-    {{ association.faxNumber }}
-    {{ association.description }}
-    {{ association.picture }}
-    {{ association.website }}
+    <h1>{{ association.name }}</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Adresse</th>
+                <th>Code postal</th>
+                <th>Ville</th>
+                <th>Téléphone fixe</th>
+                <th>Téléphone portable</th>
+                <th>Fax</th>
+                <th>Site Web</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ association.email }}</td>
+                <td>{{ association.address }}</td>
+                <td>{{ association.zip }}</td>
+                <td>{{ association.city }}</td>
+                <td>{{ association.fixNumber }}</td>
+                <td>{{ association.cellNumber }}</td>
+                <td>{{ association.faxNumber }}</td>
+                <td>{{ association.website }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <p>{{ association.description }}</p>
+    <img src="{{asset('images/associations/' ~ association.picture)}}" alt="Image de l'association.">
 {% endblock %}

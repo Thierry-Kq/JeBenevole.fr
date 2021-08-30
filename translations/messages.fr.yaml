@@ -1,4 +1,6 @@
 'Hello': 'Bonjour %name%'
+
+# Associations form
 'association_name': 'Association :'
 'association_email': 'Email :'
 'association_address': 'Adresse :'
@@ -15,7 +17,17 @@
 'association_youtube': 'Lien Youtube :'
 'association_twitter': 'Lien Twitter :'
 
+# Associations templates
+'association_list_page_title': 'liste des associations'
+'association_create_page_title': 'créer ou éditer une association'
+'association_create_title': 'Créer une Association'
+'association_edit_title': 'Modifier une Association'
+'association_list_title': 'Liste des associations'
 
+# General form
+'form_btn_creer': 'Créer'
+'form_btn_modifier': 'Modifier'
+'form_btn_valider': 'Valider'
 
 
 
