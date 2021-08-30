@@ -1,12 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AssociationController!{% endblock %}
+{% block title %}JeBenevole - lister des associations{% endblock %}
 
 {% block body %}
     <h1>List Association</h1>
 
     {% for association in associations %}
         {{ association.name }}
+        {{ association.email }}
+        {{ association.address }}
+        {{ association.zip }}
+        {{ association.city }}
+        {{ association.fixNumber }}
+        {{ association.cellNumber }}
+        {{ association.faxNumber }}
+        {{ association.description }}
+        {{ association.picture }}
+        {{ association.website }}
     {% endfor %}
 
 {% endblock %}

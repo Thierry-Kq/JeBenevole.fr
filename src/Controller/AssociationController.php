@@ -39,7 +39,7 @@ class AssociationController extends AbstractController
             return $this->redirectToRoute('show_association', ['slug' => $slug] );
         }
 
-        return $this->render('association/create.html.twig', [
+        return $this->render('association/create-and-edit.html.twig', [
             'controller_name' => 'AssociationController',
             'form' => $form->createView(),
         ]);
@@ -83,7 +83,7 @@ class AssociationController extends AbstractController
             $em->flush();
         };
 
-        return $this->render('association/edit.html.twig', [
+        return $this->render('association/create-and-edit.html.twig', [
             'controller_name' => 'AssociationController',
             'form' => $form->createView(),
             'association' => $association,
