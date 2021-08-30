@@ -64,7 +64,7 @@ class AssociationController extends AbstractController
     /**
      * @Route("/associations/modification/{slug}", name="edit_association")
      */
-    public function edit(Request $request, Associations $association, EntityManagerInterface $em, AssociationService $assoService): Response
+    public function edit(Request $request, Associations $association, EntityManagerInterface $em, SluggerInterface $slugger, AssociationService $assoService): Response
     {
         $associationOldPicture = $association->getPicture();
 
@@ -82,6 +82,8 @@ class AssociationController extends AbstractController
             }
 
             $association = $form->getData();
+            $slug = $slugger->slug($association->getName());
+            $association->setSlug($slug);
             $em->flush();
             return $this->redirectToRoute('show_association', ['slug' => $association->getSlug()]);
         };
