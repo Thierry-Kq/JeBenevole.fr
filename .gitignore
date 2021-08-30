@@ -24,5 +24,4 @@
 .idea
 ###< phpstorm config
 
-/public/.htaccess
 /public/images
