@@ -22,7 +22,7 @@ class AssociationsRepository extends ServiceEntityRepository
     /**
      * @return Associations[] Returns an array of Associations objects
      */
-    public function findAllAssociations()
+    public function findAllAssociations() // I'm gonna use it for pagination later
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.isDeleted = :val')
