@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Validator\Constraints\Url;
 
 class AssociationType extends AbstractType
 {
@@ -76,26 +77,23 @@ class AssociationType extends AbstractType
             ->add('webSite', UrlType::class, [
                 'label' => 'association_website',
                 'required' => false,
-                'constraints' => [new Length(['max' => 200])]])
+                'constraints' => [new Length(['max' => 200]), new Url()]])
             ->add('facebook', UrlType::class, [
                 'label' => 'association_facebook',
                 'required' => false,
-                'constraints' => [new Length(['max' => 200])]
-                ])
+                'constraints' => [new Length(['max' => 200]), new Url()]])
             ->add('linkedin', UrlType::class, [
                 'label' => 'association_linkedin',
                 'required' => false,
-                'constraints' => [new Length(['max' => 200])]])
+                'constraints' => [new Length(['max' => 200]), new Url()]])
             ->add('youtube', UrlType::class, [
                 'label' => 'association_youtube',
                 'required' => false,
-                'constraints' => [new Length(['max' => 200])]
-                ])
+                'constraints' => [new Length(['max' => 200]), new Url()]])
             ->add('twitter', UrlType::class, [
                 'label' => 'association_twitter',
                 'required' => false,
-                'constraints' => [new Length(['max' => 200])]
-                ])
+                'constraints' => [new Length(['max' => 200]), new Url()]])
         ;
     }
 
