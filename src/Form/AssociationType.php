@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Url;
 
 class AssociationType extends AbstractType
@@ -81,19 +82,23 @@ class AssociationType extends AbstractType
             ->add('facebook', UrlType::class, [
                 'label' => 'association_facebook',
                 'required' => false,
-                'constraints' => [new Length(['max' => 200]), new Url()]])
+                'constraints' => [new Length(['max' => 200]), new Url(), new Regex([
+                    'pattern' => '/(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)/ig'])]])
             ->add('linkedin', UrlType::class, [
                 'label' => 'association_linkedin',
                 'required' => false,
-                'constraints' => [new Length(['max' => 200]), new Url()]])
+                'constraints' => [new Length(['max' => 200]), new Url(), new Regex([
+                    'pattern' => 'http(s)?:\/\/([\w]+\.)?linkedin\.com\/in\/[A-z0-9_-]+\/?'])]])
             ->add('youtube', UrlType::class, [
                 'label' => 'association_youtube',
                 'required' => false,
-                'constraints' => [new Length(['max' => 200]), new Url()]])
+                'constraints' => [new Length(['max' => 200]), new Url(), new Regex([
+                    'pattern' => '/(http:|https:)?\/\/(www\.)?(youtube.com|youtu.be)\/(watch)?(\?v=)?(\S+)?/'])]])
             ->add('twitter', UrlType::class, [
                 'label' => 'association_twitter',
                 'required' => false,
-                'constraints' => [new Length(['max' => 200]), new Url()]])
+                'constraints' => [new Length(['max' => 200]), new Url(), new Regex([
+                    'pattern' => '/(?:http:\/\/)?(?:www\.)?twitter\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-]*)/'])]])
         ;
     }
 
