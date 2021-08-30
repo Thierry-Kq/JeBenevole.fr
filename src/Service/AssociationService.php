@@ -21,7 +21,7 @@ class AssociationService
             $association->setPicture($imageName);
     }
 
-    public function deleteImage($image)
+    public function deleteImage(string $image)
     {
         if ($image != null) {  
             unlink($this->params->get('association_images_directory'). '/' .$image);
