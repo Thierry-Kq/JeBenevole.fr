@@ -29,6 +29,10 @@
 'form_btn_modifier': 'Modifier'
 'form_btn_valider': 'Valider'
 
+# General template
+'pagination_previous_btn': 'Précédent'
+'pagination_next_btn': 'Suivant'
+
 
 
 

@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Associations;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Associations|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,21 +15,25 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AssociationsRepository extends ServiceEntityRepository
 {
+    public const PAGINATOR_PER_PAGE = 4;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Associations::class);
     }
 
     /**
-     * @return Associations[] Returns an array of Associations objects
+     * @return Paginator Returns an instance of paginator
      */
-    public function findAllAssociations() // I'm gonna use it for pagination later
+    public function findAllAssociations(int $offset): Paginator
     {
-        return $this->createQueryBuilder('a')
+        $query = $this->createQueryBuilder('a')
             ->andWhere('a.isDeleted = :val')
             ->setParameter('val', 0)
+           ->setMaxResults(self::PAGINATOR_PER_PAGE)
+           ->setFirstResult($offset)
             ->getQuery()
-            ->getResult()
         ;
+        return new Paginator($query);
     }
 }

@@ -23,5 +23,11 @@
             {% endfor %}
         </tbody>
     </table>   
+    {% if previous >= 0 %}
+        <a href="{{ path('associations', { offset: previous }) }}">Précédent{% trans %}pagination_previous_btn{% endtrans %}</a>
+    {% endif %}
+    {% if next < associations|length %}
+        <a href="{{ path('associations', { offset: next }) }}">{% trans %}pagination_next_btn{% endtrans %}</a>
+    {% endif %}
 
 {% endblock %}

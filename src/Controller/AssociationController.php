@@ -50,14 +50,19 @@ class AssociationController extends AbstractController
     /**
      * @Route("/associations", name="associations")
      */
-    public function list(AssociationsRepository $repository): Response
+    public function list(Request $request, AssociationsRepository $repository): Response
     {
 
-        $associations = $repository->findAllAssociations();
+        
+
+        $offset = max(0, $request->query->getInt('offset', 0));
+        $paginator = $repository->findAllAssociations($offset);
 
         return $this->render('association/list.html.twig', [
             'controller_name' => 'AssociationController',
-            'associations' => $associations,
+            'associations' => $paginator,
+             'previous' => $offset - AssociationsRepository::PAGINATOR_PER_PAGE,
+             'next' => min(count($paginator), $offset + AssociationsRepository::PAGINATOR_PER_PAGE),
         ]);
     }
 
