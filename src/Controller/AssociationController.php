@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Associations;
 use App\Form\AssociationType;
 use App\Repository\AssociationsRepository;
-use App\Service\AssociationService;
+use App\Service\UploadService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +18,7 @@ class AssociationController extends AbstractController
     /**
      * @Route("/associations/creation", name="new_association")
      */
-    public function create(Request $request, EntityManagerInterface $em, AssociationService $assoService, SluggerInterface $slugger): Response
+    public function create(Request $request, EntityManagerInterface $em, UploadService $uploadService, SluggerInterface $slugger): Response
     {
 
         $association = new Associations();
@@ -30,7 +30,7 @@ class AssociationController extends AbstractController
         {
             $image = $form->get('picture')->getData();
             if ($image != null){
-                $assoService->uploadImage($image, $association);
+                $association->setPicture($uploadService->uploadImage($image, 'association_images_directory'));
             }
             
             $slug = $slugger->slug($association->getName());
@@ -64,7 +64,7 @@ class AssociationController extends AbstractController
     /**
      * @Route("/associations/modification/{slug}", name="edit_association")
      */
-    public function edit(Request $request, Associations $association, EntityManagerInterface $em, SluggerInterface $slugger, AssociationService $assoService): Response
+    public function edit(Request $request, Associations $association, EntityManagerInterface $em, SluggerInterface $slugger, UploadService $uploadService): Response
     {
         $associationOldPicture = $association->getPicture();
 
@@ -75,8 +75,8 @@ class AssociationController extends AbstractController
         {
             $imageChange = $form->get('picture')->getData();
             if($imageChange != null){
-                $assoService->deleteImage($associationOldPicture);
-                $assoService->uploadImage($imageChange, $association);
+                $uploadService->deleteImage($associationOldPicture, 'association_images_directory', 'images/associations/');
+                $association->setPicture($uploadService->uploadImage($imageChange, 'association_images_directory'));
             }else{
                 $association->setPicture($associationOldPicture);
             }
