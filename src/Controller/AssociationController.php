@@ -28,15 +28,17 @@ class AssociationController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-
-            $assoService->uploadImage($form->get('picture')->getData(), $association);
+            $image = $form->get('picture')->getData();
+            if ($image != null){
+                $assoService->uploadImage($image, $association);
+            }
             
             $slug = $slugger->slug($association->getName());
             $association->setSlug($slug);
 
             $em->persist($association);
             $em->flush();
-            return $this->redirectToRoute('show_association', ['slug' => $slug] );
+            return $this->redirectToRoute('show_association', ['slug' => $slug]);
         }
 
         return $this->render('association/create-and-edit.html.twig', [
@@ -81,6 +83,7 @@ class AssociationController extends AbstractController
 
             $association = $form->getData();
             $em->flush();
+            return $this->redirectToRoute('show_association', ['slug' => $association->getSlug()]);
         };
 
         return $this->render('association/create-and-edit.html.twig', [
