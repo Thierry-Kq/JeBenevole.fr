@@ -21,26 +21,21 @@ class AssociationType extends AbstractType
         $builder
             ->add('name', null, [
                 'label' => 'association_name',
-                'required' => true,
                 'constraints' => [new Length(['max' => 100])]
             ])
             ->add('email', EmailType::class, [
                 'label' => 'association_email',
-                'required' => true,
             ])
             ->add('address', null, [
                 'label' => 'association_address',
-                'required' => true,
                 'constraints' => [new Length(['max' => 100])]
             ])
             ->add('zip', null, [
                 'label' => 'association_zip',
-                'required' => true,
                 'constraints' => [new Length(['max' => 10])],
                 ])
             ->add('city', null, [
                 'label' => 'association_city',
-                'required' => true,
                 'constraints' => [new Length(['max' => 100])]
                 ])
             ->add('fixNumber', null, [
