@@ -1,21 +1,15 @@
 'Hello': 'Bonjour %name%'
 
 # Associations form
-'association_name': 'Association :'
-'association_email': 'Email :'
-'association_address': 'Adresse :'
-'association_zip': 'Code postal :'
-'association_city': 'Ville :'
-'association_fixNumber': 'Numéro fixe :'
-'association_cellNumber': 'Numéro cellulaire :'
-'association_faxNumber': 'Fax :'
-'association_description': 'Description :'
-'association_picture': 'Logo :'
-'association_website': 'Site internet :'
-'association_facebook': 'Lien Facebook :'
-'association_linkedin': 'Lien LinkedIn :'
-'association_youtube': 'Lien Youtube :'
-'association_twitter': 'Lien Twitter :'
+'Name': 'Association :'
+'Address': 'Adresse :'
+'Zip': 'Code postal :'
+'City': 'Ville :'
+'Web site': 'Site internet :'
+'Facebook': 'Lien Facebook :'
+'Linkedin': 'Lien LinkedIn :'
+'Youtube': 'Lien Youtube :'
+'Twitter': 'Lien Twitter :'
 
 # Associations templates
 'association_list_page_title': 'liste des associations'
@@ -25,6 +19,12 @@
 'association_list_title': 'Liste des associations'
 
 # General form
+'Fax number': 'Fax :'
+'Fix number': 'Numéro fixe :'
+'Cell number': 'Numéro cellulaire :'
+'Description': 'Description :'
+'Picture': 'Logo :'
+'Email': 'Email :'
 'form_btn_creer': 'Créer'
 'form_btn_modifier': 'Modifier'
 'form_btn_valider': 'Valider'
