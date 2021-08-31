@@ -62,6 +62,9 @@ class AssociationController extends AbstractController
             'controller_name' => 'AssociationController',
             'associations' => $paginator,
              'previous' => $offset - AssociationsRepository::PAGINATOR_PER_PAGE,
+             'current_page' => ($offset/AssociationsRepository::PAGINATOR_PER_PAGE) +1,
+             'previous_page' => $offset/AssociationsRepository::PAGINATOR_PER_PAGE,
+             'next_page' => ($offset/AssociationsRepository::PAGINATOR_PER_PAGE)+2,
              'next' => min(count($paginator), $offset + AssociationsRepository::PAGINATOR_PER_PAGE),
         ]);
     }
