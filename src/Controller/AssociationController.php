@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Associations;
+use App\Entity\Users;
 use App\Form\AssociationType;
 use App\Repository\AssociationsRepository;
 use App\Service\UploadService;
@@ -30,7 +31,7 @@ class AssociationController extends AbstractController
         {
             $image = $form->get('picture')->getData();
             if ($image != null){
-                $association->setPicture($uploadService->uploadImage($image, 'association_images_directory'));
+                $association->setPicture($uploadService->uploadImage($image, 'associations'));
             }
             
             $slug = $slugger->slug($association->getName());
@@ -51,21 +52,18 @@ class AssociationController extends AbstractController
      * @Route("/associations", name="associations")
      */
     public function list(Request $request, AssociationsRepository $repository): Response
-    {
-
-        
-
+    {    
         $offset = max(0, $request->query->getInt('offset', 0));
         $paginator = $repository->findAllAssociations($offset);
 
         return $this->render('association/list.html.twig', [
             'controller_name' => 'AssociationController',
             'associations' => $paginator,
-             'previous' => $offset - AssociationsRepository::PAGINATOR_PER_PAGE,
-             'current_page' => ($offset/AssociationsRepository::PAGINATOR_PER_PAGE) +1,
-             'previous_page' => $offset/AssociationsRepository::PAGINATOR_PER_PAGE,
-             'next_page' => ($offset/AssociationsRepository::PAGINATOR_PER_PAGE)+2,
-             'next' => min(count($paginator), $offset + AssociationsRepository::PAGINATOR_PER_PAGE),
+            'previous' => $offset - AssociationsRepository::PAGINATOR_PER_PAGE,
+            'current_page' => ($offset/AssociationsRepository::PAGINATOR_PER_PAGE) +1,
+            'previous_page' => $offset/AssociationsRepository::PAGINATOR_PER_PAGE,
+            'next_page' => ($offset/AssociationsRepository::PAGINATOR_PER_PAGE)+2,
+            'next' => min(count($paginator), $offset + AssociationsRepository::PAGINATOR_PER_PAGE),
         ]);
     }
 
@@ -83,8 +81,8 @@ class AssociationController extends AbstractController
         {
             $imageChange = $form->get('picture')->getData();
             if($imageChange != null){
-                $uploadService->deleteImage($associationOldPicture, 'association_images_directory', 'images/associations/');
-                $association->setPicture($uploadService->uploadImage($imageChange, 'association_images_directory'));
+                $uploadService->deleteImage($associationOldPicture, 'associations');
+                $association->setPicture($uploadService->uploadImage($imageChange, 'associations'));
             }else{
                 $association->setPicture($associationOldPicture);
             }

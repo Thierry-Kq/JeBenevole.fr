@@ -30,8 +30,8 @@ class AssociationsRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('a')
             ->andWhere('a.isDeleted = :val')
             ->setParameter('val', 0)
-           ->setMaxResults(self::PAGINATOR_PER_PAGE)
-           ->setFirstResult($offset)
+            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->setFirstResult($offset)
             ->getQuery()
         ;
         return new Paginator($query);
