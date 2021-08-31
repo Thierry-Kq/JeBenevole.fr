@@ -42,7 +42,6 @@ class AssociationController extends AbstractController
         }
 
         return $this->render('association/create-and-edit.html.twig', [
-            'controller_name' => 'AssociationController',
             'form' => $form->createView(),
         ]);
     }
@@ -56,7 +55,6 @@ class AssociationController extends AbstractController
         $paginator = $repository->findAllAssociations($offset);
 
         return $this->render('association/list.html.twig', [
-            'controller_name' => 'AssociationController',
             'associations' => $paginator,
             'previous' => $offset - AssociationsRepository::PAGINATOR_PER_PAGE,
             'current_page' => ($offset/AssociationsRepository::PAGINATOR_PER_PAGE) +1,
@@ -95,7 +93,6 @@ class AssociationController extends AbstractController
         }
 
         return $this->render('association/create-and-edit.html.twig', [
-            'controller_name' => 'AssociationController',
             'form' => $form->createView(),
             'association' => $association
         ]);
@@ -135,7 +132,6 @@ class AssociationController extends AbstractController
     {
 
         return $this->render('association/show.html.twig', [
-            'controller_name' => 'AssociationController',
             'association' => $association
         ]);
     }
