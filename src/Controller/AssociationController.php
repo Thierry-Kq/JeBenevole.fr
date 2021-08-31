@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Associations;
-use App\Entity\Users;
 use App\Form\AssociationType;
 use App\Repository\AssociationsRepository;
 use App\Service\UploadService;
@@ -91,8 +90,9 @@ class AssociationController extends AbstractController
             $slug = $slugger->slug($association->getName());
             $association->setSlug($slug);
             $em->flush();
+
             return $this->redirectToRoute('show_association', ['slug' => $association->getSlug()]);
-        };
+        }
 
         return $this->render('association/create-and-edit.html.twig', [
             'controller_name' => 'AssociationController',
@@ -124,6 +124,7 @@ class AssociationController extends AbstractController
         $association->setTwitter("deleted");
 
         $em->flush();
+
         return $this->redirectToRoute('associations'); // In futur this should redirect user to homepage
     }
 
