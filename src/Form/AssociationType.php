@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Url;
 
@@ -22,19 +23,35 @@ class AssociationType extends AbstractType
     {
         $builder
             ->add('name', null, [
-                'constraints' => [new Length(['max' => 100])]
+                'constraints' => [
+                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new Length(['max' => 100])                   
+                ]
             ])
             ->add('email', EmailType::class, [
-                'constraints' => [new Email()]
+                'constraints' => [
+                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new Email()
+                ]
             ])
             ->add('address', null, [
-                'constraints' => [new Length(['max' => 100])]
+                'constraints' => [
+                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new Length(['max' => 100])
+                    
+                ]
             ])
             ->add('zip', null, [
-                'constraints' => [new Length(['max' => 10])],
-                ])
+                'constraints' => [
+                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new Length(['max' => 10])
+                ]
+            ])
             ->add('city', null, [
-                'constraints' => [new Length(['max' => 100])]
+                'constraints' => [
+                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new Length(['max' => 100])
+                ]
                 ])
             ->add('fixNumber', null, [
                 'required' => false,

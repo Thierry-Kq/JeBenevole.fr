@@ -97,7 +97,7 @@ class AssociationController extends AbstractController
         return $this->render('association/create-and-edit.html.twig', [
             'controller_name' => 'AssociationController',
             'form' => $form->createView(),
-            'association' => $association,
+            'association' => $association
         ]);
     }
 
@@ -108,20 +108,20 @@ class AssociationController extends AbstractController
     {
         $association->setIsDeleted(1);
 
-        $association->setName("deleted");
-        $association->setEmail("deleted".$association->getId()."@deleted.del");
-        $association->setAddress("deleted");
-        $association->setZip("00000");
-        $association->setCity("deleted");
+        $association->setName('deleted');
+        $association->setEmail('deleted' . $association->getId() . '@deleted.del');
+        $association->setAddress('deleted');
+        $association->setZip('00000');
+        $association->setCity('deleted');
         $association->setFixNumber(0000000000);
         $association->setCellNumber(0000000000);
         $association->setFaxNumber(0000000000);
-        $association->setDescription("deleted");
-        $association->setWebSite("deleted");
-        $association->setFacebook("deleted");
-        $association->setLinkedin("deleted");
-        $association->setYoutube("deleted");
-        $association->setTwitter("deleted");
+        $association->setDescription('deleted');
+        $association->setWebSite('deleted');
+        $association->setFacebook('deleted');
+        $association->setLinkedin('deleted');
+        $association->setYoutube('deleted');
+        $association->setTwitter('deleted');
 
         $em->flush();
 
@@ -136,7 +136,7 @@ class AssociationController extends AbstractController
 
         return $this->render('association/show.html.twig', [
             'controller_name' => 'AssociationController',
-            'association' => $association,
+            'association' => $association
         ]);
     }
 }
