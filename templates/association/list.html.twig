@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JeBenevole - {% trans %}association_list_page_title{% endtrans %}{% endblock %}
+
+{% block body %}
+    <h1>{% trans %}association_list_title{% endtrans %}</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Associations</th>
+                <th>Emails</th>
+                <th>Villes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for association in associations %}
+                <tr>
+                    <td>{{ association.name }}</td>
+                    <td>{{ association.email }}</td>
+                    <td>{{ association.city }}({{ association.zip }})</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>   
+    {% if previous >= 0 %}
+        <a href="{{ path('associations', { offset: previous }) }}">{% trans %}pagination_previous_btn{% endtrans %}</a>
+    {% endif %}
+    {% if previous_page > 0 %}
+        <a href="{{ path('associations', { offset: previous }) }}">{{ previous_page }}</a>
+    {% endif %}
+    <span>{{ current_page }}</span>
+    {% if next < associations|length %}
+        <a href="{{ path('associations', { offset: next }) }}">{{ next_page }}</a>
+    {% endif %}
+    {% if next < associations|length %}
+        <a href="{{ path('associations', { offset: next }) }}">{% trans %}pagination_next_btn{% endtrans %}</a>
+    {% endif %}
+
+{% endblock %}

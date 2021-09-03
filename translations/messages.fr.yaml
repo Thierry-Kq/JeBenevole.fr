@@ -1,1 +1,46 @@
 'Hello': 'Bonjour %name%'
+
+# Associations form
+'Name': 'Association :'
+'Address': 'Adresse :'
+'Zip': 'Code postal :'
+'City': 'Ville :'
+'Web site': 'Site internet :'
+'Facebook': 'Lien Facebook :'
+'Linkedin': 'Lien LinkedIn :'
+'Youtube': 'Lien Youtube :'
+'Twitter': 'Lien Twitter :'
+
+# Associations templates
+'association_list_page_title': 'liste des associations'
+'association_create_page_title': 'créer ou éditer une association'
+'association_create_title': 'Créer une Association'
+'association_edit_title': 'Modifier une Association'
+'association_list_title': 'Liste des associations'
+
+# General form
+'Fax number': 'Fax :'
+'Fix number': 'Numéro fixe :'
+'Cell number': 'Numéro cellulaire :'
+'Description': 'Description :'
+'Picture': 'Logo :'
+'Email': 'Email :'
+'form_btn_creer': 'Créer'
+'form_btn_modifier': 'Modifier'
+'form_btn_valider': 'Valider'
+
+# General template
+'pagination_previous_btn': 'Précédent'
+'pagination_next_btn': 'Suivant'
+
+
+
+
+
+
+
+
+
+
+
+

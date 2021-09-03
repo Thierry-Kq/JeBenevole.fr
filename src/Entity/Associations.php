@@ -29,22 +29,22 @@ class Associations
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $name;
+    private ?string $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $address;
+    private ?string $address;
 
     /**
      * @ORM\Column(type="string", length=10)
      */
-    private string $zip;
+    private ?string $zip;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $city;
+    private ?string $city;
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
@@ -127,7 +127,7 @@ class Associations
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -139,7 +139,7 @@ class Associations
         return $this->address;
     }
 
-    public function setAddress(string $address): self
+    public function setAddress(?string $address): self
     {
         $this->address = $address;
 
@@ -151,7 +151,7 @@ class Associations
         return $this->zip;
     }
 
-    public function setZip(string $zip): self
+    public function setZip(?string $zip): self
     {
         $this->zip = $zip;
 
@@ -163,7 +163,7 @@ class Associations
         return $this->city;
     }
 
-    public function setCity(string $city): self
+    public function setCity(?string $city): self
     {
         $this->city = $city;
 
