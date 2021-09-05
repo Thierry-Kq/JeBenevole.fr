@@ -27,16 +27,18 @@ class CategoriesFixtures extends Fixture
             'Divers' => ['Distribution de flyers', 'Catégorie désactivée'],
         ];
 
+        $count = 0;
         foreach ($categoriesLabel as $parent => $children) {
-
             $categoriesParent = new Categories();
-
             $categoriesParent->setName($parent);
             $categoriesParent->setIsActived(true);
             $categoriesParent->setColor($colors[array_rand($colors, 1)]);
             $categoriesParent->setSlug($this->slugger->slug($categoriesParent->getName())->lower());
             $categoriesParent->setDescription('Categorie parent : ' . $parent);
             $categoriesParent->setPicture('picture.com');
+
+            $this->addReference('category' . $count, $categoriesParent);
+            $count++;
 
             $manager->persist($categoriesParent);
 
@@ -50,9 +52,13 @@ class CategoriesFixtures extends Fixture
                 $categories->setDescription('Categorie enfant :' . $child);
                 $categories->setPicture('picture.com');
 
+                $this->addReference('category' . $count, $categories);
+                $count++;
+
                 $manager->persist($categories);
             }
         }
+
         $manager->flush();
     }
 }
