@@ -7,6 +7,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Faker\Factory;
 
 class UsersFixtures extends Fixture
 {
@@ -44,15 +45,16 @@ class UsersFixtures extends Fixture
 
             $manager->persist($user);
         }
+        $faker = Factory::create('fr_FR');
 
         // users for Associations creation
         for ($i = 0; $i < 10; $i++) {
             $user = new Users();
-            $user->setEmail('user' . $i . '@gmail.com');
-            $user->setFirstName('User' . $i);
-            $user->setLastName('lastName' . $i);
+            $user->setEmail($i . $faker->email);
+            $user->setFirstName($faker->firstName . $i);
+            $user->setLastName($faker->lastName);
             $user->setIsVerified(true);
-            $user->setDescription('Description de l\'utilisateur ' . $user->getFirstName());
+            $user->setDescription($faker->sentence(10));
             $user->setPicture('image.com');
             $user->setRgpd(true);
             $user->setPassword($this->encoder->hashPassword($user, "azerty"));
@@ -66,11 +68,11 @@ class UsersFixtures extends Fixture
         // users for Offers creation
         for ($i = 10; $i < 20; $i++) {
             $user = new Users();
-            $user->setEmail('user' . $i . '@gmail.com');
-            $user->setFirstName('User' . $i);
-            $user->setLastName('lastName' . $i);
+            $user->setEmail($i . $faker->email);
+            $user->setFirstName($faker->firstName . $i);
+            $user->setLastName($faker->lastName);
             $user->setIsVerified(true);
-            $user->setDescription('Description de l\'utilisateur ' . $user->getFirstName());
+            $user->setDescription($faker->sentence(10));
             $user->setPicture('image.com');
             $user->setRgpd(true);
             $user->setPassword($this->encoder->hashPassword($user, "azerty"));
