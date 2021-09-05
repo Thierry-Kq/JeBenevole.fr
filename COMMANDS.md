@@ -1,7 +1,5 @@
 # Available Commands
 
-___
-
 ## Database and Fixtures
 
 To drop old database, create a new empty one, update the schema and load all the fixtures :
