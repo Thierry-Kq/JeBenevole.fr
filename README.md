@@ -12,4 +12,10 @@ Sur JeBénévole.fr, vous trouverez les organisations et les bénévoles à prox
 
 ## Participer
 
-Veuillez suivre les instructions dans le fichier [CONTRIBUTING.md](https://github.com/Nouvelle-Techno-fr/JeBenevole.fr/blob/main/CONTRIBUTING.md) si vous souhaitez participer à ce projet.
+Veuillez suivre les instructions dans le fichier [CONTRIBUTING.md](CONTRIBUTING.md) si vous souhaitez participer à ce projet.
+
+## Commandes disponibles / Available commands
+
+Un fichier listant les commandes utiles pour le projet à été créé : [COMMANDS.md](COMMANDS.md) .
+
+A file listing the available commands has been created for the project : [COMMANDS.md](COMMANDS.md) .
