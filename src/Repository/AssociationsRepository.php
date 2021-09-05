@@ -41,9 +41,6 @@ class AssociationsRepository extends ServiceEntityRepository
             ->setFirstResult($firstResult)
             ->getQuery();
 
-        $data = $this->paginatorService->paginate($query, $resultByPage, $page);
-
-
-        return $data;
+       return $this->paginatorService->paginate($query, $resultByPage, $page);
     }
 }

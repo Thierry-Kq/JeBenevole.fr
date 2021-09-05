@@ -56,7 +56,6 @@ class AssociationController extends AbstractController
 
         return $this->render('association/list.html.twig', [
             'paginator' => $paginator
-
         ]);
     }
 

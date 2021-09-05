@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for association in associations %}
+            {% for association in paginator['items'] %}
                 <tr>
                     <td>{{ association.name }}</td>
                     <td>{{ association.email }}</td>
@@ -25,6 +25,7 @@
     </table>
 
     {{ dump(paginator) }}
+    {{ dump(app.request.attributes.get('_route')) }}
 
     {# page 1 si besoin #}
     {% if paginator['previous'] > 0 %}
@@ -39,13 +40,12 @@
     {# page courante #}
     <span>{{ paginator['current_page'] }}</span>
     {# page next #}
-    {% if paginator['next'] < paginator['associations']|length %}
+    {% if paginator['next'] < paginator['items']|length %}
         <a href="{{ path('associations', { page: paginator['next_page'] }) }}">{{ paginator['next_page'] }}</a>
     {% endif %}
 
     {# page last si last - 1  #}
     {% if paginator['current_page'] < paginator['totalPage'] - 1 %}
-        {#    {% if paginator['next'] < paginator['associations']|length - 1 %}#}
         <a href="{{ path('associations', { page: paginator['totalPage'] }) }}">{{ paginator['totalPage'] }}</a>
     {% endif %}
 
