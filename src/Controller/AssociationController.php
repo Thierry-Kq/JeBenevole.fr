@@ -32,7 +32,7 @@ class AssociationController extends AbstractController
             if ($image != null){
                 $association->setPicture($uploadService->uploadImage($image, 'associations'));
             }
-            
+
             $slug = $slugger->slug($association->getName());
             $association->setSlug($slug);
 
@@ -50,17 +50,13 @@ class AssociationController extends AbstractController
      * @Route("/associations", name="associations")
      */
     public function list(Request $request, AssociationsRepository $repository): Response
-    {    
-        $offset = max(0, $request->query->getInt('offset', 0));
-        $paginator = $repository->findAllAssociations($offset);
+    {
+        $page = $request->query->getInt('page', 1);
+        $paginator = $repository->findAllAssociations($page, 3);
 
         return $this->render('association/list.html.twig', [
-            'associations' => $paginator,
-            'previous' => $offset - AssociationsRepository::PAGINATOR_PER_PAGE,
-            'current_page' => ($offset/AssociationsRepository::PAGINATOR_PER_PAGE) +1,
-            'previous_page' => $offset/AssociationsRepository::PAGINATOR_PER_PAGE,
-            'next_page' => ($offset/AssociationsRepository::PAGINATOR_PER_PAGE)+2,
-            'next' => min(count($paginator), $offset + AssociationsRepository::PAGINATOR_PER_PAGE),
+            'paginator' => $paginator
+
         ]);
     }
 

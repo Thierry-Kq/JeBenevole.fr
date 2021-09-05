@@ -22,19 +22,31 @@
                 </tr>
             {% endfor %}
         </tbody>
-    </table>   
-    {% if previous >= 0 %}
-        <a href="{{ path('associations', { offset: previous }) }}">{% trans %}pagination_previous_btn{% endtrans %}</a>
+    </table>
+
+    {{ dump(paginator) }}
+
+    {# page 1 si besoin #}
+    {% if paginator['previous'] > 0 %}
+        <a href="{{ path('associations', { page: '1' }) }}">1</a>
     {% endif %}
-    {% if previous_page > 0 %}
-        <a href="{{ path('associations', { offset: previous }) }}">{{ previous_page }}</a>
+
+    {# page previous si 3+ #}
+    {% if paginator['previous_page'] > 0 %}
+        <a href="{{ path('associations', { page: paginator['previous_page'] }) }}">{{ paginator['previous_page'] }}</a>
     {% endif %}
-    <span>{{ current_page }}</span>
-    {% if next < associations|length %}
-        <a href="{{ path('associations', { offset: next }) }}">{{ next_page }}</a>
+
+    {# page courante #}
+    <span>{{ paginator['current_page'] }}</span>
+    {# page next #}
+    {% if paginator['next'] < paginator['associations']|length %}
+        <a href="{{ path('associations', { page: paginator['next_page'] }) }}">{{ paginator['next_page'] }}</a>
     {% endif %}
-    {% if next < associations|length %}
-        <a href="{{ path('associations', { offset: next }) }}">{% trans %}pagination_next_btn{% endtrans %}</a>
+
+    {# page last si last - 1  #}
+    {% if paginator['current_page'] < paginator['totalPage'] - 1 %}
+        {#    {% if paginator['next'] < paginator['associations']|length - 1 %}#}
+        <a href="{{ path('associations', { page: paginator['totalPage'] }) }}">{{ paginator['totalPage'] }}</a>
     {% endif %}
 
 {% endblock %}
