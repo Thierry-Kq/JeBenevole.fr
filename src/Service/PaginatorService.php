@@ -19,7 +19,7 @@ class PaginatorService
         $firstResult = ($currentPage * $resultByPage) - $resultByPage;
 
         $paginatorResult = [
-            'items' => $paginator,
+            'items' => $paginator->getQuery()->getResult(),
             'previous' => $firstResult - $resultByPage,
             'current_page' => $currentPage,
             'previous_page' => $firstResult / $resultByPage,

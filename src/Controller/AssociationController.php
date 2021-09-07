@@ -52,8 +52,13 @@ class AssociationController extends AbstractController
     public function list(Request $request, AssociationsRepository $repository): Response
     {
         $page = $request->query->getInt('page', 1);
-        $paginator = $repository->findAllAssociations($page, 3);
-
+        if ($page <= 0) {
+            $page = 1;
+            $paginator = $repository->findAllAssociations($page, 3);
+        } else {
+            $paginator = $repository->findAllAssociations($page, 3);
+            $paginator = empty($paginator['items']) ? $repository->findAllAssociations(1, 3) : $paginator;
+        }
         return $this->render('association/list.html.twig', [
             'paginator' => $paginator
         ]);

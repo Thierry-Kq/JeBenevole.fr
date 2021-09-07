@@ -20,12 +20,12 @@
                     <td>{{ association.email }}</td>
                     <td>{{ association.city }}({{ association.zip }})</td>
                 </tr>
+            {% else %}
+                <p>Pas de résultats !</p>
             {% endfor %}
         </tbody>
     </table>
 
-    {{ dump(paginator) }}
-    {{ dump(app.request.attributes.get('_route')) }}
 
     {# page 1 si besoin #}
     {% if paginator['previous'] > 0 %}
