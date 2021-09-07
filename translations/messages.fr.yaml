@@ -32,7 +32,7 @@
 # General template
 'pagination_previous_btn': 'Précédent'
 'pagination_next_btn': 'Suivant'
-
+'no_result': 'Il n''y a pas de résultat !'
 
 
 

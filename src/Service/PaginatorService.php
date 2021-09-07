@@ -12,19 +12,14 @@ class PaginatorService
 
         $totalPage = (int) ceil($paginator->count() / $resultByPage);
 
-        // todo : rewrite url if wrong page number ?
-        // verify the page isnt > than last page
-        $currentPage = $currentPage > $totalPage ? 1 : $currentPage;
-
         $firstResult = ($currentPage * $resultByPage) - $resultByPage;
 
         $paginatorResult = [
             'items' => $paginator->getQuery()->getResult(),
             'previous' => $firstResult - $resultByPage,
             'current_page' => $currentPage,
-            'previous_page' => $firstResult / $resultByPage,
-            'next_page' => ($firstResult / $resultByPage) + 2,
-            'next' => min(count($paginator), $firstResult + $resultByPage),
+            'previous_page' => $currentPage - 1,
+            'next_page' => $currentPage + 1,
             'totalPage' => $totalPage,
         ];
         return $paginatorResult;

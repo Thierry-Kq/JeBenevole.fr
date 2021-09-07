@@ -5,48 +5,32 @@
 {% block body %}
     <h1>{% trans %}association_list_title{% endtrans %}</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Associations</th>
-                <th>Emails</th>
-                <th>Villes</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for association in paginator['items'] %}
+
+    {% if paginator['items'] is not empty %}
+
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ association.name }}</td>
-                    <td>{{ association.email }}</td>
-                    <td>{{ association.city }}({{ association.zip }})</td>
+                    <th>Associations</th>
+                    <th>Emails</th>
+                    <th>Villes</th>
                 </tr>
-            {% else %}
-                <p>Pas de résultats !</p>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for association in paginator['items'] %}
+                    <tr>
+                        <td>{{ association.name }}</td>
+                        <td>{{ association.email }}</td>
+                        <td>{{ association.city }}({{ association.zip }})</td>
+                    </tr>
 
+                {% endfor %}
+            </tbody>
+        </table>
 
-    {# page 1 si besoin #}
-    {% if paginator['previous'] > 0 %}
-        <a href="{{ path('associations', { page: '1' }) }}">1</a>
-    {% endif %}
-
-    {# page previous si 3+ #}
-    {% if paginator['previous_page'] > 0 %}
-        <a href="{{ path('associations', { page: paginator['previous_page'] }) }}">{{ paginator['previous_page'] }}</a>
-    {% endif %}
-
-    {# page courante #}
-    <span>{{ paginator['current_page'] }}</span>
-    {# page next #}
-    {% if paginator['next'] < paginator['items']|length %}
-        <a href="{{ path('associations', { page: paginator['next_page'] }) }}">{{ paginator['next_page'] }}</a>
-    {% endif %}
-
-    {# page last si last - 1  #}
-    {% if paginator['current_page'] < paginator['totalPage'] - 1 %}
-        <a href="{{ path('associations', { page: paginator['totalPage'] }) }}">{{ paginator['totalPage'] }}</a>
+        {% include 'partials/_paginator.html.twig' %}
+    {% else %}
+        <p>{% trans %}no_result{% endtrans %}</p>
     {% endif %}
 
 {% endblock %}
