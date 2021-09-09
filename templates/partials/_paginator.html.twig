@@ -1,0 +1,24 @@
+{% set route_name = app.request.attributes.get('_route') %}
+
+    {# page 1 if needed #}
+    {% if paginator['previous'] > 0 %}
+        <a href="{{ path(route_name, { page: '1' }) }}">1</a>
+    {% endif %}
+
+    {# previous page if 3+ #}
+    {% if paginator['previous_page'] > 0 %}
+        <a href="{{ path(route_name, { page: paginator['previous_page'] }) }}">{{ paginator['previous_page'] }}</a>
+    {% endif %}
+
+    {# current page #}
+    <span>{{ paginator['current_page'] }}</span>
+
+    {# next page #}
+    {% if paginator['current_page'] < paginator['totalPage']  %}
+        <a href="{{ path(route_name, { page: paginator['next_page'] }) }}">{{ paginator['next_page'] }}</a>
+    {% endif %}
+
+    {# last page if last - 1  #}
+    {% if paginator['current_page'] < paginator['totalPage'] - 1 %}
+        <a href="{{ path(route_name, { page: paginator['totalPage'] }) }}">{{ paginator['totalPage'] }}</a>
+    {% endif %}
