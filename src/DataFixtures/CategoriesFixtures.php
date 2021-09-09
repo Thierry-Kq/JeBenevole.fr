@@ -19,17 +19,44 @@ class CategoriesFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        for($i = 0; $i <= 10; $i++){
-            $categories = new Categories();
-            $categories->setName('test ' .$i);
-            $categories->setIsActived(true);
-            $categories->setColor('color ' .$i);
-            $categories->setParentId(1);
-            $categories->setIsActived(true);
-            $categories->setSlug($this->slugger->slug($categories->getName())->lower());
-            $categories->setDescription('description ' .$i);
-            $categories->setPicture('picture ' .$i);
-            $manager->persist($categories);
+
+        $colors = ['red', 'blue', 'green'];
+        $categoriesLabel = [
+            'Travail physique' => ['Déménagement'],
+            'Social' => ['Récolte de dons'],
+            'Divers' => ['Distribution de flyers', 'Catégorie désactivée'],
+        ];
+
+        $count = 0;
+        foreach ($categoriesLabel as $parent => $children) {
+            $categoriesParent = new Categories();
+            $categoriesParent->setName($parent);
+            $categoriesParent->setIsActived(true);
+            $categoriesParent->setColor($colors[array_rand($colors, 1)]);
+            $categoriesParent->setSlug($this->slugger->slug($categoriesParent->getName())->lower());
+            $categoriesParent->setDescription('Categorie parent : ' . $parent);
+            $categoriesParent->setPicture('picture.com');
+
+            $this->addReference('category' . $count, $categoriesParent);
+            $count++;
+
+            $manager->persist($categoriesParent);
+
+            foreach ($children as $child) {
+                $categories = new Categories();
+                $categories->setName($child);
+                $categories->setIsActived(true);
+                $categories->setColor($colors[array_rand($colors, 1)]);
+                $categories->setParent($categoriesParent);
+                $categories->setSlug($this->slugger->slug($categories->getName())->lower());
+                $categories->setDescription('Categorie enfant :' . $child);
+                $categories->setPicture('picture.com');
+
+                $this->addReference('category' . $count, $categories);
+                $count++;
+
+                $manager->persist($categories);
+            }
         }
 
         $manager->flush();
