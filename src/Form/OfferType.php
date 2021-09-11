@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Categories;
 use App\Entity\Offers;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -43,6 +46,16 @@ class OfferType extends AbstractType
                     new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
                     new Length(['max' => 255])
                 ]
+            ])
+            ->add('categories', EntityType::class, [
+                'class' => Categories::class,
+                'query_builder' => function (EntityRepository $entityRepository) {
+                    return $entityRepository->createQueryBuilder('c')
+                        ->where('c.isActived = 1');
+                },
+                'choice_label' => 'name',
+                'placeholder' => 'Choose an option',
+                'required' => false
             ])
             ->add('isPublished', CheckboxType::class, [
                 'label'    => 'Voulez vous publier cette offre?',
