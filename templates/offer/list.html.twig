@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JeBenevole - {{ (route ~ '_list_page_title')|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ (route ~ '_list_title')|trans }}</h1>
+
+    {% if paginator['items'] is not empty %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Adresse</th>
+                    <th>Description</th>
+                    <th>Créé par</th>
+                    <th>Lien pour delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for offer in paginator['items'] %}
+                    <tr>
+                        <td>{{ offer.title }}</td>
+                        <td>{{ offer.address }}({{ offer.zip }})</td>
+                        <td>{{ offer.description }}({{ offer.zip }})</td>
+                        {% if route == 'offers' %}
+                            <td>{{ offer.name }} </td>
+                        <td><a href="{{ path('delete_offre', {'slug': offer.slug}) }}">Supprimer</a></td>
+                        {% elseif route == 'requests' %}
+                            <td>{{ offer.firstName }} {{ offer.lastName }}</td>
+                        <td><a href="{{ path('delete_request', {'slug': offer.slug}) }}">Supprimer</a></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% include 'partials/_paginator.html.twig' %}
+    {% else %}
+        <p>{% trans %}no_result{% endtrans %}</p>
+    {% endif %}
+
+{% endblock %}

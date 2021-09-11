@@ -3,7 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Offers;
+use App\Entity\Users;
+use App\Service\PaginatorService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,37 +17,46 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class OffersRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $paginatorService;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        PaginatorService $paginatorService
+    )
     {
         parent::__construct($registry, Offers::class);
+        $this->paginatorService = $paginatorService;
     }
 
-    // /**
-    //  * @return Offers[] Returns an array of Offers objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Paginator Returns an instance of paginator
+     */
+    public function findAllOffersOrRequests(int $page, string $route, int $resultByPage = 10): array
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $firstResult = ($page * $resultByPage) - $resultByPage;
 
-    /*
-    public function findOneBySomeField($value): ?Offers
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $query = $this->createQueryBuilder('o')
+            ->andWhere('o.isDeleted = :val')
+            ->setParameter('val', 0);
+
+        if ($route === 'requests')
+        {
+            $query
+                ->andWhere('o.users IS NOT NULL')
+                ->innerJoin('o.users', 'users')
+                ->addSelect('o.title, o.address, o.zip, o.description, o.slug, users.firstName, users.lastName');
+        } elseif ($route === 'offers' )
+        {
+            $query
+                ->andWhere('o.associations IS NOT NULL')
+                ->innerJoin('o.associations', 'associations')
+                ->addSelect('o.title, o.address, o.zip, o.description, o.slug, associations.name');
+        }
+        $query
+            ->setMaxResults($resultByPage)
+            ->setFirstResult($firstResult)
+            ->getQuery();
+
+        return $this->paginatorService->paginate($query, $resultByPage, $page);
     }
-    */
 }

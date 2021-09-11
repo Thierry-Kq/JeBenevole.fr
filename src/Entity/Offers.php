@@ -116,12 +116,12 @@ class Offers
     /**
      * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="offers")
      */
-    private Users $users;
+    private ?Users $users;
 
     /**
      * @ORM\ManyToOne(targetEntity=Associations::class, inversedBy="offers")
      */
-    private Associations $associations;
+    private ?Associations $associations;
 
     /**
      * @ORM\ManyToOne(targetEntity=Categories::class, inversedBy="offers")

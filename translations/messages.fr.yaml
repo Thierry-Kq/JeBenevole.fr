@@ -18,6 +18,20 @@
 'association_edit_title': 'Modifier une Association'
 'association_list_title': 'Liste des associations'
 
+# Offers templates
+'offers_list_page_title': 'liste des offres'
+#'association_create_page_title': 'créer ou éditer une association'
+#'association_create_title': 'Créer une Association'
+#'association_edit_title': 'Modifier une Association'
+'offers_list_title': 'Liste des offres'
+
+# Requests templates
+'requests_list_page_title': 'liste des demandes'
+#'association_create_page_title': 'créer ou éditer une association'
+#'association_create_title': 'Créer une Association'
+#'association_edit_title': 'Modifier une Association'
+'requests_list_title': 'Liste des demandes'
+
 # General form
 'Fax number': 'Fax :'
 'Fix number': 'Numéro fixe :'
