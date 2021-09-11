@@ -5,7 +5,7 @@
 {% block body %}
     <h1>{{ offer.title }}</h1>
     <table>
-        {% dump(offer) %}
+
         <thead>
             <tr>
                 <th>Titre</th>
@@ -33,6 +33,6 @@
     </table>
     <br>
     <p>{{ offer.description }}</p>
-{#    todo : check image #}
-    <img src="{{asset('images/associations/' ~ offer.file)}}" alt="Image de l'association.">
+
+    <img src="{{asset('images/offers/' ~ offer.file)}}" alt="Image de l'offre.">
 {% endblock %}

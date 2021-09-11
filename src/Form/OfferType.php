@@ -73,7 +73,7 @@ class OfferType extends AbstractType
                         'mimeTypesMessage' => 'Image non valide. Problème de format ou de taille.',
                     ])
                 ],
-        'data_class' => null])
+                'data_class' => null])
             ->add('contactExternalName', TextType::class, [
                 'required' => false,
                 'constraints' => [

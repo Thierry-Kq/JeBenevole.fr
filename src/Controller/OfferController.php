@@ -50,7 +50,7 @@ class OfferController extends AbstractController
         SluggerInterface $slugger
     ): Response
     {
-        // todo : if user without asso on offer  -> redirect to request ( set a ROLE for associations ? )
+        // todo : if user without asso on offer  -> redirect to request ( set a ROLE for associations owner ? )
         // todo : so maybe split this route or this Controller
 
         $offers = new Offers();
@@ -149,12 +149,14 @@ class OfferController extends AbstractController
 
         $offers->setIsDeleted(1);
 
-        // todo : finish this
         $offers->setTitle('deleted');
         $offers->setAddress('deleted');
         $offers->setZip('00000');
         $offers->setCity('deleted');
         $offers->setDescription('deleted');
+        $offers->setContactExternalName('deleted');
+        $offers->setContactExternalEmail('deleted');
+        $offers->setContactExternalTel('deleted');
         $uploadService->deleteImage($offers->getFile(), 'offers');
 
         $em->flush();
