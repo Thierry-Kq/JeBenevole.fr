@@ -53,10 +53,10 @@ class OfferController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-//            $image = $form->get('picture')->getData();
-//            if ($image != null){
-//                $association->setPicture($uploadService->uploadImage($image, 'associations'));
-//            }
+            $image = $form->get('file')->getData();
+            if ($image != null){
+                $offers->setFile($uploadService->uploadImage($image, 'offers'));
+            }
 
             $slug = $slugger->slug($offers->getTitle());
             $offers->setSlug($slug);
@@ -74,26 +74,26 @@ class OfferController extends AbstractController
     }
 
 
-// todo : requests + gestion image + gestion user/asso
+// todo : requests + gestion user/asso
     /**
      * @Route("/offres/modification/{slug}", name="edit_offer")
      */
     public function edit(Request $request, Offers $offers, EntityManagerInterface $em, SluggerInterface $slugger, UploadService $uploadService): Response
     {
-//        $associationOldPicture = $association->getPicture();
+        $offersOldPicture = $offers->getFile();
 
         $form = $this->createForm(OfferType::class, $offers);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
         {
-//            $imageChange = $form->get('picture')->getData();
-//            if($imageChange != null){
-//                $uploadService->deleteImage($associationOldPicture, 'associations');
-//                $association->setPicture($uploadService->uploadImage($imageChange, 'associations'));
-//            }else{
-//                $association->setPicture($associationOldPicture);
-//            }
+            $imageChange = $form->get('file')->getData();
+            if($imageChange != null){
+                $uploadService->deleteImage($offersOldPicture, 'offers');
+                $offers->setFile($uploadService->uploadImage($imageChange, 'offers'));
+            }else{
+                $offers->setFile($offersOldPicture);
+            }
 
             $offers = $form->getData();
             $slug = $slugger->slug($offers->getTitle());
@@ -115,7 +115,8 @@ class OfferController extends AbstractController
      */
     public function delete(Offers $offers,
         EntityManagerInterface $em,
-        Request $request
+        Request $request,
+        UploadService $uploadService
     ): Response
     {
         $route = $request->get('_route');
@@ -130,6 +131,7 @@ class OfferController extends AbstractController
         $offers->setZip('00000');
         $offers->setCity('deleted');
         $offers->setDescription('deleted');
+        $uploadService->deleteImage($offers->getFile(), 'offers');
 
         $em->flush();
 

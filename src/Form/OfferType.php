@@ -4,8 +4,10 @@ namespace App\Form;
 
 use App\Entity\Offers;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class OfferType extends AbstractType
 {
@@ -25,7 +27,21 @@ class OfferType extends AbstractType
 //            ->add('status')
 //            ->add('dateStart')
 //            ->add('dateEnd')
-//            ->add('file')
+            ->add('file', FileType::class, [
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            "image/png",
+                            "image/jpeg",
+                            "image/jpg",
+                            "image/gif"
+                        ],
+                        'mimeTypesMessage' => 'Image non valide. Problème de format ou de taille.',
+                    ])
+                ],
+        'data_class' => null])
 //            ->add('recommended')
 //            ->add('contactExternalName')
 //            ->add('contactExternalEmail')
