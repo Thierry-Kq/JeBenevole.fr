@@ -20,13 +20,13 @@ class OfferType extends AbstractType
             ->add('city')
 //            ->add('longitude')
 //            ->add('latitude')
-//            ->add('isPublished')
+            ->add('isPublished')
 //            ->add('isActived')
-//            ->add('isUrgent')
+            ->add('isUrgent')
             ->add('description')
 //            ->add('status')
-//            ->add('dateStart')
-//            ->add('dateEnd')
+            ->add('dateStart')
+            ->add('dateEnd')
             ->add('file', FileType::class, [
                 'required' => false,
                 'constraints' => [
@@ -43,9 +43,9 @@ class OfferType extends AbstractType
                 ],
         'data_class' => null])
 //            ->add('recommended')
-//            ->add('contactExternalName')
-//            ->add('contactExternalEmail')
-//            ->add('contactExternalTel')
+            ->add('contactExternalName')
+            ->add('contactExternalEmail')
+            ->add('contactExternalTel')
 //            ->add('isDeleted')
 //            ->add('createdAt')
 //            ->add('updatedAt')

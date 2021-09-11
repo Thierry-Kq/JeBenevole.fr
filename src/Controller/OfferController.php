@@ -41,10 +41,12 @@ class OfferController extends AbstractController
 
     /**
      * @Route("/offres/creation", name="new_offer")
+     * @Route("/demandes/creation", name="new_request")
      */
     public function create(Request $request, EntityManagerInterface $em, UploadService $uploadService, SluggerInterface $slugger): Response
     {
-        // todo : requests
+        // todo : if user without asso on offer  -> redirect to request ( set a ROLE for associations ? )
+        // todo : so maybe split this route or this Controller
 
         $offers = new Offers();
 
@@ -61,11 +63,13 @@ class OfferController extends AbstractController
             $slug = $slugger->slug($offers->getTitle());
             $offers->setSlug($slug);
 
-            $offers->setDateEnd(new \DateTime());
-            $offers->setDateStart(new \DateTime());
+//            $offers->setUsers($users);
+//            $offers->setAssociations();
+
             $em->persist($offers);
             $em->flush();
             return $this->redirectToRoute('show_offer', ['slug' => $slug]);
+//            return $this->redirectToRoute('show_request', ['slug' => $slug]);
         }
 
         return $this->render('offer/create-and-edit.html.twig', [
@@ -74,9 +78,9 @@ class OfferController extends AbstractController
     }
 
 
-// todo : requests + gestion user/asso
     /**
      * @Route("/offres/modification/{slug}", name="edit_offer")
+     * @Route("/demandes/modification/{slug}", name="edit_request")
      */
     public function edit(Request $request, Offers $offers, EntityManagerInterface $em, SluggerInterface $slugger, UploadService $uploadService): Response
     {
@@ -101,6 +105,7 @@ class OfferController extends AbstractController
             $em->flush();
 
             return $this->redirectToRoute('show_offer', ['slug' => $offers->getSlug()]);
+//            return $this->redirectToRoute('show_request', ['slug' => $offers->getSlug()]);
         }
 
         return $this->render('offer/create-and-edit.html.twig', [
@@ -110,7 +115,7 @@ class OfferController extends AbstractController
     }
 //
     /**
-     * @Route("/offres/suppression/{slug}", name="delete_offre")
+     * @Route("/offres/suppression/{slug}", name="delete_offer")
      * @Route("/demandes/suppression/{slug}", name="delete_request")
      */
     public function delete(Offers $offers,
@@ -121,7 +126,7 @@ class OfferController extends AbstractController
     {
         $route = $request->get('_route');
 
-        $targetPath = $route === 'delete_offre' ? 'offers' : 'requests';
+        $targetPath = $route === 'delete_offer' ? 'offers' : 'requests';
 
         $offers->setIsDeleted(1);
 
@@ -137,8 +142,9 @@ class OfferController extends AbstractController
 
         return $this->redirectToRoute($targetPath);
     }
-// todo : separe this route for requests
+
     /**
+     * @Route("/demandes/{slug}", name="show_request")
      * @Route("/offres/{slug}", name="show_offer")
      */
     public function show(Offers $offers): Response
