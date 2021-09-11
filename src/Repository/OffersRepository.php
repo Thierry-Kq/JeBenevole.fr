@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Offers;
-use App\Entity\Users;
 use App\Service\PaginatorService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -45,8 +44,7 @@ class OffersRepository extends ServiceEntityRepository
                 ->andWhere('o.users IS NOT NULL')
                 ->innerJoin('o.users', 'users')
                 ->addSelect('o.title, o.address, o.zip, o.description, o.slug, users.firstName, users.lastName');
-        } elseif ($route === 'offers' )
-        {
+        } elseif ($route === 'offers' ) {
             $query
                 ->andWhere('o.associations IS NOT NULL')
                 ->innerJoin('o.associations', 'associations')

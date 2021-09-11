@@ -43,7 +43,12 @@ class OfferController extends AbstractController
      * @Route("/offres/creation", name="new_offer")
      * @Route("/demandes/creation", name="new_request")
      */
-    public function create(Request $request, EntityManagerInterface $em, UploadService $uploadService, SluggerInterface $slugger): Response
+    public function create(
+        Request $request,
+        EntityManagerInterface $em,
+        UploadService $uploadService,
+        SluggerInterface $slugger
+    ): Response
     {
         // todo : if user without asso on offer  -> redirect to request ( set a ROLE for associations ? )
         // todo : so maybe split this route or this Controller
@@ -53,7 +58,8 @@ class OfferController extends AbstractController
         $form = $this->createForm(OfferType::class, $offers);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
+        $route = $request->get('_route');
+        if ($form->isSubmitted() && $form->isValid())
         {
             $image = $form->get('file')->getData();
             if ($image != null){
@@ -68,12 +74,14 @@ class OfferController extends AbstractController
 
             $em->persist($offers);
             $em->flush();
-            return $this->redirectToRoute('show_offer', ['slug' => $slug]);
-//            return $this->redirectToRoute('show_request', ['slug' => $slug]);
+
+            $targetPath = $route === 'new_offer' ? 'show_offer' : 'show_request';
+            return $this->redirectToRoute($targetPath, ['slug' => $slug]);
         }
 
         return $this->render('offer/create-and-edit.html.twig', [
             'form' => $form->createView(),
+            'route' => $route
         ]);
     }
 
@@ -82,20 +90,28 @@ class OfferController extends AbstractController
      * @Route("/offres/modification/{slug}", name="edit_offer")
      * @Route("/demandes/modification/{slug}", name="edit_request")
      */
-    public function edit(Request $request, Offers $offers, EntityManagerInterface $em, SluggerInterface $slugger, UploadService $uploadService): Response
+    public function edit(
+        Request $request,
+        Offers $offers,
+        EntityManagerInterface $em,
+        SluggerInterface $slugger,
+        UploadService $uploadService
+    ): Response
     {
         $offersOldPicture = $offers->getFile();
 
         $form = $this->createForm(OfferType::class, $offers);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
+        $route = $request->get('_route');
+
+        if ($form->isSubmitted() && $form->isValid())
         {
             $imageChange = $form->get('file')->getData();
-            if($imageChange != null){
+            if ($imageChange != null){
                 $uploadService->deleteImage($offersOldPicture, 'offers');
                 $offers->setFile($uploadService->uploadImage($imageChange, 'offers'));
-            }else{
+            } else {
                 $offers->setFile($offersOldPicture);
             }
 
@@ -104,13 +120,15 @@ class OfferController extends AbstractController
             $offers->setSlug($slug);
             $em->flush();
 
-            return $this->redirectToRoute('show_offer', ['slug' => $offers->getSlug()]);
-//            return $this->redirectToRoute('show_request', ['slug' => $offers->getSlug()]);
+            $targetPath = $route === 'edit_offer' ? 'show_offer' : 'show_request';
+
+            return $this->redirectToRoute($targetPath, ['slug' => $offers->getSlug()]);
         }
 
         return $this->render('offer/create-and-edit.html.twig', [
             'form' => $form->createView(),
-            'offer' => $offers
+            'offer' => $offers,
+            'route' => $route
         ]);
     }
 //
@@ -118,7 +136,8 @@ class OfferController extends AbstractController
      * @Route("/offres/suppression/{slug}", name="delete_offer")
      * @Route("/demandes/suppression/{slug}", name="delete_request")
      */
-    public function delete(Offers $offers,
+    public function delete(
+        Offers $offers,
         EntityManagerInterface $em,
         Request $request,
         UploadService $uploadService

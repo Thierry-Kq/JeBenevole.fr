@@ -44,8 +44,6 @@ class OfferType extends AbstractType
                     new Length(['max' => 255])
                 ]
             ])
-//            ->add('longitude')
-//            ->add('latitude')
             ->add('isPublished', CheckboxType::class, [
                 'label'    => 'Voulez vous publier cette offre?',
                 'required' => false
@@ -55,7 +53,6 @@ class OfferType extends AbstractType
                 'required' => false
             ])
             ->add('description', TextareaType::class, [])
-//            ->add('status')
             ->add('dateStart', DateType::class, [
                 'widget' => 'choice',
             ])
@@ -77,7 +74,6 @@ class OfferType extends AbstractType
                     ])
                 ],
         'data_class' => null])
-//            ->add('recommended')
             ->add('contactExternalName', TextType::class, [
                 'required' => false,
                 'constraints' => [
@@ -96,6 +92,10 @@ class OfferType extends AbstractType
                     new Length(['max' => 255])
                 ]
             ])
+//            ->add('longitude')
+//            ->add('status')
+//            ->add('latitude')
+//            ->add('recommended')
         ;
     }
 

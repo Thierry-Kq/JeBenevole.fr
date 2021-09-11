@@ -20,16 +20,16 @@
 
 # Offers templates
 'offers_list_page_title': 'liste des offres'
-#'association_create_page_title': 'créer ou éditer une association'
-#'association_create_title': 'Créer une Association'
-#'association_edit_title': 'Modifier une Association'
+'offers_create_page_title': 'créer ou éditer une offre'
+'offers_create_title': 'Créer une offre'
+'offers_edit_title': 'Modifier une offre'
 'offers_list_title': 'Liste des offres'
 
 # Requests templates
 'requests_list_page_title': 'liste des demandes'
-#'association_create_page_title': 'créer ou éditer une association'
-#'association_create_title': 'Créer une Association'
-#'association_edit_title': 'Modifier une Association'
+'requests_create_page_title': 'créer ou éditer une demande'
+'requests_create_title': 'Créer une demande'
+'requests_edit_title': 'Modifier une demande'
 'requests_list_title': 'Liste des demandes'
 
 # General form
