@@ -2,10 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Associations;
 use App\Entity\Offers;
-use App\Form\AssociationType;
-use App\Repository\AssociationsRepository;
+use App\Form\OfferType;
 use App\Repository\OffersRepository;
 use App\Service\UploadService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -41,51 +39,54 @@ class OfferController extends AbstractController
     }
 
 
-//    /**
-//     * @Route("/associations/creation", name="new_association")
-//     */
-//    public function create(Request $request, EntityManagerInterface $em, UploadService $uploadService, SluggerInterface $slugger): Response
-//    {
-//
-//        $association = new Associations();
-//
-//        $form = $this->createForm(AssociationType::class, $association);
-//        $form->handleRequest($request);
-//
-//        if($form->isSubmitted() && $form->isValid())
-//        {
+    /**
+     * @Route("/offres/creation", name="new_offer")
+     */
+    public function create(Request $request, EntityManagerInterface $em, UploadService $uploadService, SluggerInterface $slugger): Response
+    {
+        // todo : requests
+
+        $offers = new Offers();
+
+        $form = $this->createForm(OfferType::class, $offers);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
 //            $image = $form->get('picture')->getData();
 //            if ($image != null){
 //                $association->setPicture($uploadService->uploadImage($image, 'associations'));
 //            }
-//
-//            $slug = $slugger->slug($association->getName());
-//            $association->setSlug($slug);
-//
-//            $em->persist($association);
-//            $em->flush();
-//            return $this->redirectToRoute('show_association', ['slug' => $slug]);
-//        }
-//
-//        return $this->render('association/create-and-edit.html.twig', [
-//            'form' => $form->createView(),
-//        ]);
-//    }
-//
 
-//
-//    /**
-//     * @Route("/associations/modification/{slug}", name="edit_association")
-//     */
-//    public function edit(Request $request, Associations $association, EntityManagerInterface $em, SluggerInterface $slugger, UploadService $uploadService): Response
-//    {
+            $slug = $slugger->slug($offers->getTitle());
+            $offers->setSlug($slug);
+
+            $offers->setDateEnd(new \DateTime());
+            $offers->setDateStart(new \DateTime());
+            $em->persist($offers);
+            $em->flush();
+            return $this->redirectToRoute('show_offer', ['slug' => $slug]);
+        }
+
+        return $this->render('offer/create-and-edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+// todo : requests + gestion image + gestion user/asso
+    /**
+     * @Route("/offres/modification/{slug}", name="edit_offer")
+     */
+    public function edit(Request $request, Offers $offers, EntityManagerInterface $em, SluggerInterface $slugger, UploadService $uploadService): Response
+    {
 //        $associationOldPicture = $association->getPicture();
-//
-//        $form = $this->createForm(AssociationType::class, $association);
-//        $form->handleRequest($request);
-//
-//        if($form->isSubmitted() && $form->isValid())
-//        {
+
+        $form = $this->createForm(OfferType::class, $offers);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
 //            $imageChange = $form->get('picture')->getData();
 //            if($imageChange != null){
 //                $uploadService->deleteImage($associationOldPicture, 'associations');
@@ -93,20 +94,20 @@ class OfferController extends AbstractController
 //            }else{
 //                $association->setPicture($associationOldPicture);
 //            }
-//
-//            $association = $form->getData();
-//            $slug = $slugger->slug($association->getName());
-//            $association->setSlug($slug);
-//            $em->flush();
-//
-//            return $this->redirectToRoute('show_association', ['slug' => $association->getSlug()]);
-//        }
-//
-//        return $this->render('association/create-and-edit.html.twig', [
-//            'form' => $form->createView(),
-//            'association' => $association
-//        ]);
-//    }
+
+            $offers = $form->getData();
+            $slug = $slugger->slug($offers->getTitle());
+            $offers->setSlug($slug);
+            $em->flush();
+
+            return $this->redirectToRoute('show_offer', ['slug' => $offers->getSlug()]);
+        }
+
+        return $this->render('offer/create-and-edit.html.twig', [
+            'form' => $form->createView(),
+            'offer' => $offers
+        ]);
+    }
 //
     /**
      * @Route("/offres/suppression/{slug}", name="delete_offre")
@@ -132,9 +133,9 @@ class OfferController extends AbstractController
 
         $em->flush();
 
-        return $this->redirectToRoute($targetPath); // In futur this should redirect user to homepage
+        return $this->redirectToRoute($targetPath);
     }
-//
+// todo : separe this route for requests
     /**
      * @Route("/offres/{slug}", name="show_offer")
      */

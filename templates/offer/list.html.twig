@@ -14,6 +14,7 @@
                     <th>Description</th>
                     <th>Créé par</th>
                     <th>Lien pour delete</th>
+                    <th>Lien pour edit</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,11 +25,12 @@
                         <td>{{ offer.description }}({{ offer.zip }})</td>
                         {% if route == 'offers' %}
                             <td>{{ offer.name }} </td>
-                        <td><a href="{{ path('delete_offre', {'slug': offer.slug}) }}">Supprimer</a></td>
+                            <td><a href="{{ path('delete_offre', {'slug': offer.slug}) }}">Supprimer</a></td>
                         {% elseif route == 'requests' %}
                             <td>{{ offer.firstName }} {{ offer.lastName }}</td>
-                        <td><a href="{{ path('delete_request', {'slug': offer.slug}) }}">Supprimer</a></td>
+                            <td><a href="{{ path('delete_request', {'slug': offer.slug}) }}">Supprimer</a></td>
                         {% endif %}
+                        <td><a href="{{ path('edit_offer', {'slug': offer.slug}) }}">Edit</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

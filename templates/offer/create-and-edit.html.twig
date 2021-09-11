@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{#todo title h1#}
+{% block title %}JeBenevole - {% trans %}association_create_page_title{% endtrans %}{% endblock %}
+
+{% block body %}
+
+{#        <h1>{% trans %}association_create_title{% endtrans %}</h1>#}
+        {{ include('offer/_form.html.twig', {form: form, button: 'form_btn_creer'|trans}) }}
+
+{% endblock %}
