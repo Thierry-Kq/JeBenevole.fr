@@ -4,29 +4,64 @@ namespace App\Form;
 
 use App\Entity\Offers;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class OfferType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('address')
-            ->add('zip')
-            ->add('city')
+            ->add('title', TextType::class, [
+                'constraints' => [
+                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new Length(['max' => 255])
+                ]
+            ])
+            ->add('address', TextType::class, [
+                'constraints' => [
+                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new Length(['max' => 255])
+                ]
+            ])
+            ->add('zip', TextType::class, [
+                'constraints' => [
+                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new Length(['max' => 10])
+                ]
+            ])
+            ->add('city', TextType::class, [
+                'constraints' => [
+                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new Length(['max' => 255])
+                ]
+            ])
 //            ->add('longitude')
 //            ->add('latitude')
-            ->add('isPublished')
-//            ->add('isActived')
-            ->add('isUrgent')
-            ->add('description')
+            ->add('isPublished', CheckboxType::class, [
+                'label'    => 'Voulez vous publier cette offre?',
+                'required' => false
+            ])
+            ->add('isUrgent', CheckboxType::class, [
+                'label'    => 'Cette offre est urgente?',
+                'required' => false
+            ])
+            ->add('description', TextareaType::class, [])
 //            ->add('status')
-            ->add('dateStart')
-            ->add('dateEnd')
+            ->add('dateStart', DateType::class, [
+                'widget' => 'choice',
+            ])
+            ->add('dateEnd', DateType::class, [
+                'widget' => 'choice',
+            ])
             ->add('file', FileType::class, [
                 'required' => false,
                 'constraints' => [
@@ -43,16 +78,24 @@ class OfferType extends AbstractType
                 ],
         'data_class' => null])
 //            ->add('recommended')
-            ->add('contactExternalName')
-            ->add('contactExternalEmail')
-            ->add('contactExternalTel')
-//            ->add('isDeleted')
-//            ->add('createdAt')
-//            ->add('updatedAt')
-//            ->add('slug')
-//            ->add('users')
-//            ->add('associations')
-//            ->add('categories')
+            ->add('contactExternalName', TextType::class, [
+                'required' => false,
+                'constraints' => [
+                    new Length(['max' => 255]),
+                ]
+            ])
+            ->add('contactExternalEmail', TextType::class, [
+                'required' => false,
+                'constraints' => [
+                    new Length(['max' => 255])
+                ]
+            ])
+            ->add('contactExternalTel', TextType::class, [
+                'required' => false,
+                'constraints' => [
+                    new Length(['max' => 255])
+                ]
+            ])
         ;
     }
 
