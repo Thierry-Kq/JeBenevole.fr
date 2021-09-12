@@ -168,8 +168,15 @@ class OfferController extends AbstractController
      * @Route("/demandes/{slug}", name="show_request")
      * @Route("/offres/{slug}", name="show_offer")
      */
-    public function show(Offers $offers): Response
+    public function show(Request $request,Offers $offers): Response
     {
+        $route = $request->get('_route');
+
+        if ($route === 'show_request' && !$offers->isARequest()) {
+            return $this->redirectToRoute('show_offer', ['slug' => $offers->getSlug()]);
+        } elseif ($route === 'show_offer' && $offers->isARequest()) {
+            return $this->redirectToRoute('show_request', ['slug' => $offers->getSlug()]);
+        }
 
         return $this->render('offer/show.html.twig', [
             'offer' => $offers

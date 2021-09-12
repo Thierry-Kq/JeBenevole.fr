@@ -386,4 +386,9 @@ class Offers
 
         return $this;
     }
+
+    public function isARequest(): bool
+    {
+        return $this->getUsers() ? true : false;
+    }
 }
