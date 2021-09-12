@@ -54,7 +54,7 @@ class OfferType extends AbstractType
                         ->where('c.isActived = 1');
                 },
                 'choice_label' => 'name',
-                'placeholder' => 'Choose an option',
+                'placeholder' => 'Choisissez une catégorie (optionnel)',
                 'required' => false
             ])
             ->add('isPublished', CheckboxType::class, [
