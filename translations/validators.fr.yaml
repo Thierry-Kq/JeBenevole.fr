@@ -1,6 +1,8 @@
-'max_length': 'Vous ne pouvez pas dépasser les {{ min }} caractères'
+'max_length': 'Vous ne pouvez pas dépasser les {{ limit }} caractères'
+'min_length': 'Ce champ doit faire au moins {{ limit }} caractères'
 'required_field': 'Ce champ ne peut pas être vide.'
 'The file is too large. Allowed maximum size is {{ limit }} {{ suffix }}.': 'Le fichier est trop volumineux. Sa taille ne doit pas dépasser {{ limit }} {{ suffix }}.'
+'This value is not a valid email address.': 'Cette valeur n''est pas une adresse email valide.'
 
 
 
@@ -20,7 +22,6 @@
 'This field is missing.': 'Ce champ est manquant.'
 'This value is not a valid date.': 'Cette valeur n''est pas une date valide.'
 'This value is not a valid datetime.': 'Cette valeur n''est pas une date valide.'
-'This value is not a valid email address.': 'Cette valeur n''est pas une adresse email valide.'
 'The file could not be found.': 'Le fichier n''a pas été trouvé.'
 'The file is not readable.': 'Le fichier n''est pas lisible.'
 'The file is too large ({{ size }} {{ suffix }}). Allowed maximum size is {{ limit }} {{ suffix }}.': 'Le fichier est trop volumineux ({{ size }} {{ suffix }}). Sa taille ne doit pas dépasser {{ limit }} {{ suffix }}.'

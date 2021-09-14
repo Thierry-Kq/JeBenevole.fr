@@ -10,11 +10,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -29,7 +31,9 @@ class OfferType extends AbstractType
                     new NotBlank(['message' => 'required_field']),
                     new Length([
                         'max' => 255,
-                        'maxMessage' => 'max_length'
+                        'maxMessage' => 'max_length',
+                        'min' => 30,
+                        'minMessage' => 'min_length'
                     ])
                 ]
             ])
@@ -38,7 +42,9 @@ class OfferType extends AbstractType
                     new NotBlank(['message' => 'required_field']),
                     new Length([
                         'max' => 255,
-                        'maxMessage' => 'max_length'
+                        'maxMessage' => 'max_length',
+                        'min' => 15,
+                        'minMessage' => 'min_length'
                     ])
                 ]
             ])
@@ -102,13 +108,16 @@ class OfferType extends AbstractType
                     ])
                 ]
             ])
-            ->add('contactExternalEmail', TextType::class, [
+            ->add('contactExternalEmail', EmailType::class, [
                 'required' => false,
                 'constraints' => [
                     new Length([
-                        'max' => 255,
-                        'maxMessage' => 'max_length'
-                    ])
+                        'max' => 180,
+                        'maxMessage' => 'max_length',
+                        'min' => 6,
+                        'minMessage' => 'min_length'
+                    ]),
+                    new Email()
                 ]
             ])
             ->add('contactExternalTel', TextType::class, [
@@ -116,7 +125,9 @@ class OfferType extends AbstractType
                 'constraints' => [
                     new Length([
                         'max' => 255,
-                        'maxMessage' => 'max_length'
+                        'maxMessage' => 'max_length',
+                        'min' => 5,
+                        'minMessage' => 'min_length'
                     ])
                 ]
             ])
@@ -136,6 +147,7 @@ class OfferType extends AbstractType
                   'fields' => 'title',
                   'message' => 'unique'])
             ]
+//            ,'attr' => ['novalidate' => true]
         ]);
     }
 }
