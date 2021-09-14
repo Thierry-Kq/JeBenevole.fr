@@ -9,6 +9,7 @@ use App\Service\UploadService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -98,6 +99,10 @@ class OfferController extends AbstractController
         UploadService $uploadService
     ): Response
     {
+        if ($offers->getIsDeleted()) {
+            throw new HttpException('410');
+        }
+
         $offersOldPicture = $offers->getFile();
 
         $form = $this->createForm(OfferType::class, $offers);
@@ -143,6 +148,10 @@ class OfferController extends AbstractController
         UploadService $uploadService
     ): Response
     {
+        if ($offers->getIsDeleted()) {
+            throw new HttpException('410');
+        }
+
         $route = $request->get('_route');
 
         $targetPath = $route === 'delete_offer' ? 'offers' : 'requests';
@@ -170,8 +179,11 @@ class OfferController extends AbstractController
      */
     public function show(Request $request,Offers $offers): Response
     {
-        $route = $request->get('_route');
+        if ($offers->getIsDeleted()) {
+            throw new HttpException('410');
+        }
 
+        $route = $request->get('_route');
         if ($route === 'show_request' && !$offers->isARequest()) {
             return $this->redirectToRoute('show_offer', ['slug' => $offers->getSlug()]);
         } elseif ($route === 'show_offer' && $offers->isARequest()) {
