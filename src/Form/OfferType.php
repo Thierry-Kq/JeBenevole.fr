@@ -6,6 +6,7 @@ use App\Entity\Categories;
 use App\Entity\Offers;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -14,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -25,26 +26,38 @@ class OfferType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
-                    new Length(['max' => 255])
+                    new NotBlank(['message' => 'required_field']),
+                    new Length([
+                        'max' => 255,
+                        'maxMessage' => 'max_length'
+                    ])
                 ]
             ])
             ->add('address', TextType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
-                    new Length(['max' => 255])
+                    new NotBlank(['message' => 'required_field']),
+                    new Length([
+                        'max' => 255,
+                        'maxMessage' => 'max_length'
+                    ])
                 ]
             ])
             ->add('zip', TextType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
-                    new Length(['max' => 10])
+                    new NotBlank(['message' => 'required_field']),
+                    new Length([
+                        'max' => 10,
+                        'maxMessage' => 'max_length'
+                    ])
                 ]
             ])
             ->add('city', TextType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
-                    new Length(['max' => 255])
+                    new NotBlank(['message' => 'required_field']),
+                    new Length([
+                        'max' => 255,
+                        'maxMessage' => 'max_length'
+                    ])
                 ]
             ])
             ->add('categories', EntityType::class, [
@@ -75,34 +88,36 @@ class OfferType extends AbstractType
             ->add('file', FileType::class, [
                 'required' => false,
                 'constraints' => [
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            "image/png",
-                            "image/jpeg",
-                            "image/jpg",
-                            "image/gif"
-                        ],
-                        'mimeTypesMessage' => 'Image non valide. Problème de format ou de taille.',
+                    new Image([
+                        'maxSize' => '1024',
                     ])
                 ],
                 'data_class' => null])
             ->add('contactExternalName', TextType::class, [
                 'required' => false,
                 'constraints' => [
-                    new Length(['max' => 255]),
+                    new Length([
+                        'max' => 255,
+                        'maxMessage' => 'max_length'
+                    ])
                 ]
             ])
             ->add('contactExternalEmail', TextType::class, [
                 'required' => false,
                 'constraints' => [
-                    new Length(['max' => 255])
+                    new Length([
+                        'max' => 255,
+                        'maxMessage' => 'max_length'
+                    ])
                 ]
             ])
             ->add('contactExternalTel', TextType::class, [
                 'required' => false,
                 'constraints' => [
-                    new Length(['max' => 255])
+                    new Length([
+                        'max' => 255,
+                        'maxMessage' => 'max_length'
+                    ])
                 ]
             ])
 //            ->add('longitude')
@@ -116,6 +131,11 @@ class OfferType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Offers::class,
+            'constraints' => [
+              new UniqueEntity([
+                  'fields' => 'title',
+                  'message' => 'unique'])
+            ]
         ]);
     }
 }

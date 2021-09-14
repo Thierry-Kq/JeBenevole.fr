@@ -47,6 +47,14 @@
 'no_result': 'Il n''y a pas de résultat !'
 
 
+# Offers form
+'Date start': 'Date de début'
+'Date end': 'Date de fin'
+'Contact external name': 'Nom du contact externe'
+'Contact external email': 'Email du contact externe'
+'Contact external tel': 'Téléphone du contact externe'
+'File': 'Image'
+
 
 
 
