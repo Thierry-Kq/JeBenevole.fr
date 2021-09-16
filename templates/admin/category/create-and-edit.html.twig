@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JeBenevole - {% trans %}category_create_page_title{% endtrans %}{% endblock %}
+
+{% block body %}
+    {%if app.request.attributes.get('_route') == 'new_category' %}
+        <h1>{% trans %}category_create_title{% endtrans %}</h1>
+        {{ include('admin/category/_form.html.twig', {form: form, button: 'form_btn_creer'|trans}) }}
+    {% endif %}
+
+    {%if app.request.attributes.get('_route') == 'edit_category' %}
+        <h1>{% trans %}category_edit_title{% endtrans %}</h1>
+        {{ include('admin/category/_form.html.twig', {form: form, button: 'form_btn_modifier'|trans}) }}
+    {% endif %}
+
+{% endblock %}
