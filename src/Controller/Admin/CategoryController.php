@@ -90,4 +90,22 @@ class CategoryController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/categories/suppression/{slug}", name="delete_category")
+     */
+    public function delete(Categories $category, EntityManagerInterface $em): Response
+    {
+        $category->setIsDeleted(1);
+
+        $category->setName('deleted');
+        $category->setDescription('deleted');
+        $category->setPicture('deleted');
+        $category->setColor('#000000');
+
+
+        $em->flush();
+
+        return $this->redirectToRoute('categories'); // In futur this should redirect user to homepage
+    }
+
 }
