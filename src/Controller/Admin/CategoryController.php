@@ -46,15 +46,48 @@ class CategoryController extends AbstractController
         ]);
     }
 
+    // /**
+    //  * @Route("/category", name="category")
+    //  */
+    // public function index(): Response
+    // {
+    //     return $this->render('admin/category/index.html.twig', [
+    //         'controller_name' => 'CategoryController',
+    //     ]);
+    // }
+
     /**
-     * @Route("/category", name="category")
+     * @Route("/categories/modification/{slug}", name="edit_category")
      */
-    public function index(): Response
+    public function edit(Request $request, Categories $category, EntityManagerInterface $em, SluggerInterface $slugger, UploadService $uploadService): Response
     {
-        return $this->render('admin/category/index.html.twig', [
-            'controller_name' => 'CategoryController',
+        $categoryOldPicture = $category->getPicture();
+
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $imageChange = $form->get('picture')->getData();
+            if($imageChange != null){
+                $uploadService->deleteImage($categoryOldPicture, 'categories');
+                $category->setPicture($uploadService->uploadImage($imageChange, 'categories'));
+            }else{
+                $category->setPicture($categoryOldPicture);
+            }
+
+            $category = $form->getData();
+            $slug = $slugger->slug($category->getName());
+            $category->setSlug($slug);
+            $em->flush();
+
+            return $this->redirectToRoute('show_category', ['slug' => $category->getSlug()]);
+        }
+
+        return $this->render('admin/category/create-and-edit.html.twig', [
+            'form' => $form->createView(),
+            'category' => $category
         ]);
     }
-
 
 }
