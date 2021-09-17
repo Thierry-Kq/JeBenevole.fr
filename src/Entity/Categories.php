@@ -52,7 +52,7 @@ class Categories
     /**
      * @ORM\ManyToOne(targetEntity=Categories::class, inversedBy="children")
      */
-    private Categories $parent;
+    private ?Categories $parent;
 
     /**
      * @ORM\OneToMany(targetEntity=Categories::class, mappedBy="parent")
@@ -223,5 +223,10 @@ class Categories
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

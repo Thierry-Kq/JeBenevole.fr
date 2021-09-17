@@ -108,4 +108,15 @@ class CategoryController extends AbstractController
         return $this->redirectToRoute('categories'); // In futur this should redirect user to homepage
     }
 
+    /**
+     * @Route("/categories/{slug}", name="show_category")
+     */
+    public function show(Categories $category): Response
+    {
+
+        return $this->render('admin/category/show.html.twig', [
+            'category' => $category
+        ]);
+    }
+
 }
