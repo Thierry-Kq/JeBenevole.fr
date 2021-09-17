@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Categories;
 use App\Form\CategoryType;
 use App\Service\UploadService;
+use App\Repository\CategoriesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,15 +47,26 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    // /**
-    //  * @Route("/category", name="category")
-    //  */
-    // public function index(): Response
-    // {
-    //     return $this->render('admin/category/index.html.twig', [
-    //         'controller_name' => 'CategoryController',
-    //     ]);
-    // }
+     /**
+      * @Route("/categories", name="category")
+      */
+     public function list(Request $request, CategoriesRepository $repository): Response
+     {
+        $route = $request->get('_route');
+
+        $page = $request->query->getInt('page', 1);
+        if ($page <= 0) {
+            $page = 1;
+            $paginator = $repository->findAllCategories($page, 3);
+        } else {
+            $paginator = $repository->findAllCategories($page, 3);
+            $paginator = empty($paginator['items']) ? $repository->findAllCategories(1, 3) : $paginator;
+        }
+        return $this->render('admin/category/list.html.twig', [
+            'paginator' => $paginator,
+            'route' =>$route
+        ]);
+     }
 
     /**
      * @Route("/categories/modification/{slug}", name="edit_category")

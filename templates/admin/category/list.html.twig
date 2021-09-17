@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %} {# todo : Extend base admin front #}
+
+{% block title %}Hello CategoryController!{% endblock %}
+
+{% block body %}
+    <h1>{{ (route ~ '_list_title')|trans }}</h1>
+
+    {% if paginator['items'] is not empty %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Couleur</th>
+                    <th>Supprimer?</th>
+                    <th>Active?</th>
+                    <th>Supprimer</th>
+                    <th>Modifier</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in paginator['items'] %}
+                    <tr>
+                        <td>{{ category.name }}</td>
+                        <td>{{ category.description }}</td>
+                        <td>{{ category.color }}</td>
+                        <td>{{ category.isDeleted }}</td>
+                        <td>{{ category.isActived }}</td>
+                        <td><a href="{{ path('delete_category', {'slug': category.slug}) }}">Supprimer</a></td>
+                        <td><a href="{{ path('edit_category', {'slug': category.slug}) }}">Modifier</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% include 'partials/_paginator.html.twig' %}
+    {% else %}
+        <p>{% trans %}no_result{% endtrans %}</p>
+    {% endif %}
+
+{% endblock %} 

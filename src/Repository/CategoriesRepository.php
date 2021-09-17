@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Categories;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Service\PaginatorService;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Categories|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,37 +15,28 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CategoriesRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    private $paginatorService;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        PaginatorService $paginatorService
+    ) {
         parent::__construct($registry, Categories::class);
+        $this->paginatorService = $paginatorService;
     }
 
-    // /**
-    //  * @return Categories[] Returns an array of Categories objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Paginator Returns an instance of paginator
+     */
+    public function findAllCategories(int $page, int $resultByPage = 10): array
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $firstResult = ($page * $resultByPage) - $resultByPage;
 
-    /*
-    public function findOneBySomeField($value): ?Categories
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $query = $this->createQueryBuilder('a')
+            ->setMaxResults($resultByPage)
+            ->setFirstResult($firstResult)
+            ->getQuery();
+
+       return $this->paginatorService->paginate($query, $resultByPage, $page);
     }
-    */
 }
