@@ -33,10 +33,13 @@ class CategoriesRepository extends ServiceEntityRepository
         $firstResult = ($page * $resultByPage) - $resultByPage;
 
         $query = $this->createQueryBuilder('a')
+        ->andWhere('a.isDeleted = :val')
+            ->setParameter('val', 0)
             ->setMaxResults($resultByPage)
             ->setFirstResult($firstResult)
             ->getQuery();
 
        return $this->paginatorService->paginate($query, $resultByPage, $page);
     }
+
 }

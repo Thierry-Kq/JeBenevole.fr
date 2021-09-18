@@ -20,7 +20,7 @@
                 <td>{{ category.isDeleted }}</td>
                 <td>{{ category.color }}</td>
                 {%if category.parent !=null %}<td>{{ category.parent }}</td>{% endif %}
-                <td></td>
+                <td> {% for child in childrens %} child {% endfor %}</td>
             </tr>
         </tbody>
     </table>

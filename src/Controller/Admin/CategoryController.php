@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CategoryController extends AbstractController
@@ -72,7 +73,11 @@ class CategoryController extends AbstractController
      * @Route("/categories/modification/{slug}", name="edit_category")
      */
     public function edit(Request $request, Categories $category, EntityManagerInterface $em, SluggerInterface $slugger, UploadService $uploadService): Response
-    {
+    {    
+        if ($category->getIsDeleted()) {
+            throw new HttpException('410');
+        }
+
         $categoryOldPicture = $category->getPicture();
 
         $form = $this->createForm(CategoryType::class, $category);
@@ -107,17 +112,27 @@ class CategoryController extends AbstractController
      */
     public function delete(Categories $category, EntityManagerInterface $em): Response
     {
+        if ($category->getIsDeleted()) {
+            throw new HttpException('410');
+        }
+
+        $actualParentOfTheCategory = $category->getParent();
+
         $category->setIsDeleted(1);
 
         $category->setName('deleted');
         $category->setDescription('deleted');
         $category->setPicture('deleted');
         $category->setColor('#000000');
+        $category->setParent(null);
 
-
+        foreach ($category->getChildren() as $item){ // When we delete a parent with childrens => childrens get parent category of parent or null (if children's parent had no parent)
+            $item->setParent($actualParentOfTheCategory);
+        }
+        
         $em->flush();
 
-        return $this->redirectToRoute('categories'); // In futur this should redirect user to homepage
+        return $this->redirectToRoute('category'); // In futur this should redirect user to homepage
     }
 
     /**
@@ -125,9 +140,15 @@ class CategoryController extends AbstractController
      */
     public function show(Categories $category): Response
     {
+        if ($category->getIsDeleted()) {
+            throw new HttpException('410');
+        }
+
+        $childrens = $category->getChildren();
 
         return $this->render('admin/category/show.html.twig', [
-            'category' => $category
+            'category' => $category,
+            'childrens' => $childrens
         ]);
     }
 
