@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JeBenevole - {{ offer.title }}{% endblock %}
+
+{% block body %}
+    <h1>{{ offer.title }}</h1>
+    <table>
+
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Adresse</th>
+                <th>Code postal</th>
+                <th>Ville</th>
+                <th>Auteur</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ offer.title }}</td>
+                <td>{{ offer.address }}</td>
+                <td>{{ offer.zip }}</td>
+                <td>{{ offer.city }}</td>
+
+            {% if offer.associations is defined and offer.associations is not null %}
+                <td>{{ offer.associations.name }}</td>
+            {% elseif offer.users is defined and offer.users is not null %}
+                <td>{{ offer.users.firstName }}</td>
+            {% endif %}
+
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <p>{{ offer.description }}</p>
+
+    <img src="{{asset('images/offers/' ~ offer.file)}}" alt="Image de l'offre.">
+{% endblock %}

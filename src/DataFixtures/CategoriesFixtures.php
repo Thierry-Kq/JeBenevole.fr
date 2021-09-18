@@ -43,9 +43,12 @@ class CategoriesFixtures extends Fixture
             $manager->persist($categoriesParent);
 
             foreach ($children as $child) {
+
+                $isActived = $child === 'Catégorie désactivée' ? false : true;
+
                 $categories = new Categories();
                 $categories->setName($child);
-                $categories->setIsActived(true);
+                $categories->setIsActived($isActived);
                 $categories->setColor($colors[array_rand($colors, 1)]);
                 $categories->setParent($categoriesParent);
                 $categories->setSlug($this->slugger->slug($categories->getName())->lower());

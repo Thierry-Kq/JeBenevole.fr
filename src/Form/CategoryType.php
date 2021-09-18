@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 class CategoryType extends AbstractType
 {
@@ -36,7 +37,17 @@ class CategoryType extends AbstractType
             ->add('isActived', CheckboxType::class, [
                 'required' => false,
             ])
-            ->add('description', TextareaType::class)
+            ->add('description', TextareaType::class, [
+                'constraints' => [
+                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new Length([
+                        'max' => 100,
+                        'maxMessage' => 'max_length',
+                        'min' => 15,
+                        'minMessage' => 'min_length',
+                    ])
+                ],
+            ])
             ->add('picture', FileType::class, [
                 'required' => false,
                 'constraints' => [
@@ -70,6 +81,11 @@ class CategoryType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Categories::class,
+            'constraints' => [
+                new UniqueEntity([
+                    'fields' => 'name',
+                    'message' => 'unique'])
+              ]
         ]);
     }
 }

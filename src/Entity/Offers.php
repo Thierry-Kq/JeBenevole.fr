@@ -26,22 +26,22 @@ class Offers
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $title;
+    private ?string $title;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $address;
+    private ?string $address;
 
     /**
      * @ORM\Column(type="string", length=10)
      */
-    private string $zip;
+    private ?string $zip;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $city;
+    private ?string $city;
 
     /**
      * @ORM\Column(type="float", nullable=true)
@@ -71,7 +71,7 @@ class Offers
     /**
      * @ORM\Column(type="text")
      */
-    private string $description;
+    private ?string $description;
 
     /**
      * @ORM\Column(type="boolean")
@@ -81,12 +81,12 @@ class Offers
     /**
      * @ORM\Column(type="datetime")
      */
-    private DateTimeInterface $dateStart;
+    private ?DateTimeInterface $dateStart;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private DateTimeInterface $dateEnd;
+    private ?DateTimeInterface $dateEnd;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -116,12 +116,12 @@ class Offers
     /**
      * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="offers")
      */
-    private Users $users;
+    private ?Users $users;
 
     /**
      * @ORM\ManyToOne(targetEntity=Associations::class, inversedBy="offers")
      */
-    private Associations $associations;
+    private ?Associations $associations;
 
     /**
      * @ORM\ManyToOne(targetEntity=Categories::class, inversedBy="offers")
@@ -138,7 +138,7 @@ class Offers
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 
@@ -150,7 +150,7 @@ class Offers
         return $this->address;
     }
 
-    public function setAddress(string $address): self
+    public function setAddress(?string $address): self
     {
         $this->address = $address;
 
@@ -162,7 +162,7 @@ class Offers
         return $this->zip;
     }
 
-    public function setZip(string $zip): self
+    public function setZip(?string $zip): self
     {
         $this->zip = $zip;
 
@@ -174,7 +174,7 @@ class Offers
         return $this->city;
     }
 
-    public function setCity(string $city): self
+    public function setCity(?string $city): self
     {
         $this->city = $city;
 
@@ -246,7 +246,7 @@ class Offers
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
@@ -270,7 +270,7 @@ class Offers
         return $this->dateStart;
     }
 
-    public function setDateStart(DateTimeInterface $dateStart): self
+    public function setDateStart(?DateTimeInterface $dateStart): self
     {
         $this->dateStart = $dateStart;
 
@@ -282,7 +282,7 @@ class Offers
         return $this->dateEnd;
     }
 
-    public function setDateEnd(DateTimeInterface $dateEnd): self
+    public function setDateEnd(?DateTimeInterface $dateEnd): self
     {
         $this->dateEnd = $dateEnd;
 
@@ -383,5 +383,10 @@ class Offers
         $this->categories = $categories;
 
         return $this;
+    }
+
+    public function isARequest(): bool
+    {
+        return $this->getUsers() ? true : false;
     }
 }
