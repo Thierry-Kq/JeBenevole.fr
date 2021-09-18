@@ -23,8 +23,14 @@ class CategoryType extends AbstractType
             ->add('name', null, [
                 'constraints' => [
                     new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
-                    new Length(['max' => 100])                   
-                ]
+                    new Length([
+                        'max' => 100,
+                        'maxMessage' => 'max_length',
+                        'min' => 15,
+                        'minMessage' => 'min_length',
+                    ])
+                ],
+                'label' =>  'Categorie'
             ])
             ->add('isActived', CheckboxType::class, [
                 'required' => false,
@@ -33,9 +39,12 @@ class CategoryType extends AbstractType
             ->add('picture', FileType::class, [
                 'required' => false,
                 'constraints' => [
-                    new Image()
+                    new Image([
+                        'maxSize' => '1024',
+                    ])
                 ],
-                'data_class' => null
+                'data_class' => null,
+                'label' => 'Image_categorie'
             ])
             ->add('color', ColorType::class, [
                 'html5' => true,

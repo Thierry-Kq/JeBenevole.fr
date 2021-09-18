@@ -1,4 +1,7 @@
 'Hello': 'Bonjour %name%'
+# Administration general
+'Is deleted': 'Supprimer? '
+'Is actived': 'Active? '
 
 # Associations form
 'Name': 'Association :'
@@ -17,6 +20,12 @@
 'association_create_title': 'Créer une Association'
 'association_edit_title': 'Modifier une Association'
 'association_list_title': 'Liste des associations'
+
+# Category form
+'Categorie': 'Categorie :'
+'Image_categorie': 'Image de la categorie :'
+'Color': 'Couleur :'
+'Parent': 'Categorie parent :'
 
 # General form
 'Fax number': 'Fax :'
