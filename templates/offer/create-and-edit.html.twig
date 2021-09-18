@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% if route is same as 'new_offer' %}
+        {% set title = 'offers_create_page_title' %}
+        {% set h1 = 'offers_create_title' %}
+{% elseif route is same as 'new_request' %}
+        {% set title = 'requests_create_page_title' %}
+        {% set h1 = 'requests_create_title' %}
+{% elseif route is same as 'edit_offer' %}
+        {% set title = 'offers_create_page_title' %}
+        {% set h1 = 'offers_edit_title' %}
+{% elseif route is same as 'edit_request' %}
+        {% set title = 'requests_create_page_title' %}
+        {% set h1 = 'requests_edit_title' %}
+{% endif %}
+
+{% block title %}JeBenevole - {{ title|trans }}{% endblock %}
+
+{% block body %}
+
+        <h1>{{ h1|trans }}</h1>
+        {{ include('offer/_form.html.twig', {form: form, button: 'form_btn_creer'|trans}) }}
+
+{% endblock %}

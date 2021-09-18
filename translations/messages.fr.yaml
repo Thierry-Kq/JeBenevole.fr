@@ -18,6 +18,20 @@
 'association_edit_title': 'Modifier une Association'
 'association_list_title': 'Liste des associations'
 
+# Offers templates
+'offers_list_page_title': 'liste des offres'
+'offers_create_page_title': 'créer ou éditer une offre'
+'offers_create_title': 'Créer une offre'
+'offers_edit_title': 'Modifier une offre'
+'offers_list_title': 'Liste des offres'
+
+# Requests templates
+'requests_list_page_title': 'liste des demandes'
+'requests_create_page_title': 'créer ou éditer une demande'
+'requests_create_title': 'Créer une demande'
+'requests_edit_title': 'Modifier une demande'
+'requests_list_title': 'Liste des demandes'
+
 # General form
 'Fax number': 'Fax :'
 'Fix number': 'Numéro fixe :'
@@ -32,6 +46,14 @@
 # General template
 'no_result': 'Il n''y a pas de résultat !'
 
+
+# Offers form
+'Date start': 'Date de début'
+'Date end': 'Date de fin'
+'Contact external name': 'Nom du contact externe'
+'Contact external email': 'Email du contact externe'
+'Contact external tel': 'Téléphone du contact externe'
+'File': 'Image'
 
 
 
