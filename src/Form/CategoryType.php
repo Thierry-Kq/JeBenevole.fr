@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Categories;
+use App\Repository\CategoriesRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -11,8 +12,8 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class CategoryType extends AbstractType
@@ -54,6 +55,10 @@ class CategoryType extends AbstractType
             ])
             ->add('parent', EntityType::class, [
                 'class' => Categories::class,
+                'query_builder' => function (CategoriesRepository $repo) {
+                    return $repo->createQueryBuilder('c')
+                    ->where('c.isDeleted = 0');
+                },
                 'choice_label' => 'name',
                 'placeholder' => 'Choisissez une catégorie parent (optionnel)',
                 'required' => false,

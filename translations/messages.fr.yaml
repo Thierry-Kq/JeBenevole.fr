@@ -27,6 +27,13 @@
 'Color': 'Couleur :'
 'Parent': 'Categorie parent :'
 
+# Categories templates
+'category_list_page_title': 'liste des categories'
+'category_create_page_title': 'créer ou éditer une categorie'
+'category_create_title': 'Créer une categorie'
+'category_edit_title': 'Modifier une categorie'
+'category_list_title': 'Liste des categories'
+
 # General form
 'Fax number': 'Fax :'
 'Fix number': 'Numéro fixe :'

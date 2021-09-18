@@ -41,5 +41,4 @@ class CategoriesRepository extends ServiceEntityRepository
 
        return $this->paginatorService->paginate($query, $resultByPage, $page);
     }
-
 }
