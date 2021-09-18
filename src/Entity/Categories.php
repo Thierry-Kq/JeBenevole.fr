@@ -27,7 +27,7 @@ class Categories
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $name;
+    private ?string $name;
 
     /**
      * @ORM\Column(type="boolean")
@@ -37,17 +37,17 @@ class Categories
     /**
      * @ORM\Column(type="text")
      */
-    private string $description;
+    private ?string $description;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $picture;
+    private ?string $picture;
 
     /**
      * @ORM\Column(type="string", length=25)
      */
-    private string $color;
+    private ?string $color;
 
     /**
      * @ORM\ManyToOne(targetEntity=Categories::class, inversedBy="children")
@@ -76,7 +76,7 @@ class Categories
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -100,7 +100,7 @@ class Categories
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
@@ -112,7 +112,7 @@ class Categories
         return $this->picture;
     }
 
-    public function setPicture(string $picture): self
+    public function setPicture(?string $picture): self
     {
         $this->picture = $picture;
 
@@ -124,7 +124,7 @@ class Categories
         return $this->color;
     }
 
-    public function setColor(string $color): self
+    public function setColor(?string $color): self
     {
         $this->color = $color;
 

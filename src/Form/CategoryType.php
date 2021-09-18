@@ -24,7 +24,7 @@ class CategoryType extends AbstractType
         $builder
             ->add('name', null, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new NotBlank(['message' => 'required_field']),
                     new Length([
                         'max' => 100,
                         'maxMessage' => 'max_length',
@@ -39,7 +39,7 @@ class CategoryType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new NotBlank(['message' => 'required_field']),
                     new Length([
                         'max' => 100,
                         'maxMessage' => 'max_length',
