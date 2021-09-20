@@ -41,8 +41,6 @@ class CategoryType extends AbstractType
                 'constraints' => [
                     new NotBlank(['message' => 'required_field']),
                     new Length([
-                        'max' => 100,
-                        'maxMessage' => 'max_length',
                         'min' => 15,
                         'minMessage' => 'min_length',
                     ])
