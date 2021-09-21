@@ -4,14 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Associations;
 use App\Form\AssociationType;
-use App\Repository\AssociationsRepository;
 use App\Service\UploadService;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\AssociationsRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AssociationController extends AbstractController
 {
@@ -69,6 +70,10 @@ class AssociationController extends AbstractController
      */
     public function edit(Request $request, Associations $association, EntityManagerInterface $em, SluggerInterface $slugger, UploadService $uploadService): Response
     {
+        if ($association->getIsDeleted()) {
+            throw new HttpException('410');
+        }
+
         $associationOldPicture = $association->getPicture();
 
         $form = $this->createForm(AssociationType::class, $association);
@@ -103,6 +108,10 @@ class AssociationController extends AbstractController
      */
     public function delete(Associations $association, EntityManagerInterface $em): Response
     {
+        if ($association->getIsDeleted()) {
+            throw new HttpException('410');
+        }
+
         $association->setIsDeleted(1);
 
         $association->setName('deleted');
@@ -130,6 +139,9 @@ class AssociationController extends AbstractController
      */
     public function show(Associations $association): Response
     {
+        if ($association->getIsDeleted()) {
+            throw new HttpException('410');
+        }
 
         return $this->render('association/show.html.twig', [
             'association' => $association
