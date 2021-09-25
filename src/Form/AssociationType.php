@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 class AssociationType extends AbstractType
 {
@@ -132,6 +133,11 @@ class AssociationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Associations::class,
+            'constraints' => [
+                new UniqueEntity([
+                    'fields' => 'name',
+                    'message' => 'unique'])
+              ]
         ]);
     }
 }
