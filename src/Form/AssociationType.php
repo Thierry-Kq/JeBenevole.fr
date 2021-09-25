@@ -68,19 +68,31 @@ class AssociationType extends AbstractType
                     'minMessage' => 'min_length'
                     ])
                 ]
-                ])
+            ])
             ->add('fixNumber', null, [
                 'required' => false,
-                'constraints' => [new Length(['max' => 10])]
-                ])
+                'constraints' => [new Length(['max' => 15,
+                'maxMessage' => 'max_length',
+                'min' => 4,
+                'minMessage' => 'min_length'
+                ])]
+            ])
             ->add('cellNumber', null, [
                 'required' => false,
-                'constraints' => [new Length(['max' => 10])]
-                ])
+                'constraints' => [new Length(['max' => 15,
+                'maxMessage' => 'max_length',
+                'min' => 4,
+                'minMessage' => 'min_length'
+                ])]
+            ])
             ->add('faxNumber', null, [
                 'required' => false,
-                'constraints' => [new Length(['max' => 10])]
-                ])
+                'constraints' => [new Length(['max' => 15,
+                'maxMessage' => 'max_length',
+                'min' => 4,
+                'minMessage' => 'min_length'
+                ])]
+            ])
             ->add('description', TextareaType::class, [
                 'required' => false,
                 ])
@@ -98,18 +110,21 @@ class AssociationType extends AbstractType
             ->add('facebook', UrlType::class, [
                 'required' => false,
                 'constraints' => [new Length(['max' => 200]), new Url(), new Regex([
-                    'pattern' => '/facebook\.com\/[a-zA-Z0-9_]*$/'])]])
+                    'pattern' => '/^(https?:\/\/)?(www\.)?facebook\.com\/[a-zA-Z0-9_]*$/',
+                    'message' => 'LinkPattern_notValid'])]])
             ->add('linkedin', UrlType::class, [
                 'required' => false,
                 'constraints' => [new Length(['max' => 200]), new Url(), new Regex([
-                    'pattern' => '/linkedin\.com\/[a-zA-Z0-9_]*$/'])]])
+                    'pattern' => '/^(https?:\/\/)?(www\.)?linkedin\.com\/[a-zA-Z0-9_]*$/',
+                    'message' => 'LinkPattern_notValid'])]])
             ->add('youtube', UrlType::class, [
                 'required' => false,
                 'constraints' => [new isFromYoutube()]])
             ->add('twitter', UrlType::class, [
                 'required' => false,
                 'constraints' => [new Length(['max' => 200]), new Url(), new Regex([
-                    'pattern' => '/twitter\.com\/[a-zA-Z0-9_]*$/'])]])
+                    'pattern' => '/^(https?:\/\/)?(www\.)?twitter\.com\/[a-zA-Z0-9_]*$/',
+                    'message' => 'LinkPattern_notValid'])]])
         ;
     }
 

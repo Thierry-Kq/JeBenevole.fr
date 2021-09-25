@@ -17,6 +17,24 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AssociationController extends AbstractController
 {
     /**
+     * @Route("/associations", name="associations")
+     */
+    public function list(Request $request, AssociationsRepository $repository): Response
+    {
+        $page = $request->query->getInt('page', 1);
+        if ($page <= 0) {
+            $page = 1;
+            $paginator = $repository->findAllAssociations($page, 3);
+        } else {
+            $paginator = $repository->findAllAssociations($page, 3);
+            $paginator = empty($paginator['items']) ? $repository->findAllAssociations(1, 3) : $paginator;
+        }
+        return $this->render('association/list.html.twig', [
+            'paginator' => $paginator
+        ]);
+    }
+
+    /**
      * @Route("/associations/creation", name="new_association")
      */
     public function create(Request $request, EntityManagerInterface $em, UploadService $uploadService, SluggerInterface $slugger): Response
@@ -44,24 +62,6 @@ class AssociationController extends AbstractController
 
         return $this->render('association/create-and-edit.html.twig', [
             'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/associations", name="associations")
-     */
-    public function list(Request $request, AssociationsRepository $repository): Response
-    {
-        $page = $request->query->getInt('page', 1);
-        if ($page <= 0) {
-            $page = 1;
-            $paginator = $repository->findAllAssociations($page, 3);
-        } else {
-            $paginator = $repository->findAllAssociations($page, 3);
-            $paginator = empty($paginator['items']) ? $repository->findAllAssociations(1, 3) : $paginator;
-        }
-        return $this->render('association/list.html.twig', [
-            'paginator' => $paginator
         ]);
     }
 
@@ -104,9 +104,9 @@ class AssociationController extends AbstractController
     }
 
     /**
-     * @Route("/associations/suppression/{slug}", name="delete_association")
+     * @Route("/associations/anonymisation/{slug}", name="anonymize_association")
      */
-    public function delete(Associations $association, EntityManagerInterface $em): Response
+    public function anonymize(Associations $association, EntityManagerInterface $em): Response
     {
         if ($association->getIsDeleted()) {
             throw new HttpException('410');
@@ -131,7 +131,7 @@ class AssociationController extends AbstractController
 
         $em->flush();
 
-        return $this->redirectToRoute('associations'); // In futur this should redirect user to homepage
+        return $this->redirectToRoute('associations'); // TODO : In futur this should redirect user to homepage
     }
 
     /**

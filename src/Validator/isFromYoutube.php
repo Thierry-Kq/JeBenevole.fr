@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraint;
 class isFromYoutube extends Constraint
 {
 
-    public string $message ='Youtube_link_wrong';
+    public string $message ='LinkPattern_notValid';
 
     /**
     *return string
