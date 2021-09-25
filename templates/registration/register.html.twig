@@ -8,8 +8,6 @@
     {% for flashError in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
-{{ dump(app.request.uri) }}
-    <img src="{{ absolute_url(asset('images/tests/unknow.jpg')) }}" alt="">
     <h1>{{ register }}</h1>
 
     {{ form_start(registrationForm) }}
