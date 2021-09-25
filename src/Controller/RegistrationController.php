@@ -35,6 +35,11 @@ class RegistrationController extends AbstractController
         UserAuthenticatorInterface $authenticator,
         LoginAuthenticator $login): Response
     {
+
+        if ($this->getUser()) {
+            return $this->redirectToRoute('associations'); // todo : redirect to home
+        }
+
         $user = new Users();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -63,7 +68,11 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
-            $authenticator->authenticateUser($user, $login, $request) ;
+            $authenticator->authenticateUser($user, $login, $request);
+
+            // todo : add a flash to tell the user he have 1 hour to confirm his mail,
+            return $this->redirectToRoute('associations');
+
         }
 
         return $this->render('registration/register.html.twig', [

@@ -1,21 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% set register = 'registration'|trans %}
+
+{% block title %}{{ register }}{% endblock %}
 
 {% block body %}
     {% for flashError in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
-
-    <h1>Register</h1>
+{{ dump(app.request.uri) }}
+    <img src="{{ absolute_url(asset('images/tests/unknow.jpg')) }}" alt="">
+    <h1>{{ register }}</h1>
 
     {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
 
-        <button type="submit" class="btn">Register</button>
+    <fieldset>
+        {{ form_label(registrationForm.email) }}
+        {{ form_errors(registrationForm.email) }}
+        {{ form_widget(registrationForm.email) }}
+    </fieldset>
+
+    <fieldset>
+        {{ form_label(registrationForm.firstName) }}
+        {{ form_errors(registrationForm.firstName) }}
+        {{ form_widget(registrationForm.firstName) }}
+    </fieldset>
+
+    <fieldset>
+        {{ form_label(registrationForm.lastName) }}
+        {{ form_errors(registrationForm.lastName) }}
+        {{ form_widget(registrationForm.lastName) }}
+    </fieldset>
+
+    <fieldset>
+        {{ form_label(registrationForm.plainPassword) }}
+        {{ form_errors(registrationForm.plainPassword) }}
+        {{ form_widget(registrationForm.plainPassword) }}
+    </fieldset>
+
+    {# todo : add a link to rgpd page + create rgpd page #}
+    <fieldset>
+        {{ form_errors(registrationForm.rgpd) }}
+        {{ form_widget(registrationForm.rgpd) }}
+        {{ form_label(registrationForm.rgpd) }}
+    </fieldset>
+
+        <button type="submit" class="btn">{{ register}}</button>
     {{ form_end(registrationForm) }}
 {% endblock %}

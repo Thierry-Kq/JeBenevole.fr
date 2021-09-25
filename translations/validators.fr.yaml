@@ -3,7 +3,8 @@
 'required_field': 'Ce champ ne peut pas être vide.'
 'The file is too large. Allowed maximum size is {{ limit }} {{ suffix }}.': 'Le fichier est trop volumineux. Sa taille ne doit pas dépasser {{ limit }} {{ suffix }}.'
 'This value is not a valid email address.': 'Cette valeur n''est pas une adresse email valide.'
-
+'password_empty': 'Vous devez indiquer votre password'
+'password_unsecure': 'Votre password doit contenir au moins : 1 majuscule, 1 minuscule, 1 caractère spécial et un chiffre'
 
 
 

@@ -1,4 +1,6 @@
+# General strings
 'Hello': 'Bonjour %name%'
+'registration': 'Inscription'
 
 # Associations form
 'Name': 'Association :'
@@ -55,8 +57,11 @@
 'Contact external tel': 'Téléphone du contact externe'
 'File': 'Image'
 
-
-
+# Registration form
+'Last name': 'Nom :'
+'First name': 'Prénom :'
+'Plain password': 'Password :'
+'Rgpd': 'Vous devez accepter le Règlement Général sur la Protection des Données'
 
 
 
