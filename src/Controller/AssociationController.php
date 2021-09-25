@@ -128,6 +128,7 @@ class AssociationController extends AbstractController
         $association->setLinkedin('deleted');
         $association->setYoutube('deleted');
         $association->setTwitter('deleted');
+        // TODO : When association delete user must loose is role
 
         $em->flush();
 
