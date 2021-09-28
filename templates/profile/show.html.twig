@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% set display_name = user.firstName ~ ' ' ~ user.lastName %}
+{% block title %}JeBenevole - Profile de {{ display_name }}{% endblock %}
+
+{% block body %}
+    <h1>Profile du bénévole {{ display_name }}</h1>
+    <table>
+
+        {% if user.picture is not null %}
+            <img width="200" height="200" src="{{asset('images/users/' ~ user.picture)}}" alt="Image du profil.">
+        {% endif %}
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ user.lastName }}</td>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.email }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <p>{{ user.description }}</p>
+    {% if is_granted('edit', user) %}
+    <a href="{{ path('edit_profile', {'slug': user.slug} ) }}">Lien</a>
+    {% endif %}
+
+{#    <img src="{{asset('images/offers/' ~ offer.file)}}" alt="Image de l'offre.">#}
+{% endblock %}
