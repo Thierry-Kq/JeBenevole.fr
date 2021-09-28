@@ -111,7 +111,7 @@ class AssociationType extends AbstractType
             ->add('facebook', UrlType::class, [
                 'required' => false,
                 'constraints' => [new Length(['max' => 200]), new Url(), new Regex([
-                    'pattern' => '/^(https?:\/\/)?(www\.)?facebook\.com\/[a-zA-Z0-9_]*$/',
+                    'pattern' => '/^(https?:\/\/)?(www\.)?([A-Za-z]{2}-[A-Za-z]{2}.)?facebook\.com\/[a-zA-Z0-9_]*$/',
                     'message' => 'LinkPattern_notValid'])]])
             ->add('linkedin', UrlType::class, [
                 'required' => false,
