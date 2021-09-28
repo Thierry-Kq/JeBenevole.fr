@@ -45,7 +45,7 @@
 
 # General template
 'no_result': 'Il n''y a pas de résultat !'
-
+'non_unique': 'Ce nom est déjà utilisé !'
 
 # Offers form
 'Date start': 'Date de début'

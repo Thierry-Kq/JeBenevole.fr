@@ -7,6 +7,7 @@ use App\Form\AssociationType;
 use App\Service\UploadService;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\AssociationsRepository;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -56,7 +57,13 @@ class AssociationController extends AbstractController
             $association->setSlug($slug);
 
             $em->persist($association);
-            $em->flush();
+            try{
+                $em->flush();
+            }catch(Exception $e){
+                $this->addFlash('warning', 'non_unique');
+                return $this->redirectToRoute('new_association');
+            }
+
             return $this->redirectToRoute('show_association', ['slug' => $slug]);
         }
 
@@ -89,10 +96,16 @@ class AssociationController extends AbstractController
                 $association->setPicture($associationOldPicture);
             }
 
+            $oldSlug = $association->getSlug();
             $association = $form->getData();
             $slug = $slugger->slug($association->getName());
             $association->setSlug($slug);
-            $em->flush();
+            try{
+                $em->flush();
+            }catch(Exception $e){
+                $this->addFlash('warning', 'non_unique');
+                return $this->redirectToRoute('edit_association', ['slug' => $oldSlug]);
+            }
 
             return $this->redirectToRoute('show_association', ['slug' => $association->getSlug()]);
         }
