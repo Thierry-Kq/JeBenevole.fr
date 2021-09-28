@@ -6,6 +6,7 @@ use App\Entity\Offers;
 use App\Form\OfferType;
 use App\Repository\OffersRepository;
 use App\Service\UploadService;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -60,6 +61,7 @@ class OfferController extends AbstractController
         $form->handleRequest($request);
 
         $route = $request->get('_route');
+
         if ($form->isSubmitted() && $form->isValid())
         {
             $image = $form->get('file')->getData();
@@ -72,9 +74,13 @@ class OfferController extends AbstractController
 
 //            $offers->setUsers($users);
 //            $offers->setAssociations();
-
             $em->persist($offers);
-            $em->flush();
+            try {
+                $em->flush();
+            } catch (Exception $e){
+                $this->addFlash('warning', 'non_unique');
+                return $this->redirectToRoute($route);
+            }
 
             $targetPath = $route === 'new_offer' ? 'show_offer' : 'show_request';
             return $this->redirectToRoute($targetPath, ['slug' => $slug]);
@@ -107,7 +113,6 @@ class OfferController extends AbstractController
 
         $form = $this->createForm(OfferType::class, $offers);
         $form->handleRequest($request);
-
         $route = $request->get('_route');
 
         if ($form->isSubmitted() && $form->isValid())
@@ -120,14 +125,21 @@ class OfferController extends AbstractController
                 $offers->setFile($offersOldPicture);
             }
 
+            $oldSlug = $offers->getSlug();
             $offers = $form->getData();
-            $slug = $slugger->slug($offers->getTitle());
-            $offers->setSlug($slug);
-            $em->flush();
+            $newSlug = $slugger->slug($offers->getTitle());
+            $offers->setSlug($newSlug);
+
+            try {
+                $em->flush();
+            } catch (Exception $e){
+                $this->addFlash('warning', 'non_unique');
+                return $this->redirectToRoute($route, ['slug' => $oldSlug]);
+            }
 
             $targetPath = $route === 'edit_offer' ? 'show_offer' : 'show_request';
 
-            return $this->redirectToRoute($targetPath, ['slug' => $offers->getSlug()]);
+            return $this->redirectToRoute($targetPath, ['slug' => $newSlug]);
         }
 
         return $this->render('offer/create-and-edit.html.twig', [
