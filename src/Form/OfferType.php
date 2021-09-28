@@ -130,12 +130,7 @@ class OfferType extends AbstractType
                         'minMessage' => 'min_length'
                     ])
                 ]
-            ])
-//            ->add('longitude')
-//            ->add('status')
-//            ->add('latitude')
-//            ->add('recommended')
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

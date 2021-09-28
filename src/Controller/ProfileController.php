@@ -8,6 +8,7 @@ use App\Service\UploadService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProfileController extends AbstractController
@@ -17,21 +18,28 @@ class ProfileController extends AbstractController
      */
     public function display(Users $user){
 
+        if ($user->getIsDeleted()) {
+            throw new HttpException('410');
+        }
+
         return $this->render('profile/show.html.twig', [
             'user' => $user
         ]);
     }
 
-    // todo : slug en dernier -> modif/slug delete/slug
-    // todo : 410
-    // todo : 4 - 15 for phone in entity
     /**
-     * @Route("/profil/{slug}/modification", name="edit_profile")
+     * @Route("/profil/modification/{slug}", name="edit_profile")
      */
-    public function edit(Request $request,
+    public function edit(
+        Request $request,
         Users $user,
-    UploadService $uploadService,
-    EntityManagerInterface $em){
+        UploadService $uploadService,
+        EntityManagerInterface $em
+    ) {
+
+        if ($user->getIsDeleted()) {
+            throw new HttpException('410');
+        }
 
         $this->denyAccessUnlessGranted('edit', $user);
 
@@ -60,18 +68,5 @@ class ProfileController extends AbstractController
             'form' => $form->createView(),
             'user' => $user,
         ]);
-
-
-
     }
-
-//
-//    /**
-//     * @Route("/profil/{slug}/anonymisation", name="anonymize_profile")
-//     */
-//    public function anonymize(){
-//        // only on the connected user profil
-//
-//    }
-
 }

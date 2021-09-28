@@ -38,7 +38,7 @@ class ProfileFormType extends AbstractType
             ->add('fixNumber', null, [
                 'required' => false,
                 'constraints' => [new Length([
-                    'max' => 15,
+                    'max' => 20,
                     'maxMessage' => 'max_length',
                     'min' => 4,
                     'minMessage' => 'min_length'
@@ -47,7 +47,7 @@ class ProfileFormType extends AbstractType
             ->add('cellNumber', null, [
                 'required' => false,
                 'constraints' => [new Length([
-                    'max' => 15,
+                    'max' => 20,
                     'maxMessage' => 'max_length',
                     'min' => 4,
                     'minMessage' => 'min_length'
