@@ -72,7 +72,7 @@ class AssociationType extends AbstractType
             ])
             ->add('fixNumber', null, [
                 'required' => false,
-                'constraints' => [new Length(['max' => 15,
+                'constraints' => [new Length(['max' => 20,
                 'maxMessage' => 'max_length',
                 'min' => 4,
                 'minMessage' => 'min_length'
@@ -80,7 +80,7 @@ class AssociationType extends AbstractType
             ])
             ->add('cellNumber', null, [
                 'required' => false,
-                'constraints' => [new Length(['max' => 15,
+                'constraints' => [new Length(['max' => 20,
                 'maxMessage' => 'max_length',
                 'min' => 4,
                 'minMessage' => 'min_length'
@@ -88,7 +88,7 @@ class AssociationType extends AbstractType
             ])
             ->add('faxNumber', null, [
                 'required' => false,
-                'constraints' => [new Length(['max' => 15,
+                'constraints' => [new Length(['max' => 20,
                 'maxMessage' => 'max_length',
                 'min' => 4,
                 'minMessage' => 'min_length'
