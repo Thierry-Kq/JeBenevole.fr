@@ -8,7 +8,6 @@ use UnexpectedValueException;
 
 class isFromYoutubeValidator extends ConstraintValidator
 {
-    const LIEN_VALIDE = "youtube.com";
 
     /**
     *@param mixed $value
