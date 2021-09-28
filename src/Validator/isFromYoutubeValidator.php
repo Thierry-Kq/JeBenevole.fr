@@ -17,6 +17,10 @@ class isFromYoutubeValidator extends ConstraintValidator
     public function validate($value, Constraint $constraint): void
     {
 
+        if (null === $value || '' === $value) {
+            return;
+        }
+
         if(!is_string($value)){
             throw new UnexpectedValueException($value, 'string');
         }
