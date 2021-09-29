@@ -27,7 +27,6 @@ class UserVoter extends Voter
             return false;
         }
 
-        // only vote on `Post` objects
         if (!$subject instanceof Users) {
             return false;
         }

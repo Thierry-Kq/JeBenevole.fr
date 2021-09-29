@@ -1,14 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% set display_name = user.firstName ~ ' ' ~ user.lastName %}
-{% block title %}JeBenevole - Profile de {{ display_name }}{% endblock %}
+{% block title %}JeBenevole - Profil de {{ display_name }}{% endblock %}
 
 {% block body %}
-    <h1>Profile du bénévole {{ display_name }}</h1>
+    <h1>Profil du bénévole {{ display_name }}</h1>
     <table>
 
         {% if user.picture is not null %}
-            <img width="200" height="200" src="{{asset('images/users/' ~ user.picture)}}" alt="Image du profil.">
+            {# todo : change this img display with axentix#}
+            <img width="200" height="200" src="{{ asset('images/users/' ~ user.picture) }}" alt="Image du profil.">
         {% endif %}
         <thead>
             <tr>
