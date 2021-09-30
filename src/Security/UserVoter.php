@@ -10,6 +10,9 @@ use Symfony\Component\Security\Core\Security;
 class UserVoter extends Voter
 {
 
+    // todo : actually, since i removed the slug for edit_profile, the voter isnt used
+    // except in show.html.twig to display link to edit_profile and it's unnecessary to keep
+    // the voter for that, remove it soon or adapt it
     const EDIT = 'edit';
 
     private $security;

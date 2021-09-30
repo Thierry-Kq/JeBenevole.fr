@@ -29,8 +29,6 @@
     <br>
     <p>{{ user.description }}</p>
     {% if is_granted('edit', user) %}
-    <a href="{{ path('edit_profile', {'slug': user.slug} ) }}">Lien</a>
+        <a href="{{ path('edit_profile', {'slug': user.slug} ) }}">Lien</a>
     {% endif %}
-
-{#    <img src="{{asset('images/offers/' ~ offer.file)}}" alt="Image de l'offre.">#}
 {% endblock %}

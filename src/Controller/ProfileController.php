@@ -14,8 +14,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfileController extends AbstractController
 {
     /**
-     * @Route("/profil/{slug}", name="show_profile")
+     * @Route("/profil/{slug}", name="show_profile", priority=-1)
      */
+
+//  todo : plutot une route benevole/slug pour le show et /profil pour
+// le profil perso ?
+
     public function display(Users $user){
 
         if ($user->getIsDeleted()) {
@@ -28,20 +32,15 @@ class ProfileController extends AbstractController
     }
 
     /**
-     * @Route("/profil/modification/{slug}", name="edit_profile")
+     * @Route("/profil/modification", name="edit_profile")
      */
     public function edit(
         Request $request,
-        Users $user,
         UploadService $uploadService,
         EntityManagerInterface $em
     ) {
-
-        if ($user->getIsDeleted()) {
-            throw new HttpException('410');
-        }
-
-        $this->denyAccessUnlessGranted('edit', $user);
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $user = $this->getUser();
 
         $userOldPicture = $user->getPicture();
 
