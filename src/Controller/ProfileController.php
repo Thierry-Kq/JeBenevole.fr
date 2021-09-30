@@ -53,8 +53,6 @@ class ProfileController extends AbstractController
             if ($imageChange != null){
                 $uploadService->deleteImage($userOldPicture, 'users');
                 $user->setPicture($uploadService->uploadImage($imageChange, 'users'));
-            } else {
-                $user->setPicture($userOldPicture);
             }
 
             $user = $form->getData();
@@ -65,7 +63,6 @@ class ProfileController extends AbstractController
 
         return $this->render('profile/edit.html.twig', [
             'form' => $form->createView(),
-            'user' => $user,
         ]);
     }
 }
