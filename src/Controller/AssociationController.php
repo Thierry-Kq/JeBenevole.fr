@@ -92,20 +92,12 @@ class AssociationController extends AbstractController
             if($imageChange != null){
                 $uploadService->deleteImage($associationOldPicture, 'associations');
                 $association->setPicture($uploadService->uploadImage($imageChange, 'associations'));
-            }else{
-                $association->setPicture($associationOldPicture);
             }
 
-            $oldSlug = $association->getSlug();
             $association = $form->getData();
             $slug = $slugger->slug($association->getName());
             $association->setSlug($slug);
-            try{
-                $em->flush();
-            }catch(Exception $e){
-                $this->addFlash('warning', 'non_unique');
-                return $this->redirectToRoute('edit_association', ['slug' => $oldSlug]);
-            }
+            $em->flush();
 
             return $this->redirectToRoute('show_association', ['slug' => $association->getSlug()]);
         }
