@@ -2,9 +2,10 @@
 
 namespace App\Validator;
 
+use UnexpectedValueException;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
-use UnexpectedValueException;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class isFromYoutubeValidator extends ConstraintValidator
 {
@@ -15,6 +16,10 @@ class isFromYoutubeValidator extends ConstraintValidator
     */
     public function validate($value, Constraint $constraint): void
     {
+
+        if (!$constraint instanceof isFromYoutube) {
+            throw new UnexpectedTypeException($constraint, isFromYoutube::class);
+        }
 
         if (null === $value || '' === $value) {
             return;
