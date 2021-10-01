@@ -138,6 +138,11 @@ class OfferType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Offers::class,
+            'constraints' => [
+              new UniqueEntity([
+                  'fields' => 'title',
+                  'message' => 'unique'])
+            ]
         ]);
     }
 }
