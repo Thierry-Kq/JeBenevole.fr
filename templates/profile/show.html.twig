@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+{% set user = app.user %}
 {% set display_name = user.firstName ~ ' ' ~ user.lastName %}
 {% block title %}JeBenevole - Profil de {{ display_name }}{% endblock %}
 
@@ -28,7 +29,5 @@
     </table>
     <br>
     <p>{{ user.description }}</p>
-    {% if is_granted('edit', user) %}
-        <a href="{{ path('edit_profile', {'slug': user.slug} ) }}">Lien</a>
-    {% endif %}
+    <a href="{{ path('edit_profile', {'slug': user.slug} ) }}">Lien</a>
 {% endblock %}

@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class OfferType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('title', TextType::class, [
@@ -84,7 +84,7 @@ class OfferType extends AbstractType
                 'label'    => 'Cette offre est urgente?',
                 'required' => false
             ])
-            ->add('description', TextareaType::class, [])
+            ->add('description', TextareaType::class)
             ->add('dateStart', DateType::class, [
                 'widget' => 'choice',
             ])
@@ -98,7 +98,8 @@ class OfferType extends AbstractType
                         'maxSize' => '1024',
                     ])
                 ],
-                'data_class' => null])
+                'data_class' => null
+            ])
             ->add('contactExternalName', TextType::class, [
                 'required' => false,
                 'constraints' => [
@@ -133,7 +134,7 @@ class OfferType extends AbstractType
             ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Offers::class,

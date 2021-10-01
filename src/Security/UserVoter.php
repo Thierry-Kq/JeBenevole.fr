@@ -22,7 +22,7 @@ class UserVoter extends Voter
         $this->security = $security;
     }
 
-    protected function supports(string $attribute, $subject)
+    protected function supports(string $attribute, $subject): bool
     {
 
         // if the attribute isn't one we support, return false
@@ -37,7 +37,7 @@ class UserVoter extends Voter
         return true;
     }
 
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
 
@@ -49,5 +49,5 @@ class UserVoter extends Voter
             return true;
         }
         return $user === $subject ? true : false;
-  }
+   }
 }

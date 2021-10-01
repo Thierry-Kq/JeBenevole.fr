@@ -2,33 +2,24 @@
 
 namespace App\Controller;
 
-use App\Entity\Users;
 use App\Form\ProfileFormType;
 use App\Service\UploadService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProfileController extends AbstractController
 {
     /**
-     * @Route("/profil/{slug}", name="show_profile", priority=-1)
+     * @Route("/profil", name="show_profile")
      */
+    public function display(): Response {
 
-//  todo : plutot une route benevole/slug pour le show et /profil pour
-// le profil perso ?
+        $this->denyAccessUnlessGranted('ROLE_USER');
 
-    public function display(Users $user){
-
-        if ($user->getIsDeleted()) {
-            throw new HttpException('410');
-        }
-
-        return $this->render('profile/show.html.twig', [
-            'user' => $user
-        ]);
+        return $this->render('profile/show.html.twig');
     }
 
     /**
@@ -38,7 +29,7 @@ class ProfileController extends AbstractController
         Request $request,
         UploadService $uploadService,
         EntityManagerInterface $em
-    ) {
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
 

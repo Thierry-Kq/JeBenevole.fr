@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints\Length;
 
 class ProfileFormType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('description', TextareaType::class, [
@@ -34,7 +34,8 @@ class ProfileFormType extends AbstractType
                         'maxSize' => '1024k',
                     ])
                 ],
-                'data_class' => null])
+                'data_class' => null
+            ])
             ->add('fixNumber', null, [
                 'required' => false,
                 'constraints' => [new Length([
@@ -54,7 +55,8 @@ class ProfileFormType extends AbstractType
                 ])]
             ]);
     }
-    public function configureOptions(OptionsResolver $resolver)
+
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Users::class,
