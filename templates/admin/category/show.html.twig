@@ -1,0 +1,30 @@
+ {% extends 'base.html.twig' %} {# todo : Extend base admin front #}
+
+{% block title %}JeBenevole - {{ category.name }}{% endblock %}
+
+{% block body %}
+    <h1>{{ category.name }}</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Active</th>
+                <th>Supprimer</th>
+                <th>Couleur</th>
+                {%if category.parent !=null %}<th>Catégorie parent</th> {% endif %}
+                <th>Sous catégorie(s)</th> 
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ category.isActived }}</td>
+                <td>{{ category.isDeleted }}</td>
+                <td>{{ category.color }}</td>
+                {%if category.parent !=null %}<td>{{ category.parent }}</td>{% endif %}
+                <td> {% for child in childrens %} child {% endfor %}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <p>{{ category.description }}</p>
+    <img src="{{asset('images/categories/' ~ category.picture)}}" alt="Image de la categorie.">
+{% endblock %}
