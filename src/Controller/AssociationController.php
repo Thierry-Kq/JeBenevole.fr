@@ -4,17 +4,37 @@ namespace App\Controller;
 
 use App\Entity\Associations;
 use App\Form\AssociationType;
-use App\Repository\AssociationsRepository;
 use App\Service\UploadService;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\AssociationsRepository;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AssociationController extends AbstractController
 {
+    /**
+     * @Route("/associations", name="associations")
+     */
+    public function list(Request $request, AssociationsRepository $repository): Response
+    {
+        $page = $request->query->getInt('page', 1);
+        if ($page <= 0) {
+            $page = 1;
+            $paginator = $repository->findAllAssociations($page, 3);
+        } else {
+            $paginator = $repository->findAllAssociations($page, 3);
+            $paginator = empty($paginator['items']) ? $repository->findAllAssociations(1, 3) : $paginator;
+        }
+        return $this->render('association/list.html.twig', [
+            'paginator' => $paginator
+        ]);
+    }
+
     /**
      * @Route("/associations/creation", name="new_association")
      */
@@ -37,7 +57,13 @@ class AssociationController extends AbstractController
             $association->setSlug($slug);
 
             $em->persist($association);
-            $em->flush();
+            try{
+                $em->flush();
+            }catch(Exception $e){
+                $this->addFlash('warning', 'non_unique');
+                return $this->redirectToRoute('new_association');
+            }
+
             return $this->redirectToRoute('show_association', ['slug' => $slug]);
         }
 
@@ -47,28 +73,14 @@ class AssociationController extends AbstractController
     }
 
     /**
-     * @Route("/associations", name="associations")
-     */
-    public function list(Request $request, AssociationsRepository $repository): Response
-    {
-        $page = $request->query->getInt('page', 1);
-        if ($page <= 0) {
-            $page = 1;
-            $paginator = $repository->findAllAssociations($page, 3);
-        } else {
-            $paginator = $repository->findAllAssociations($page, 3);
-            $paginator = empty($paginator['items']) ? $repository->findAllAssociations(1, 3) : $paginator;
-        }
-        return $this->render('association/list.html.twig', [
-            'paginator' => $paginator
-        ]);
-    }
-
-    /**
      * @Route("/associations/modification/{slug}", name="edit_association")
      */
     public function edit(Request $request, Associations $association, EntityManagerInterface $em, SluggerInterface $slugger, UploadService $uploadService): Response
     {
+        if ($association->getIsDeleted()) {
+            throw new HttpException('410');
+        }
+
         $associationOldPicture = $association->getPicture();
 
         $form = $this->createForm(AssociationType::class, $association);
@@ -80,8 +92,6 @@ class AssociationController extends AbstractController
             if($imageChange != null){
                 $uploadService->deleteImage($associationOldPicture, 'associations');
                 $association->setPicture($uploadService->uploadImage($imageChange, 'associations'));
-            }else{
-                $association->setPicture($associationOldPicture);
             }
 
             $association = $form->getData();
@@ -99,10 +109,14 @@ class AssociationController extends AbstractController
     }
 
     /**
-     * @Route("/associations/suppression/{slug}", name="delete_association")
+     * @Route("/associations/anonymisation/{slug}", name="anonymize_association")
      */
-    public function delete(Associations $association, EntityManagerInterface $em): Response
+    public function anonymize(Associations $association, EntityManagerInterface $em): Response
     {
+        if ($association->getIsDeleted()) {
+            throw new HttpException('410');
+        }
+
         $association->setIsDeleted(1);
 
         $association->setName('deleted');
@@ -119,10 +133,11 @@ class AssociationController extends AbstractController
         $association->setLinkedin('deleted');
         $association->setYoutube('deleted');
         $association->setTwitter('deleted');
+        // TODO : When association delete user must loose is role
 
         $em->flush();
 
-        return $this->redirectToRoute('associations'); // In futur this should redirect user to homepage
+        return $this->redirectToRoute('associations'); // TODO : In futur this should redirect user to homepage
     }
 
     /**
@@ -130,6 +145,9 @@ class AssociationController extends AbstractController
      */
     public function show(Associations $association): Response
     {
+        if ($association->getIsDeleted()) {
+            throw new HttpException('410');
+        }
 
         return $this->render('association/show.html.twig', [
             'association' => $association
