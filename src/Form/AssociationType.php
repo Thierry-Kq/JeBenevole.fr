@@ -3,19 +3,21 @@
 namespace App\Form;
 
 use App\Entity\Associations;
+use App\Validator\isFromYoutube;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Url;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Regex;
-use Symfony\Component\Validator\Constraints\Url;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 class AssociationType extends AbstractType
 {
@@ -24,62 +26,82 @@ class AssociationType extends AbstractType
         $builder
             ->add('name', null, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
-                    new Length(['max' => 100])                   
+                    new NotBlank(['message' => 'required_field']),
+                    new Length(['max' => 100,
+                    'maxMessage' => 'max_length',
+                    'min' => 2,
+                    'minMessage' => 'min_length'
+                    ])                   
                 ]
             ])
             ->add('email', EmailType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new NotBlank(['message' => 'required_field']),
                     new Email()
                 ]
             ])
             ->add('address', null, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
-                    new Length(['max' => 100])
+                    new NotBlank(['message' => 'required_field']),
+                    new Length(['max' => 100,
+                    'maxMessage' => 'max_length',
+                    'min' => 2,
+                    'minMessage' => 'min_length'
+                    ])
                     
                 ]
             ])
             ->add('zip', null, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
-                    new Length(['max' => 10])
+                    new NotBlank(['message' => 'required_field']),
+                    new Length(['max' => 10,
+                    'maxMessage' => 'max_length',
+                    'min' => 5,
+                    'minMessage' => 'min_length'])
                 ]
             ])
             ->add('city', null, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
-                    new Length(['max' => 100])
+                    new NotBlank(['message' => 'required_field']),
+                    new Length(['max' => 100,
+                    'maxMessage' => 'max_length',
+                    'min' => 2,
+                    'minMessage' => 'min_length'
+                    ])
                 ]
-                ])
+            ])
             ->add('fixNumber', null, [
                 'required' => false,
-                'constraints' => [new Length(['max' => 10])]
-                ])
+                'constraints' => [new Length(['max' => 20,
+                'maxMessage' => 'max_length',
+                'min' => 4,
+                'minMessage' => 'min_length'
+                ])]
+            ])
             ->add('cellNumber', null, [
                 'required' => false,
-                'constraints' => [new Length(['max' => 10])]
-                ])
+                'constraints' => [new Length(['max' => 20,
+                'maxMessage' => 'max_length',
+                'min' => 4,
+                'minMessage' => 'min_length'
+                ])]
+            ])
             ->add('faxNumber', null, [
                 'required' => false,
-                'constraints' => [new Length(['max' => 10])]
-                ])
+                'constraints' => [new Length(['max' => 20,
+                'maxMessage' => 'max_length',
+                'min' => 4,
+                'minMessage' => 'min_length'
+                ])]
+            ])
             ->add('description', TextareaType::class, [
                 'required' => false,
                 ])
             ->add('picture', FileType::class, [
                 'required' => false,
                 'constraints' => [
-                    new File([
+                    new Image([
                         'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            "image/png", 
-                            "image/jpeg", 
-                            "image/jpg", 
-                            "image/gif"
-                        ],
-                        'mimeTypesMessage' => 'Image non valide. Problème de format ou de taille.',
                     ])
                 ],
                 'data_class' => null])
@@ -89,19 +111,21 @@ class AssociationType extends AbstractType
             ->add('facebook', UrlType::class, [
                 'required' => false,
                 'constraints' => [new Length(['max' => 200]), new Url(), new Regex([
-                    'pattern' => '/facebook\.com\/[a-zA-Z0-9_]*$/'])]])
+                    'pattern' => '/^(https?:\/\/)?(www\.)?([A-Za-z]{2}-[A-Za-z]{2}.)?facebook\.com\/[a-zA-Z0-9_]*$/',
+                    'message' => 'LinkPattern_notValid'])]])
             ->add('linkedin', UrlType::class, [
                 'required' => false,
                 'constraints' => [new Length(['max' => 200]), new Url(), new Regex([
-                    'pattern' => '/linkedin\.com\/[a-zA-Z0-9_]*$/'])]])
+                    'pattern' => '/^(https?:\/\/)?(www\.)?linkedin\.com\/[a-zA-Z0-9_]*$/',
+                    'message' => 'LinkPattern_notValid'])]])
             ->add('youtube', UrlType::class, [
                 'required' => false,
-                'constraints' => [new Length(['max' => 200]), new Url(), new Regex([
-                    'pattern' => '/youtube\.com\/[a-zA-Z0-9_]*$/'])]])
+                'constraints' => [new isFromYoutube()]])
             ->add('twitter', UrlType::class, [
                 'required' => false,
                 'constraints' => [new Length(['max' => 200]), new Url(), new Regex([
-                    'pattern' => '/twitter\.com\/[a-zA-Z0-9_]*$/'])]])
+                    'pattern' => '/^(https?:\/\/)?(www\.)?twitter\.com\/[a-zA-Z0-9_]*$/',
+                    'message' => 'LinkPattern_notValid'])]])
         ;
     }
 
@@ -109,6 +133,11 @@ class AssociationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Associations::class,
+            'constraints' => [
+                new UniqueEntity([
+                    'fields' => 'name',
+                    'message' => 'unique'])
+              ]
         ]);
     }
 }

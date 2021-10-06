@@ -1,4 +1,7 @@
 'Hello': 'Bonjour %name%'
+# Administration general
+'Is deleted': 'Supprimer? '
+'Is actived': 'Active? '
 
 # Associations form
 'Name': 'Association :'
@@ -18,6 +21,18 @@
 'association_edit_title': 'Modifier une Association'
 'association_list_title': 'Liste des associations'
 
+# Category form
+'Categorie': 'Categorie :'
+'Image_categorie': 'Image de la categorie :'
+'Color': 'Couleur :'
+'Parent': 'Categorie parent :'
+
+# Categories templates
+'category_list_page_title': 'liste des categories'
+'category_create_page_title': 'créer ou éditer une categorie'
+'category_create_title': 'Créer une categorie'
+'category_edit_title': 'Modifier une categorie'
+'category_list_title': 'Liste des categories'
 # Offers templates
 'offers_list_page_title': 'liste des offres'
 'offers_create_page_title': 'créer ou éditer une offre'
@@ -45,7 +60,7 @@
 
 # General template
 'no_result': 'Il n''y a pas de résultat !'
-
+'non_unique': 'Ce nom est déjà utilisé !'
 
 # Offers form
 'Date start': 'Date de début'
