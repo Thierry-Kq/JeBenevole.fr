@@ -1,7 +1,9 @@
+# General strings
 'Hello': 'Bonjour %name%'
 # Administration general
 'Is deleted': 'Supprimer? '
 'Is actived': 'Active? '
+'registration': 'Inscription'
 
 # Associations form
 'Name': 'Association :'
@@ -70,10 +72,14 @@
 'Contact external tel': 'Téléphone du contact externe'
 'File': 'Image'
 
+# Users form
+'Last name': 'Nom :'
+'First name': 'Prénom :'
+'Plain password': 'Password :'
+'Rgpd': 'Vous devez accepter le Règlement Général sur la Protection des Données'
 
-
-
-
+# Users templates
+'user_edit_title': 'Modifier le profil'
 
 
 

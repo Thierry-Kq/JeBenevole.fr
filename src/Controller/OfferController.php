@@ -39,7 +39,6 @@ class OfferController extends AbstractController
         ]);
     }
 
-
     /**
      * @Route("/offres/creation", name="new_offer")
      * @Route("/demandes/creation", name="new_request")
@@ -60,6 +59,7 @@ class OfferController extends AbstractController
         $form->handleRequest($request);
 
         $route = $request->get('_route');
+
         if ($form->isSubmitted() && $form->isValid())
         {
             $image = $form->get('file')->getData();
@@ -86,7 +86,6 @@ class OfferController extends AbstractController
         ]);
     }
 
-
     /**
      * @Route("/offres/modification/{slug}", name="edit_offer")
      * @Route("/demandes/modification/{slug}", name="edit_request")
@@ -107,7 +106,6 @@ class OfferController extends AbstractController
 
         $form = $this->createForm(OfferType::class, $offers);
         $form->handleRequest($request);
-
         $route = $request->get('_route');
 
         if ($form->isSubmitted() && $form->isValid())
@@ -116,13 +114,8 @@ class OfferController extends AbstractController
             if ($imageChange != null){
                 $uploadService->deleteImage($offersOldPicture, 'offers');
                 $offers->setFile($uploadService->uploadImage($imageChange, 'offers'));
-            } else {
-                $offers->setFile($offersOldPicture);
             }
 
-            $offers = $form->getData();
-            $slug = $slugger->slug($offers->getTitle());
-            $offers->setSlug($slug);
             $em->flush();
 
             $targetPath = $route === 'edit_offer' ? 'show_offer' : 'show_request';
@@ -136,7 +129,7 @@ class OfferController extends AbstractController
             'route' => $route
         ]);
     }
-//
+
     /**
      * @Route("/offres/suppression/{slug}", name="delete_offer")
      * @Route("/demandes/suppression/{slug}", name="delete_request")
