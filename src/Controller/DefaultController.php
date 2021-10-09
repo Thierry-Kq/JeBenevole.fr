@@ -10,8 +10,14 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="homepage")
      */
-
     public function homepage(){
-        return $this->render('homepage.html.twig');
+        return $this->render('default/homepage.html.twig');
+    }
+
+    /**
+     * @Route("/rgpd", name="rgpd")
+     */
+    public function rgpd() {
+        return $this->render('default/rgpd.html.twig');
     }
 }
