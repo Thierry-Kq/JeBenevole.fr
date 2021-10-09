@@ -43,4 +43,21 @@ class AssociationsRepository extends ServiceEntityRepository
 
        return $this->paginatorService->paginate($query, $resultByPage, $page);
     }
+
+    // todo : rename both findAll
+    /**
+     * @return Paginator Returns an instance of paginator
+     */
+    public function findAllAssociationsAdmin(int $page, int $resultByPage = 10): array
+    {
+        $firstResult = ($page * $resultByPage) - $resultByPage;
+
+        $query = $this->createQueryBuilder('a')
+            ->setMaxResults($resultByPage)
+            ->setFirstResult($firstResult)
+            ->getQuery();
+
+        return $this->paginatorService->paginate($query, $resultByPage, $page);
+    }
+
 }

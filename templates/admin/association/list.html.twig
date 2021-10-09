@@ -4,93 +4,23 @@
 
 {% block body %}
 {#    <h1>{{ (route ~ '_list_title')|trans }}</h1>#}
-
+    <div class="p-3 my-2 rounded-2 hide" id="message-ajax"></div>
     {% if paginator['items'] is not empty %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Description</th>
-                    <th>Couleur</th>
-                    <th>Supprimer?</th>
-                    <th>Active?</th>
-                    <th>Supprimer</th>
-                    <th>Modifier</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for category in paginator['items'] %}
+                {% for association in paginator['items'] %}
                     <div>
-                    {{ category.name }}
-                    <a class="js-like" href="{{ path('admin_anonymize_association', {'slug': category.slug})}}" data-token="{{ csrf_token('anonymize' ~ category.slug) }}">
-ICON ICI                    </a>
+                    {{ association.name }}
+                    {% if not association.isDeleted %}
+                        <a class="anonymize" href="{{ path('admin_anonymize_association', {'slug': association.slug})}}" data-token="{{ csrf_token('anonymize' ~ association.slug) }}">
+                            anonymize icon
+                        </a>
+                    {% endif %}
+                        <a href="{{ path('admin_delete_association', {'slug': association.slug}) }}" data-token="{{ csrf_token('delete' ~ association.slug) }}" class="delete">delete icon</a>
                     </div>
-{#                    <tr>#}
-{#                        <td>{{ category.name }}</td>#}
-{#                        <td>{{ category.description }}</td>#}
-{#                        <td>{{ category.color }}</td>#}
-{#                        <td>{{ category.isDeleted }}</td>#}
-{#                        <td>{{ category.isActived }}</td>#}
-{#                        <td><a href="{{ path('delete_category', {'slug': category.slug}) }}">Supprimer</a></td>#}
-{#                        <td><a href="{{ path('edit_category', {'slug': category.slug}) }}">Modifier</a></td>#}
-{#                    </tr>#}
                 {% endfor %}
-            </tbody>
-        </table>
 
         {% include 'partials/_paginator.html.twig' %}
     {% else %}
         <p>{% trans %}no_result{% endtrans %}</p>
     {% endif %}
 
-{% endblock %}
-
-{% block javascripts %}
-    <script>
-        document.addEventListener("DOMContentLoaded", function(event) {
-            document.querySelectorAll('a.js-like').forEach(function(link){
-                link.addEventListener('click', onClickChooseAName);
-            })
-        });
-
-{#todo : rename js like + confirm_action transkey#}
-        function onClickChooseAName(event){
-            event.preventDefault();
-            if (confirm('{{ 'confirm_action' }}')) {
-
-                const token = this.dataset.token;
-                if (typeof token !== 'string' || token === '') {
-                    // do something
-                    console.log('error');
-                } else {
-                    console.log('no error');
-
-                    const url = this.href;
-
-                    // console.log(this.dataset.token);
-                    fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({'_token': token})
-                    })
-                        // , {
-                        // body: JSON.stringify({"_token": this.dataset.token})
-                    // })
-                        .then(response => {
-                            this.parentNode.remove();
-                            console.log('ici');
-                            console.log(this.parentNode);
-                            console.log(response)
-                        })
-                        .catch(error => {
-                            // handle the error
-                    });
-                }
-
-            };
-
-        }
-    </script>
 {% endblock %}

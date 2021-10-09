@@ -8,6 +8,7 @@
         {% block stylesheets %}{% endblock %}
 
         <script defer src="{{ asset('assets/js/axentix.min.js') }}"></script>
+        <script src="{{ asset('assets/js/admin.js') }}"></script>
         {% block javascripts %}{% endblock %}
 
     </head>
@@ -23,6 +24,7 @@
         <a href="{{ path('app_login') }}">Connexion</a>
         <a href="{{ path('app_register') }}">Inscription</a>
         <a href="{{ path('app_logout') }}">Logout</a>
+        <a href="{{ path('admin_dashboard') }}">Administration</a>
 
         {% block body %}{% endblock %}
     </body>
