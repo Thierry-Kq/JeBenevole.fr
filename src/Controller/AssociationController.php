@@ -40,6 +40,7 @@ class AssociationController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $em, UploadService $uploadService, SluggerInterface $slugger): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
 
         $association = new Associations();
 
@@ -55,6 +56,7 @@ class AssociationController extends AbstractController
 
             $slug = $slugger->slug($association->getName());
             $association->setSlug($slug);
+            $association->setUsers($this->getUser());
 
             $em->persist($association);
             try{
@@ -80,6 +82,7 @@ class AssociationController extends AbstractController
         if ($association->getIsDeleted()) {
             throw new HttpException('410');
         }
+        $this->denyAccessUnlessGranted('edit', $association);
 
         $associationOldPicture = $association->getPicture();
 
@@ -116,6 +119,7 @@ class AssociationController extends AbstractController
         if ($association->getIsDeleted()) {
             throw new HttpException('410');
         }
+        $this->denyAccessUnlessGranted('anonymize', $association);
 
         $association->setIsDeleted(1);
 
@@ -133,7 +137,6 @@ class AssociationController extends AbstractController
         $association->setLinkedin('deleted');
         $association->setYoutube('deleted');
         $association->setTwitter('deleted');
-        // TODO : When association delete user must loose is role
 
         $em->flush();
 
