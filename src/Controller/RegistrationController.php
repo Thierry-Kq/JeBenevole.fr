@@ -37,7 +37,7 @@ class RegistrationController extends AbstractController
     {
 
         if ($this->getUser()) {
-            return $this->redirectToRoute('associations'); // todo : redirect to home
+            return $this->redirectToRoute('homepage');
         }
 
         $user = new Users();

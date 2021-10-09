@@ -137,7 +137,7 @@ class AssociationController extends AbstractController
 
         $em->flush();
 
-        return $this->redirectToRoute('associations'); // TODO : In futur this should redirect user to homepage
+        return $this->redirectToRoute('homepage');
     }
 
     /**
