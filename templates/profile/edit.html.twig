@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JeBenevole - {{ 'user_edit_title'|trans }}{% endblock %}
+
+{% block body %}
+
+    <h1>{{ 'user_edit_title'|trans }}</h1>
+
+    {{ form_start(form) }}
+
+    <fieldset>
+        {{ form_label(form.description) }}
+        {{ form_errors(form.description) }}
+        {{ form_widget(form.description) }}
+    </fieldset>
+
+    <fieldset>
+        {{ form_label(form.picture) }}
+        {{ form_errors(form.picture) }}
+        {{ form_widget(form.picture) }}
+    </fieldset>
+
+    <fieldset>
+        {{ form_label(form.cellNumber) }}
+        {{ form_errors(form.cellNumber) }}
+        {{ form_widget(form.cellNumber) }}
+    </fieldset>
+
+    <fieldset>
+        {{ form_label(form.fixNumber) }}
+        {{ form_errors(form.fixNumber) }}
+        {{ form_widget(form.fixNumber) }}
+    </fieldset>
+
+    <button type="submit" class="btn btn-primary">{{ 'form_btn_valider'|trans}}</button>
+    {{ form_end(form) }}
+{% endblock %}
