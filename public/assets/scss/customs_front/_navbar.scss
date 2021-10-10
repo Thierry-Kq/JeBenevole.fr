@@ -1,0 +1,22 @@
+body{
+  background-color: $secondary;
+}
+
+.navbar-link{
+
+  &.active{
+    background-color: transparent !important;
+      color: $error !important;
+  }
+
+    &:hover{
+      background-color: transparent !important;
+      color: $warning !important;
+    }
+  }
+
+.navbar-menu{
+  justify-content: space-around;
+}
+
+    

@@ -1,0 +1,30 @@
+//------------------------------------------------------------
+// useful for initialization
+//------------------------------------------------------------
+@import '../axentix/scss/core/normalize';
+@import '../axentix/scss/utilities/mixins';
+@import '../axentix/scss/utilities/functions';
+@import '../axentix/scss/utilities/variables';
+@import '../axentix/scss/core/base';
+
+@import '../axentix/scss/components/utilities';
+
+//------------------------------------------------------------
+// colors here
+//------------------------------------------------------------
+@import '../axentix/scss/components/navbar';
+@import '../axentix/scss/components/sidenav';
+@import '../axentix/scss/components/utilities/alignments';
+@import '../axentix/scss/components/utilities/margin-padding';
+@import '../axentix/scss/components/utilities/borders';
+@import '../axentix/scss/components/utilities/rounded';
+@import '../axentix/scss/components/utilities/shadows';
+@import './customs_front/colors.scss';
+@import '../axentix/scss/core/colors';
+@import '../axentix/scss/components/pagination';
+
+//------------------------------------------------------------
+//Custom import (by alphabetical order)
+//------------------------------------------------------------
+@import './customs_front/footer.scss';
+@import './customs_front/navbar.scss';
