@@ -145,8 +145,7 @@ class OfferType extends AbstractType
                 ]
             ]);
         if (in_array($this->requestStack->getCurrentRequest()->get('_route'), ['new_offer', 'edit_offer']) ) {
-            $builder
-                ->add('associations', EntityType::class, [
+            $builder->add('associations', EntityType::class, [
                     'class' => Associations::class,
                     'query_builder' => function (EntityRepository $entityRepository){
                         return $entityRepository->findAllByUserId($this->security->getUser()->getId());
@@ -154,7 +153,7 @@ class OfferType extends AbstractType
                     'choice_label' => 'name',
                     'placeholder' => 'Choisissez une association'
                 ]);
-            }
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

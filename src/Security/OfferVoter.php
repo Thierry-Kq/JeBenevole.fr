@@ -64,8 +64,8 @@ class OfferVoter extends Voter
         }
     }
 
-    private function canCreate($user) {
-        dump('can create');
+    private function canCreate($user): bool
+    {
         switch ($this->route) {
             case 'new_offer':
                 return $user->getAssociations()->count() > 0;
@@ -76,7 +76,7 @@ class OfferVoter extends Voter
         }
     }
 
-    private function canEditOrAnonymize($subject, $user)
+    private function canEditOrAnonymize($subject, $user): bool
     {
         /** @var Offers $offer */
         $offer = $subject;

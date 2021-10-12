@@ -38,9 +38,8 @@
 
     <fieldset>
         {{ form_errors(registrationForm.rgpd) }}
+        <label for="rgpd">Vous devez accepter le <a href="{{ path('rgpd') }}">Règlement Général sur la Protection des Données</a></label>
         {{ form_widget(registrationForm.rgpd) }}
-        {{ form_label(registrationForm.rgpd) }}
-        <a href="{{ path('rgpd') }}">Lien vers le RGPD</a>
     </fieldset>
 
         <button type="submit" class="btn">{{ register}}</button>
