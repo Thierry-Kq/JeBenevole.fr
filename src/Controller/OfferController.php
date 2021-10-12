@@ -50,15 +50,15 @@ class OfferController extends AbstractController
         SluggerInterface $slugger
     ): Response
     {
-        // todo : if user without asso on offer  -> redirect to request ( set a ROLE for associations owner ? )
-        // todo : so maybe split this route or this Controller
-
         $offers = new Offers();
+
+        $this->denyAccessUnlessGranted('create', $offers);
+
+        $route = $request->get('_route');
 
         $form = $this->createForm(OfferType::class, $offers);
         $form->handleRequest($request);
 
-        $route = $request->get('_route');
 
         if ($form->isSubmitted() && $form->isValid())
         {
@@ -102,6 +102,8 @@ class OfferController extends AbstractController
             throw new HttpException('410');
         }
 
+        $this->denyAccessUnlessGranted('edit', $offers);
+
         $offersOldPicture = $offers->getFile();
 
         $form = $this->createForm(OfferType::class, $offers);
@@ -131,8 +133,8 @@ class OfferController extends AbstractController
     }
 
     /**
-     * @Route("/offres/suppression/{slug}", name="delete_offer")
-     * @Route("/demandes/suppression/{slug}", name="delete_request")
+     * @Route("/offres/anonymisation/{slug}", name="anonymize_offer")
+     * @Route("/demandes/anonymisation/{slug}", name="anonymize_request")
      */
     public function delete(
         Offers $offers,
@@ -144,10 +146,11 @@ class OfferController extends AbstractController
         if ($offers->getIsDeleted()) {
             throw new HttpException('410');
         }
+        $this->denyAccessUnlessGranted('anonymize', $offers);
 
         $route = $request->get('_route');
 
-        $targetPath = $route === 'delete_offer' ? 'offers' : 'requests';
+        $targetPath = $route === 'anonymize_offer' ? 'offers' : 'requests';
 
         $offers->setIsDeleted(1);
 
