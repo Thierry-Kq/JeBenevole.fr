@@ -70,8 +70,9 @@ class OfferController extends AbstractController
             $slug = $slugger->slug($offers->getTitle());
             $offers->setSlug($slug);
 
-//            $offers->setUsers($users);
-//            $offers->setAssociations();
+            if ($route === 'new_request') {
+                $offers->setUsers($this->getUser());
+            }
 
             $em->persist($offers);
             $em->flush();
@@ -94,7 +95,6 @@ class OfferController extends AbstractController
         Request $request,
         Offers $offers,
         EntityManagerInterface $em,
-        SluggerInterface $slugger,
         UploadService $uploadService
     ): Response
     {
