@@ -1,22 +1,26 @@
-body{
-  background-color: $secondary;
+.navbar .navbar-menu .navbar-link{
+  &.active{
+    background-color: transparent;
+      color: $error;
+  }
+  &:hover{
+    background-color: transparent;
+    color: $warning;
+  }
 }
 
-.navbar-link{
-
+.sidenav .sidenav-link{
   &.active{
-    background-color: transparent !important;
-      color: $error !important;
+    background-color: transparent;
+    color: $error;
   }
-
-    &:hover{
-      background-color: transparent !important;
-      color: $warning !important;
-    }
+  &:hover{
+    background-color: transparent;
+    color: $warning;
   }
+}
 
 .navbar-menu{
   justify-content: space-around;
 }
-
     

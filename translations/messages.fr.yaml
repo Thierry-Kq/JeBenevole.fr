@@ -1,20 +1,20 @@
 # General strings
-'Hello': 'Bonjour %name%'
+
 # Administration general
 'Is deleted': 'Supprimer? '
 'Is actived': 'Active? '
 'registration': 'Inscription'
 
 # Associations form
-'Name': 'Association :'
-'Address': 'Adresse :'
-'Zip': 'Code postal :'
-'City': 'Ville :'
-'Web site': 'Site internet :'
-'Facebook': 'Lien Facebook :'
-'Linkedin': 'Lien LinkedIn :'
-'Youtube': 'Lien Youtube :'
-'Twitter': 'Lien Twitter :'
+'Name': 'Association'
+'Address': 'Adresse'
+'Zip': 'Code postal'
+'City': 'Ville'
+'Web site': 'Site internet'
+'Facebook': 'Lien Facebook'
+'Linkedin': 'Lien LinkedIn'
+'Youtube': 'Lien Youtube'
+'Twitter': 'Lien Twitter'
 
 # Associations templates
 'association_list_page_title': 'liste des associations'
@@ -24,10 +24,10 @@
 'association_list_title': 'Liste des associations'
 
 # Category form
-'Categorie': 'Categorie :'
-'Image_categorie': 'Image de la categorie :'
-'Color': 'Couleur :'
-'Parent': 'Categorie parent :'
+'Categorie': 'Categorie'
+'Image_categorie': 'Image de la categorie'
+'Color': 'Couleur'
+'Parent': 'Categorie parent'
 
 # Categories templates
 'category_list_page_title': 'liste des categories'
@@ -50,12 +50,12 @@
 'requests_list_title': 'Liste des demandes'
 
 # General form
-'Fax number': 'Fax :'
-'Fix number': 'Numéro fixe :'
-'Cell number': 'Numéro cellulaire :'
-'Description': 'Description :'
-'Picture': 'Logo :'
-'Email': 'Email :'
+'Fax number': 'Fax'
+'Fix number': 'Numéro fixe'
+'Cell number': 'Numéro cellulaire'
+'Description': 'Description'
+'Picture': 'Logo'
+'Email': 'Email'
 'form_btn_creer': 'Créer'
 'form_btn_modifier': 'Modifier'
 'form_btn_valider': 'Valider'
@@ -73,10 +73,13 @@
 'File': 'Image'
 
 # Users form
-'Last name': 'Nom :'
-'First name': 'Prénom :'
-'Plain password': 'Password :'
+'inscription_form_title': 'Formulaire d''inscription'
+'Last name': 'Nom'
+'First name': 'Prénom'
+'plain_password': 'Mot de passe'
+'repeated_plain_password': 'Confirmer mot de passe'
 'Rgpd': 'Vous devez accepter le Règlement Général sur la Protection des Données'
+'already_registered': 'Déjà inscrit'
 
 # Users templates
 'user_edit_title': 'Modifier le profil'

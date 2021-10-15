@@ -1,18 +1,95 @@
     {{ form_start(form) }}
-        <div>{{ form_row(form.name) }}</div>
-        <div>{{ form_row(form.email) }}</div>
-        <div>{{ form_row(form.address) }}</div>
-        <div>{{ form_row(form.zip) }}</div>
-        <div>{{ form_row(form.city) }}</div>
-        <div>{{ form_row(form.fixNumber) }}</div>
-        <div>{{ form_row(form.cellNumber) }}</div>
-        <div>{{ form_row(form.faxNumber) }}</div>
-        <div>{{ form_row(form.description) }}</div>
-        <div>{{ form_row(form.picture) }}</div>
-        <div>{{ form_row(form.webSite) }}</div>
-        <div>{{ form_row(form.facebook) }}</div>  
-        <div>{{ form_row(form.youtube) }}</div>  
-        <div>{{ form_row(form.linkedin) }}</div>  
-        <div>{{ form_row(form.twitter) }}</div>        
-        <button class="btn primary">{{ button|default('form_btn_valider'|trans)}}</button>
+
+        <fieldset class="form-field inline">
+            {{ form_label(form.name) }}
+            {{ form_errors(form.name) }}
+            {{ form_widget(form.name) }}
+        </fieldset>
+
+        <fieldset class="form-field inline">
+            {{ form_label(form.email) }}
+            {{ form_errors(form.email) }}
+            {{ form_widget(form.email) }}
+        </fieldset>
+
+        <fieldset class="form-field inline">
+            {{ form_label(form.address) }}
+            {{ form_errors(form.address) }}
+            {{ form_widget(form.address) }}
+        </fieldset>
+
+        <fieldset class="form-field inline">
+            {{ form_label(form.zip) }}
+            {{ form_errors(form.zip) }}
+            {{ form_widget(form.zip) }}
+        </fieldset>
+
+        <fieldset class="form-field inline">
+            {{ form_label(form.city) }}
+            {{ form_errors(form.city) }}
+            {{ form_widget(form.city) }}
+        </fieldset>
+
+        <fieldset class="form-field inline">
+            {{ form_label(form.fixNumber) }}
+            {{ form_errors(form.fixNumber) }}
+            {{ form_widget(form.fixNumber) }}
+        </fieldset>
+
+        <fieldset class="form-field inline">
+            {{ form_label(form.cellNumber) }}
+            {{ form_errors(form.cellNumber) }}
+            {{ form_widget(form.cellNumber) }}
+        </fieldset>
+
+        <fieldset class="form-field inline">
+            {{ form_label(form.faxNumber) }}
+            {{ form_errors(form.faxNumber) }}
+            {{ form_widget(form.faxNumber) }}
+        </fieldset>
+
+        <fieldset class="form-field inline">
+            {{ form_label(form.description) }}
+            {{ form_errors(form.description) }}
+            {{ form_widget(form.description) }}
+        </fieldset>
+
+        <fieldset class="form-file inline">
+            {{ form_label(form.picture) }}
+            {{ form_errors(form.picture) }}
+            {{ form_widget(form.picture) }}
+        </fieldset>
+
+        <fieldset class="form-field inline">
+            {{ form_label(form.webSite) }}
+            {{ form_errors(form.webSite) }}
+            {{ form_widget(form.webSite) }}
+        </fieldset>
+
+        <fieldset class="form-field inline">
+            {{ form_label(form.facebook) }}
+            {{ form_errors(form.facebook) }}
+            {{ form_widget(form.facebook) }}
+        </fieldset>
+
+        <fieldset class="form-field inline">
+            {{ form_label(form.youtube) }}
+            {{ form_errors(form.youtube) }}
+            {{ form_widget(form.youtube) }}
+        </fieldset>
+
+        <fieldset class="form-field inline">
+            {{ form_label(form.linkedin) }}
+            {{ form_errors(form.linkedin) }}
+            {{ form_widget(form.linkedin) }}
+        </fieldset>
+
+        <fieldset class="form-field inline">
+            {{ form_label(form.twitter) }}
+            {{ form_errors(form.twitter) }}
+            {{ form_widget(form.twitter) }}
+        </fieldset>
+    
+        <button class="btn primary mx-auto my-2">{{ button|default('form_btn_valider'|trans)}}</button>
+
     {{ form_end(form) }}
