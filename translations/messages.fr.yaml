@@ -55,7 +55,7 @@
 'Cell number': 'Numéro cellulaire'
 'Description': 'Description'
 'Picture': 'Logo'
-'Email': 'Email'
+'Email': 'Email*'
 'form_btn_creer': 'Créer'
 'form_btn_modifier': 'Modifier'
 'form_btn_valider': 'Valider'
@@ -74,10 +74,10 @@
 
 # Users form
 'inscription_form_title': 'Formulaire d''inscription'
-'Last name': 'Nom'
-'First name': 'Prénom'
-'plain_password': 'Mot de passe'
-'repeated_plain_password': 'Confirmer mot de passe'
+'Last name': 'Nom*'
+'First name': 'Prénom*'
+'plain_password': 'Mot de passe*'
+'repeated_plain_password': 'Confirmer mot de passe*'
 'Rgpd': 'Vous devez accepter le Règlement Général sur la Protection des Données'
 'already_registered': 'Déjà inscrit'
 

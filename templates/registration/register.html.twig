@@ -1,5 +1,7 @@
 {% extends 'layout_front_office.html.twig' %}
 
+{% from "macros/form.twig" import fieldset %}
+
 {% block title %}{% trans %}registration{% endtrans %}{% endblock %}
 
 {% block body %}
@@ -11,41 +13,17 @@
             <h1 class="txt-center">{% trans %}inscription_form_title{% endtrans %}</h1>
             {{ form_start(registrationForm,{'attr': {'class': 'grix md1'}}) }}
 
-                <fieldset class="grix xs3 md8">
-                    {{ form_label(registrationForm.lastName,'',{'label_attr': {'class': 'self-left txt-left col-xs1 col-md3'}}) }}
-                    {{ form_errors(registrationForm.lastName, {'attr': {'class': 'form-helper'}}) }}
-                    {{ form_widget(registrationForm.lastName, {'attr': {'class': 'form-control rounded-1 m-1 p-1 col-xs2 col-md5'}}) }}
-                </fieldset>
-
-                <fieldset class="grix xs3 md8">
-                    {{ form_label(registrationForm.firstName,'',{'label_attr': {'class': 'self-left txt-left col-xs1 col-md3'}}) }}
-                    {{ form_errors(registrationForm.firstName, {'attr': {'class': 'form-helper'}}) }}
-                    {{ form_widget(registrationForm.firstName, {'attr': {'class': 'form-control rounded-1 m-1 p-1 col-xs2 col-md5'}}) }}
-                </fieldset>
-
-                <fieldset class="grix xs3 md8">
-                    {{ form_label(registrationForm.email,'',{'label_attr': {'class': 'self-left txt-left col-xs1 col-md3'}}) }}
-                    {{ form_errors(registrationForm.email, {'attr': {'class': 'form-helper'}}) }}
-                    {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control rounded-1 m-1 p-1 col-xs2 col-md5'}}) }}
-                </fieldset>
-
-                <fieldset class="grix xs3 md8">
-                    {{ form_label(registrationForm.plainPassword.first,'',{'label_attr': {'class': 'self-left txt-left col-xs1 col-md3'}}) }}
-                    {{ form_errors(registrationForm.plainPassword.first, {'attr': {'class': 'form-helper'}}) }}
-                    {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control rounded-1 m-1 p-1 col-xs2 col-md5'}}) }}
-                </fieldset>
-
-                <fieldset class="grix xs3 md8">
-                    {{ form_label(registrationForm.plainPassword.second,'',{'label_attr': {'class': 'self-left txt-left col-xs1 col-md3'}}) }}
-                    {{ form_errors(registrationForm.plainPassword.second, {'attr': {'class': 'form-helper'}}) }}
-                    {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control rounded-1 m-1 p-1 col-xs2 col-md5'}}) }}
-                </fieldset>
+                {{ fieldset(registrationForm.lastName) }}
+                {{ fieldset(registrationForm.firstName) }}
+                {{ fieldset(registrationForm.email) }}
+                {{ fieldset(registrationForm.plainPassword.first) }}
+                {{ fieldset(registrationForm.plainPassword.second) }}
 
                 {# todo : add a link to rgpd page + create rgpd page #}
                 <fieldset class="grix xs1 md8">
-                    {{ form_label(registrationForm.rgpd,'',{'label_attr': {'class': ' self-left txt-left col-md3'}}) }}
+                    {{ form_label(registrationForm.rgpd,'',{'label_attr': {'class': ' self-left txt-left col-md7'}}) }}
                     {{ form_errors(registrationForm.rgpd, {'attr': {'class': 'form-helper'}}) }}
-                    {{ form_widget(registrationForm.rgpd, {'attr': {'class': ' m-1 p-1 col-md5 self-right'}}) }}
+                    {{ form_widget(registrationForm.rgpd, {'attr': {'class': ' m-1 p-1 col-md1 self-right'}}) }}
                 </fieldset>
 
                 <button type="submit" class="btn primary mx-auto my-2">{% trans %}form_btn_valider{% endtrans %}</button>
