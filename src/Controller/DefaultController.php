@@ -15,12 +15,4 @@ class DefaultController extends AbstractController
     {
         return $this->render('default/homepage.html.twig');
     }
-
-    /**
-     * @Route("/rgpd", name="rgpd")
-     */
-    public function rgpd(): Response
-    {
-        return $this->render('default/rgpd.html.twig');
-    }
 }

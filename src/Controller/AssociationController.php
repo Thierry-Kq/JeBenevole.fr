@@ -40,9 +40,10 @@ class AssociationController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $em, UploadService $uploadService, SluggerInterface $slugger): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
 
         $association = new Associations();
+
+        $this->denyAccessUnlessGranted('create', $association);
 
         $form = $this->createForm(AssociationType::class, $association);
         $form->handleRequest($request);
@@ -140,7 +141,7 @@ class AssociationController extends AbstractController
 
         $em->flush();
 
-        return $this->redirectToRoute('homepage');
+        return $this->redirectToRoute('associations');
     }
 
     /**

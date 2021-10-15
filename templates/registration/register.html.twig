@@ -38,7 +38,7 @@
 
     <fieldset>
         {{ form_errors(registrationForm.rgpd) }}
-        <label for="rgpd">Vous devez accepter le <a href="{{ path('rgpd') }}">Règlement Général sur la Protection des Données</a></label>
+        <label for="registration_form_rgpd">En soumettant ce formulaire, j'accepte que JeBenevole.fr conserve mes données personnelles via ce formulaire. Aucune exploitation commerciale ne sera faite des données conservées.</label>
         {{ form_widget(registrationForm.rgpd) }}
     </fieldset>
 

@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\Security;
 class AssociationVoter extends Voter
 {
 
+    const CREATE = 'create';
     const EDIT = 'edit';
     const ANONYMIZE = 'anonymize';
 
@@ -23,7 +24,7 @@ class AssociationVoter extends Voter
 
     protected function supports(string $attribute, $subject): bool
     {
-        if (!in_array($attribute, [self::EDIT, self::ANONYMIZE])) {
+        if (!in_array($attribute, [self::CREATE, self::EDIT, self::ANONYMIZE])) {
             return false;
         }
 
@@ -41,6 +42,10 @@ class AssociationVoter extends Voter
             return false;
         }
         if ($this->security->isGranted('ROLE_ADMIN')) {
+            return true;
+        }
+
+        if ($attribute === self::CREATE) {
             return true;
         }
 
