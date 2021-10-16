@@ -36,11 +36,10 @@
         {{ form_widget(registrationForm.plainPassword) }}
     </fieldset>
 
-    {# todo : add a link to rgpd page + create rgpd page #}
     <fieldset>
         {{ form_errors(registrationForm.rgpd) }}
+        <label for="registration_form_rgpd">En soumettant ce formulaire, j'accepte que JeBenevole.fr conserve mes données personnelles via ce formulaire. Aucune exploitation commerciale ne sera faite des données conservées.</label>
         {{ form_widget(registrationForm.rgpd) }}
-        {{ form_label(registrationForm.rgpd) }}
     </fieldset>
 
         <button type="submit" class="btn">{{ register}}</button>

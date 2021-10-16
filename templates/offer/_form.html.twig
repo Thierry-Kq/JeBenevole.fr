@@ -13,6 +13,8 @@
     <div>{{ form_row(form.contactExternalName) }}</div>
     <div>{{ form_row(form.contactExternalEmail) }}</div>
     <div>{{ form_row(form.contactExternalTel) }}</div>
-    {# todo : if offer, choiceType on association #}
+    {% if form.associations is defined %}
+        <div>{{ form_row(form.associations) }}</div>
+    {% endif%}
     <button class="btn btn-primary">{{ button|default('form_btn_valider'|trans)}}</button>
 {{ form_end(form) }}
