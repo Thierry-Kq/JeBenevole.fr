@@ -23,4 +23,13 @@
 .navbar-menu{
   justify-content: space-around;
 }
-    
+
+@mixin mobile-only {
+  @media screen and (max-width: 960px){
+    min-height: 10rem;
+  }
+}
+
+.footer{
+  @include mobile-only;
+}
