@@ -1,4 +1,4 @@
-.navbar .navbar-menu .navbar-link{
+@mixin link-color {
   &.active{
     background-color: transparent;
       color: $error;
@@ -9,27 +9,18 @@
   }
 }
 
+.navbar .navbar-menu .navbar-link{
+  @include link-color;
+}
+
 .sidenav .sidenav-link{
-  &.active{
-    background-color: transparent;
-    color: $error;
-  }
-  &:hover{
-    background-color: transparent;
-    color: $warning;
-  }
+  @include link-color;
 }
 
 .navbar-menu{
   justify-content: space-around;
 }
 
-@mixin mobile-only {
-  @media screen and (max-width: 960px){
-    min-height: 10rem;
-  }
-}
-
-.footer{
-  @include mobile-only;
+ .footer a{
+  @include link-color;
 }
