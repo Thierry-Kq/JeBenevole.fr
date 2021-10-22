@@ -5,13 +5,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{% block title %}JeBenevole{% endblock %}</title>
 
-        <!-- Axentix CSS minified version FROM CDN FOR TEST-->
-        {# <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/axentix@1.3.3/dist/css/axentix.min.css"> #}
-        {# <script defer src="https://cdn.jsdelivr.net/npm/axentix@1.3.3/dist/js/axentix.min.js"></script> #}
         <link rel="stylesheet" href="{{asset('assets/scss/front_office.css')}}">
         {% block stylesheets %}{% endblock %}
 
-        <script defer src="{{asset('assets/axentix/js/axentix.min.js')}}"></script>
+        <script src="{{asset('assets/axentix/js/ax-core.js')}}"></script>
+        <script src="{{asset('assets/axentix/js/ax-data.js')}}"></script>
+        <script src="{{asset('assets/axentix/js/ax-config.js')}}"></script>
+        <script src="{{asset('assets/axentix/js/ax-component.js')}}"></script>
+        <script src="{{asset('assets/axentix/js/utilities.js')}}"></script>
+        <script src="{{asset('assets/axentix/js/sidenav.js')}}"></script>
         {% block javascripts %}{% endblock %}
     </head>
     <body>
