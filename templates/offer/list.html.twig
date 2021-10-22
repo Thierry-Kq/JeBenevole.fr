@@ -25,11 +25,11 @@
                         <td>{{ offer.description }}({{ offer.zip }})</td>
                         {% if route == 'offers' %}
                             <td>{{ offer.name }} </td>
-                            <td><a href="{{ path('delete_offer', {'slug': offer.slug}) }}">Supprimer</a></td>
+                            <td><a href="{{ path('anonymize_offer', {'slug': offer.slug}) }}">Supprimer</a></td>
                             <td><a href="{{ path('edit_offer', {'slug': offer.slug}) }}">Edit</a></td>
                         {% elseif route == 'requests' %}
                             <td>{{ offer.firstName }} {{ offer.lastName }}</td>
-                            <td><a href="{{ path('delete_request', {'slug': offer.slug}) }}">Supprimer</a></td>
+                            <td><a href="{{ path('anonymize_request', {'slug': offer.slug}) }}">Supprimer</a></td>
                             <td><a href="{{ path('edit_request', {'slug': offer.slug}) }}">Edit</a></td>
                         {% endif %}
                     </tr>

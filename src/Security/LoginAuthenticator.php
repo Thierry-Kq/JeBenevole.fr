@@ -50,8 +50,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // todo : redirect on home or profile or something else
-        return new RedirectResponse($this->urlGenerator->generate('associations'));
+        return new RedirectResponse($this->urlGenerator->generate('homepage'));
     }
 
     protected function getLoginUrl(Request $request): string
