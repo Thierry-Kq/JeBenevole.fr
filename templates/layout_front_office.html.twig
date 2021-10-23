@@ -1,13 +1,13 @@
 {% extends ('base.html.twig') %}
 
-{% block navbar %}
-  {% set route = app.request.get('_route') %}
+{% set route = app.request.get('_route') %}
 
+{% block navbar %}
   <header>
     <nav class="navbar shadow-1 primary">
       <a href="#" target="_blank" class="navbar-logo"><img src="{{ absolute_url(asset('assets/logo.png')) }}" alt="Logo" /></a>
       <div class="navbar-menu w100 ml-auto hide-md-down">
-        <a class="navbar-link" href="#">Accueil</a>
+        <a class="navbar-link {% if route == 'homepage' %} active {% endif %}" href="{{ path('homepage') }}">Accueil</a>
         <a class="navbar-link {% if route == 'offers' %} active {% endif %}" href="{{ path('offers') }}">Liste des annonces</a>
         <a class="navbar-link {% if route == 'requests' %} active {% endif %}" href="{{ path('requests') }}">Liste des demandes</a>
         <a class="navbar-link" href="#">Contact</a>
@@ -42,7 +42,7 @@
         </button>
         <img class="sidenav-logo dropshadow-1" src="{{ absolute_url(asset('assets/logo.png')) }}" alt="Logo" />
       </div>
-      <a class="sidenav-link" href="#">Accueil</a>
+      <a class="sidenav-link {% if route == 'homepage' %} active {% endif %}" href="{{ path('homepage') }}">Accueil</a>
         <a class="sidenav-link {% if route == 'offers' %} active {% endif %}" href="{{ path('offers') }}">Liste des annonces</a>
         <a class="sidenav-link {% if route == 'requests' %} active {% endif %}" href="{{ path('requests') }}">Liste des demandes</a>
         <a class="sidenav-link" href="#">Contact</a>
@@ -62,7 +62,7 @@
     <nav class="grix xs2 md4 lg6 w100 txt-center">
       <a class="p-1 col-xs2 col-md1" href="#">Contact</a>
       <a class="p-1 col-xs2 col-md1" href="#">Mentions Légales</a>
-      <a class="p-1 col-xs2 col-md1" href="#">RGPD</a>
+      <a class="p-1 col-xs2 col-md1 {% if route == 'rgpd' %} active {% endif %}" href="{{ path('rgpd') }}">RGPD</a>
       <a class="p-1 col-xs2 col-md1" href="#">Préférence des cookies</a>
       <a class="pos-md2 pos-lg5 p-1" href="#">@Copyright JBenevole.fr</a>
       <a class="pos-md3 pos-lg6 p-1" href="#">L’équipe JeBenevole</a>
