@@ -33,6 +33,7 @@ class UsersFixtures extends Fixture
             $user = new Users();
             $user->setEmail($value . '@gmail.com');
             $user->setFirstName($key);
+            $user->setNickname($value);
             $user->setLastName($value);
             $user->setIsVerified(true);
             $description = ($key === 'Kass') ? 'Si vous avez des questions, c\'est à lui qu\'il faut demander' : 'Description de l\'utilisateur ' . $key . ' ' . $value;
@@ -49,9 +50,13 @@ class UsersFixtures extends Fixture
 
         // users for Associations creation
         for ($i = 0; $i < 10; $i++) {
+
+            $firstName = $faker->firstName . $i;
+
             $user = new Users();
             $user->setEmail($i . $faker->email);
-            $user->setFirstName($faker->firstName . $i);
+            $user->setFirstName($firstName);
+            $user->setNickname($firstName);
             $user->setLastName($faker->lastName);
             $user->setIsVerified(true);
             $user->setDescription($faker->sentence(10));
@@ -67,9 +72,13 @@ class UsersFixtures extends Fixture
 
         // users for Offers creation
         for ($i = 10; $i < 20; $i++) {
+
+            $firstName = $faker->firstName . $i;
+
             $user = new Users();
             $user->setEmail($i . $faker->email);
-            $user->setFirstName($faker->firstName . $i);
+            $user->setFirstName($firstName);
+            $user->setNickname($firstName);
             $user->setLastName($faker->lastName);
             $user->setIsVerified(true);
             $user->setDescription($faker->sentence(10));

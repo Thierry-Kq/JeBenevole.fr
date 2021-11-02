@@ -98,6 +98,11 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private Collection $offers;
 
+    /**
+     * @ORM\Column(type="string", length=50, unique=true)
+     */
+    private ?string $nickname;
+
     public function __construct()
     {
         $this->associations = new ArrayCollection();
@@ -358,5 +363,15 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getNickname(): ?string
+    {
+        return $this->nickname;
+    }
 
+    public function setNickname(?string $nickname): self
+    {
+        $this->nickname = $nickname;
+
+        return $this;
+    }
 }

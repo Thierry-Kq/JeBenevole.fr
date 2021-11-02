@@ -54,8 +54,7 @@ class RegistrationController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
 
-            $user->setSlug($slugger->slug($user->getFirstName()));
-            // todo : if user slug already exist + edit (deleted)
+            $user->setSlug($slugger->slug($user->getNickname()));
 
             $entityManager->persist($user);
             $entityManager->flush();
