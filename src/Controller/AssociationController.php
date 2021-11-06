@@ -63,7 +63,7 @@ class AssociationController extends AbstractController
             try{
                 $em->flush();
             }catch(Exception $e){
-                $this->addFlash('warning', 'non_unique');
+                $this->addFlash('warning', 'not_unique_name');
                 return $this->redirectToRoute('new_association');
             }
 
@@ -101,7 +101,13 @@ class AssociationController extends AbstractController
             $association = $form->getData();
             $slug = $slugger->slug($association->getName());
             $association->setSlug($slug);
-            $em->flush();
+
+            try{
+                $em->flush();
+            }catch(Exception $e){
+                $this->addFlash('warning', 'not_unique_name');
+                return $this->redirectToRoute('edit_association');
+            }
 
             return $this->redirectToRoute('show_association', ['slug' => $association->getSlug()]);
         }

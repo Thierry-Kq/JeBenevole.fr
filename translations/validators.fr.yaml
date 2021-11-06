@@ -6,6 +6,10 @@
 'LinkPattern_notValid': 'Lien non valide.'
 'password_empty': 'Vous devez indiquer votre password'
 'password_unsecure': 'Votre password doit contenir au moins : 1 majuscule, 1 minuscule, 1 caractère spécial et un chiffre'
+'not_unique_title': 'Ce titre est déjà pris !'
+'not_unique_name': 'Ce nom est déjà pris !'
+'not_unique_nickname': 'Ce pseudo est déjà pris !'
+'an_error_occurred': 'Une erreur s''est produite !'
 
 
 
