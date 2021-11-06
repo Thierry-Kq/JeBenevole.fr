@@ -68,10 +68,11 @@ class RegistrationController extends AbstractController
 
             $entityManager->persist($user);
 
-            try{
+            try {
                 $entityManager->flush();
-            }catch(Exception $e){
+            } catch (Exception $e) {
                 $this->addFlash('warning', 'not_unique_nickname');
+
                 return $this->redirectToRoute('app_register');
             }
             $entityManager->flush();

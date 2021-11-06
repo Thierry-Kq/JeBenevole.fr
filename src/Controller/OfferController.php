@@ -77,10 +77,11 @@ class OfferController extends AbstractController
 
             $em->persist($offers);
 
-            try{
+            try {
                 $em->flush();
-            }catch(Exception $e){
+            } catch (Exception $e) {
                 $this->addFlash('warning', 'not_unique_title');
+
                 return $this->redirectToRoute($route);
             }
 
@@ -126,14 +127,16 @@ class OfferController extends AbstractController
                 $offers->setFile($uploadService->uploadImage($imageChange, 'offers'));
             }
 
+            $oldSlug = $offers->getSlug();
             $slug = $slugger->slug($offers->getTitle());
             $offers->setSlug($slug);
 
-            try{
+            try {
                 $em->flush();
-            }catch(Exception $e){
+            } catch (Exception $e) {
                 $this->addFlash('warning', 'not_unique_title');
-                return $this->redirectToRoute($route);
+
+                return $this->redirectToRoute($route, ['slug' => $oldSlug]);
             }
 
             $targetPath = $route === 'edit_offer' ? 'show_offer' : 'show_request';

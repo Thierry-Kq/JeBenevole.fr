@@ -41,10 +41,11 @@ class CategoryController extends AbstractController
 
             $em->persist($category);
 
-            try{
+            try {
                 $em->flush();
-            }catch(Exception $e){
+            } catch (Exception $e) {
                 $this->addFlash('warning', 'not_unique_name');
+
                 return $this->redirectToRoute('new_category');
             }
 
@@ -101,15 +102,17 @@ class CategoryController extends AbstractController
                 $category->setPicture($categoryOldPicture);
             }
 
+            $oldSlug = $category->getSlug();
             $category = $form->getData();
             $slug = $slugger->slug($category->getName());
             $category->setSlug($slug);
 
-            try{
+            try {
                 $em->flush();
-            }catch(Exception $e){
+            } catch (Exception $e) {
                 $this->addFlash('warning', 'not_unique_name');
-                return $this->redirectToRoute('edit_category');
+
+                return $this->redirectToRoute('edit_category', ['slug' => $oldSlug]);
             }
 
             return $this->redirectToRoute('show_category', ['slug' => $category->getSlug()]);
