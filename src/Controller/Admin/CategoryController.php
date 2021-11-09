@@ -98,12 +98,9 @@ class CategoryController extends AbstractController
             if($imageChange != null){
                 $uploadService->deleteImage($categoryOldPicture, 'categories');
                 $category->setPicture($uploadService->uploadImage($imageChange, 'categories'));
-            }else{
-                $category->setPicture($categoryOldPicture);
             }
 
             $oldSlug = $category->getSlug();
-            $category = $form->getData();
             $slug = $slugger->slug($category->getName());
             $category->setSlug($slug);
 
@@ -147,7 +144,13 @@ class CategoryController extends AbstractController
             $item->setParent($actualParentOfTheCategory);
         }
 
-        $em->flush();
+        try {
+            $em->flush();
+        } catch (Exception $e) {
+            $this->addFlash('warning', 'an_error_occurred');
+
+            return $this->redirectToRoute('category');
+        }
 
         return $this->redirectToRoute('category'); // In futur this should redirect user to homepage
     }

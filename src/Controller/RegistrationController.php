@@ -75,7 +75,6 @@ class RegistrationController extends AbstractController
 
                 return $this->redirectToRoute('app_register');
             }
-            $entityManager->flush();
 
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())

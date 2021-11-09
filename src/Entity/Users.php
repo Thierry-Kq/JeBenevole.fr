@@ -101,7 +101,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=50, unique=true)
      */
-    private ?string $nickname;
+    private string $nickname;
 
     public function __construct()
     {
@@ -363,7 +363,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getNickname(): ?string
+    public function getNickname(): string
     {
         return $this->nickname;
     }

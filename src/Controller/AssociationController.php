@@ -124,7 +124,6 @@ class AssociationController extends AbstractController
                 $association->setPicture($uploadService->uploadImage($imageChange, 'associations'));
             }
 
-            $association = $form->getData();
             $slug = $slugger->slug($association->getName());
             $association->setSlug($slug);
 
