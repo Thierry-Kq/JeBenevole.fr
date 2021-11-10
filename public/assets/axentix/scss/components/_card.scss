@@ -1,0 +1,49 @@
+.card {
+  position: relative;
+  margin: 0.5rem 0;
+  align-self: start;
+  word-break: break-word;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  .card-header {
+    font-size: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .card-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+
+    .card-header {
+      padding: 0 0 3rem 0;
+    }
+
+    .card-footer {
+      padding: 3rem 0 0 0;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .card-footer {
+    padding: 1.5rem;
+  }
+
+  .card-image {
+    position: relative;
+
+    img {
+      width: 100%;
+      display: block;
+    }
+  }
+}
+
+// Grix stretch fix
+.grix.vstretch .card {
+  align-self: auto;
+}

@@ -1,0 +1,41 @@
+textarea.form-control {
+  width: 100%;
+  resize: vertical;
+
+  &:not([rows]) {
+    min-height: 6rem;
+    max-height: 30rem;
+  }
+
+  &[rows] {
+    height: initial;
+  }
+}
+
+.form-material {
+  .form-field:not(.form-default) {
+    textarea.form-control {
+      margin-top: 0.75rem;
+      transition: $material-animation-duration ease border;
+    }
+
+    &.active {
+      textarea.form-control {
+        &[disabled] + label,
+        &[readonly] + label {
+          color: $form-disabled-color;
+        }
+      }
+
+      &.is-txtarea-focused {
+        label {
+          color: var(--form-material-color);
+        }
+
+        textarea.form-control {
+          border-bottom: 0.1rem solid var(--form-material-color) !important;
+        }
+      }
+    }
+  }
+}

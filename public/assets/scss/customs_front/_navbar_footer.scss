@@ -1,0 +1,26 @@
+@mixin link-color {
+  &.active{
+    background-color: transparent;
+      color: $error;
+  }
+  &:hover{
+    background-color: transparent;
+    color: $warning;
+  }
+}
+
+.navbar .navbar-menu .navbar-link{
+  @include link-color;
+}
+
+.sidenav .sidenav-link{
+  @include link-color;
+}
+
+.navbar-menu{
+  justify-content: space-around;
+}
+
+ .footer a{
+  @include link-color;
+}
