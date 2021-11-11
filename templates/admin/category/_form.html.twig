@@ -1,10 +1,46 @@
     {{ form_start(form) }}
-        <div>{{ form_row(form.name) }}</div>
-        <div>{{ form_row(form.description) }}</div>
-        <div>{{ form_row(form.picture) }}</div>
-        <div>{{ form_row(form.parent) }}</div>  
-        <div>{{ form_row(form.color) }}</div>
-        <div>{{ form_row(form.isActived) }}</div>
-        <div>{{ form_row(form.isDeleted) }}</div>    
-        <button class="btn btn-primary">{{ button|default('form_btn_valider'|trans)}}</button>
+
+        <fieldset class="form-field inline">
+            {{ form_label(form.name) }}
+            {{ form_errors(form.name) }}
+            {{ form_widget(form.name) }}
+        </fieldset>
+
+        <fieldset class="form-field inline">
+            {{ form_label(form.description) }}
+            {{ form_errors(form.description) }}
+            {{ form_widget(form.description) }}
+        </fieldset>
+
+        <fieldset class="form-file inline">
+            {{ form_label(form.picture) }}
+            {{ form_errors(form.picture) }}
+            {{ form_widget(form.picture) }}
+        </fieldset>
+
+        <fieldset class="form-field inline">
+            {{ form_label(form.parent) }}
+            {{ form_errors(form.parent) }}
+            {{ form_widget(form.parent) }}
+        </fieldset>
+
+        <fieldset class="form-field inline">
+            {{ form_label(form.color) }}
+            {{ form_errors(form.color) }}
+            {{ form_widget(form.color) }}
+        </fieldset>
+
+        <fieldset class="form-field inline">
+            {{ form_label(form.isActived) }}
+            {{ form_errors(form.isActived) }}
+            {{ form_widget(form.isActived) }}
+        </fieldset>
+
+        <fieldset class="form-field inline">
+            {{ form_label(form.isDeleted) }}
+            {{ form_errors(form.isDeleted) }}
+            {{ form_widget(form.isDeleted) }}
+        </fieldset>
+
+        <button class="btn primary mx-auto my-2">{{ button|default('form_btn_valider'|trans)}}</button>
     {{ form_end(form) }}

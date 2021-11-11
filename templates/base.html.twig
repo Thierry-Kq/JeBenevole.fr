@@ -2,28 +2,23 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{% block title %}JeBenevole{% endblock %}</title>
 
-        <link rel="stylesheet" href="{{asset('assets/css/axentix.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/scss/front_office.css')}}">
         {% block stylesheets %}{% endblock %}
 
-        <script defer src="{{ asset('assets/js/axentix.min.js') }}"></script>
+        <script src="{{asset('assets/axentix/js/ax-core.js')}}"></script>
+        <script src="{{asset('assets/axentix/js/ax-data.js')}}"></script>
+        <script src="{{asset('assets/axentix/js/ax-config.js')}}"></script>
+        <script src="{{asset('assets/axentix/js/ax-component.js')}}"></script>
+        <script src="{{asset('assets/axentix/js/utilities.js')}}"></script>
+        <script src="{{asset('assets/axentix/js/sidenav.js')}}"></script>
         {% block javascripts %}{% endblock %}
-
     </head>
     <body>
-
-        {# DEBUG NAVBAR #}
-
-        <a href="{{ path('associations') }}">associations</a>
-        <a href="{{ path('new_association') }}">new_association</a>
-        <a href="{{ path('offers') }}">offers</a>
-        <a href="{{ path('requests') }}">requests</a>
-        <a href="{{ path('new_offer') }}">new_offer</a>
-        <a href="{{ path('app_login') }}">Connexion</a>
-        <a href="{{ path('app_register') }}">Inscription</a>
-        <a href="{{ path('app_logout') }}">Logout</a>
-
+        {% block navbar %}{% endblock %}
         {% block body %}{% endblock %}
+        {% block footer %}{% endblock %}
     </body>
 </html>
