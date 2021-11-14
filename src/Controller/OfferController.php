@@ -7,6 +7,7 @@ use App\Form\OfferType;
 use App\Repository\OffersRepository;
 use App\Service\UploadService;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -75,7 +76,14 @@ class OfferController extends AbstractController
             }
 
             $em->persist($offers);
-            $em->flush();
+
+            try {
+                $em->flush();
+            } catch (Exception $e) {
+                $this->addFlash('warning', 'not_unique_title');
+
+                return $this->redirectToRoute($route);
+            }
 
             $targetPath = $route === 'new_offer' ? 'show_offer' : 'show_request';
             return $this->redirectToRoute($targetPath, ['slug' => $slug]);
@@ -95,7 +103,8 @@ class OfferController extends AbstractController
         Request $request,
         Offers $offers,
         EntityManagerInterface $em,
-        UploadService $uploadService
+        UploadService $uploadService,
+        SluggerInterface $slugger
     ): Response
     {
         if ($offers->getIsDeleted()) {
@@ -118,7 +127,17 @@ class OfferController extends AbstractController
                 $offers->setFile($uploadService->uploadImage($imageChange, 'offers'));
             }
 
-            $em->flush();
+            $oldSlug = $offers->getSlug();
+            $slug = $slugger->slug($offers->getTitle());
+            $offers->setSlug($slug);
+
+            try {
+                $em->flush();
+            } catch (Exception $e) {
+                $this->addFlash('warning', 'not_unique_title');
+
+                return $this->redirectToRoute($route, ['slug' => $oldSlug]);
+            }
 
             $targetPath = $route === 'edit_offer' ? 'show_offer' : 'show_request';
 

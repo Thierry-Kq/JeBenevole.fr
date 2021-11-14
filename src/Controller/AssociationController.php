@@ -38,9 +38,14 @@ class AssociationController extends AbstractController
     /**
      * @Route("/associations/creation", name="new_association")
      */
-    public function create(Request $request, EntityManagerInterface $em, UploadService $uploadService, SluggerInterface $slugger): Response
+    public function create(
+        Request $request,
+        EntityManagerInterface $em,
+        UploadService $uploadService,
+        SluggerInterface $slugger,
+        AssociationsRepository $associationsRepository
+    ): Response
     {
-
         $association = new Associations();
 
         $this->denyAccessUnlessGranted('create', $association);
@@ -50,6 +55,12 @@ class AssociationController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
+            if ($associationsRepository->findOneBy(['email' => $form->get('email')->getData()])) {
+                $this->addFlash('warning', 'an_error_occurred');
+
+                return $this->redirectToRoute('new_association');
+            }
+
             $image = $form->get('picture')->getData();
             if ($image != null){
                 $association->setPicture($uploadService->uploadImage($image, 'associations'));
@@ -60,10 +71,11 @@ class AssociationController extends AbstractController
             $association->setUsers($this->getUser());
 
             $em->persist($association);
-            try{
+            try {
                 $em->flush();
-            }catch(Exception $e){
-                $this->addFlash('warning', 'non_unique');
+            } catch (Exception $e) {
+                $this->addFlash('warning', 'not_unique_name');
+
                 return $this->redirectToRoute('new_association');
             }
 
@@ -78,7 +90,14 @@ class AssociationController extends AbstractController
     /**
      * @Route("/associations/modification/{slug}", name="edit_association")
      */
-    public function edit(Request $request, Associations $association, EntityManagerInterface $em, SluggerInterface $slugger, UploadService $uploadService): Response
+    public function edit(
+        Request $request,
+        Associations $association,
+        EntityManagerInterface $em,
+        SluggerInterface $slugger,
+        UploadService $uploadService,
+        AssociationsRepository $associationsRepository
+    ): Response
     {
         if ($association->getIsDeleted()) {
             throw new HttpException('410');
@@ -92,16 +111,29 @@ class AssociationController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
+            $oldSlug = $association->getSlug();
+            if ($associationsRepository->findOneBy(['email' => $form->get('email')->getData()])) {
+                $this->addFlash('warning', 'an_error_occurred');
+
+                return $this->redirectToRoute('edit_association', ['slug' => $oldSlug]);
+            }
+
             $imageChange = $form->get('picture')->getData();
             if($imageChange != null){
                 $uploadService->deleteImage($associationOldPicture, 'associations');
                 $association->setPicture($uploadService->uploadImage($imageChange, 'associations'));
             }
 
-            $association = $form->getData();
             $slug = $slugger->slug($association->getName());
             $association->setSlug($slug);
-            $em->flush();
+
+            try {
+                $em->flush();
+            } catch (Exception $e) {
+                $this->addFlash('warning', 'not_unique_name');
+
+                return $this->redirectToRoute('edit_association', ['slug' => $oldSlug]);
+            }
 
             return $this->redirectToRoute('show_association', ['slug' => $association->getSlug()]);
         }
