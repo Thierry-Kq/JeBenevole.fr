@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{% block title %}JeBenevole{% endblock %}</title>
 
-
+        <link rel="stylesheet" href="{{asset('assets/scss/front_office.css')}}">
         {% block stylesheets %}{% endblock %}
 
         <script src="{{asset('assets/axentix/js/ax-core.js')}}"></script>
@@ -15,6 +15,7 @@
         <script src="{{asset('assets/axentix/js/utilities.js')}}"></script>
         <script src="{{asset('assets/axentix/js/sidenav.js')}}"></script>
         <script src="{{ asset('assets/js/admin.js') }}"></script>
+
         {% block javascripts %}{% endblock %}
     </head>
     <body>

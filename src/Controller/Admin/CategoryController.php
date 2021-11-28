@@ -7,6 +7,7 @@ use App\Form\CategoryType;
 use App\Service\UploadService;
 use App\Repository\CategoriesRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,7 +40,15 @@ class CategoryController extends AbstractController
             $category->setSlug($slug);
 
             $em->persist($category);
-            $em->flush();
+
+            try {
+                $em->flush();
+            } catch (Exception $e) {
+                $this->addFlash('warning', 'not_unique_name');
+
+                return $this->redirectToRoute('new_category');
+            }
+
             return $this->redirectToRoute('show_category', ['slug' => $slug]);
         }
 
@@ -73,7 +82,7 @@ class CategoryController extends AbstractController
      * @Route("/categories/modification/{slug}", name="edit_category")
      */
     public function edit(Request $request, Categories $category, EntityManagerInterface $em, SluggerInterface $slugger, UploadService $uploadService): Response
-    {    
+    {
         if ($category->getIsDeleted()) {
             throw new HttpException('410');
         }
@@ -89,14 +98,19 @@ class CategoryController extends AbstractController
             if($imageChange != null){
                 $uploadService->deleteImage($categoryOldPicture, 'categories');
                 $category->setPicture($uploadService->uploadImage($imageChange, 'categories'));
-            }else{
-                $category->setPicture($categoryOldPicture);
             }
 
-            $category = $form->getData();
+            $oldSlug = $category->getSlug();
             $slug = $slugger->slug($category->getName());
             $category->setSlug($slug);
-            $em->flush();
+
+            try {
+                $em->flush();
+            } catch (Exception $e) {
+                $this->addFlash('warning', 'not_unique_name');
+
+                return $this->redirectToRoute('edit_category', ['slug' => $oldSlug]);
+            }
 
             return $this->redirectToRoute('show_category', ['slug' => $category->getSlug()]);
         }
@@ -129,8 +143,14 @@ class CategoryController extends AbstractController
         foreach ($category->getChildren() as $item){ // When we delete a parent with childrens => childrens get parent category of parent or null (if children's parent had no parent)
             $item->setParent($actualParentOfTheCategory);
         }
-        
-        $em->flush();
+
+        try {
+            $em->flush();
+        } catch (Exception $e) {
+            $this->addFlash('warning', 'an_error_occurred');
+
+            return $this->redirectToRoute('category');
+        }
 
         return $this->redirectToRoute('category'); // In futur this should redirect user to homepage
     }

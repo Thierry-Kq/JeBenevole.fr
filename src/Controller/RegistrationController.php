@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Users;
 use App\Form\RegistrationFormType;
+use App\Repository\UsersRepository;
 use App\Security\EmailVerifier;
 use App\Security\LoginAuthenticator;
+use Exception;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
@@ -33,7 +35,9 @@ class RegistrationController extends AbstractController
         UserPasswordHasherInterface $passwordEncoder,
         SluggerInterface $slugger,
         UserAuthenticatorInterface $authenticator,
-        LoginAuthenticator $login): Response
+        LoginAuthenticator $login,
+        UsersRepository $usersRepository
+    ): Response
     {
 
         if ($this->getUser()) {
@@ -45,6 +49,12 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($usersRepository->findOneBy(['email' => $form->get('email')->getData()])) {
+                $this->addFlash('warning', 'an_error_occurred');
+                return $this->redirectToRoute('app_register');
+            }
+
             $user->setPassword(
                 $passwordEncoder->hashPassword(
                     $user,
@@ -54,11 +64,17 @@ class RegistrationController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
 
-            $user->setSlug($slugger->slug($user->getFirstName()));
-            // todo : if user slug already exist + edit (deleted)
+            $user->setSlug($slugger->slug($user->getNickname()));
 
             $entityManager->persist($user);
-            $entityManager->flush();
+
+            try {
+                $entityManager->flush();
+            } catch (Exception $e) {
+                $this->addFlash('warning', 'not_unique_nickname');
+
+                return $this->redirectToRoute('app_register');
+            }
 
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())

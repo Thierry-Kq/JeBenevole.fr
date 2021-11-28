@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Users;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Email;
@@ -32,7 +33,7 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new NotBlank(['message' => 'required_field']),
                     new Length([
-                        'max' => 60,
+                        'max' => 50,
                         'maxMessage' => 'max_length',
                         'min' => 2,
                         'minMessage' => 'min_length'
@@ -43,9 +44,20 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new NotBlank(['message' => 'required_field']),
                     new Length([
-                        'max' => 60,
+                        'max' => 50,
                         'maxMessage' => 'max_length',
                         'min' => 2,
+                        'minMessage' => 'min_length'
+                    ])
+                ]
+            ])
+            ->add('nickname', TextType::class, [
+                'constraints' => [
+                    new NotBlank(['message' => 'required_field']),
+                    new Length([
+                        'max' => 50,
+                        'maxMessage' => 'max_length',
+                        'min' => 5,
                         'minMessage' => 'min_length'
                     ])
                 ]
@@ -85,6 +97,12 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Users::class,
+            'constraints' => [
+                new UniqueEntity([
+                    'fields' => 'nickname',
+                    'message' => 'unique'],
+                )
+            ]
         ]);
     }
 }
