@@ -1,0 +1,229 @@
+/*** Some helpers classes ***/
+
+// Typography
+@for $i from 1 through 9 {
+  .font-w#{$i}00 {
+    font-weight: #{$i}00 !important;
+  }
+}
+
+@each $name, $size in $font-sizes {
+  .font-s#{$name} {
+    font-size: #{$size} !important;
+  }
+}
+
+/// Shadows
+@import './utilities/shadows';
+
+// Width
+.w100 {
+  width: 100% !important;
+}
+
+// Height
+.h100 {
+  height: 100% !important;
+}
+
+// Display
+@each $display in $displays {
+  .d-#{$display} {
+    display: #{$display} !important;
+  }
+}
+
+// Flex
+.fx-col {
+  flex-direction: column !important;
+}
+
+.fx-col-reverse {
+  flex-direction: column-reverse !important;
+}
+
+.fx-row {
+  flex-direction: row !important;
+}
+
+.fx-row-reverse {
+  flex-direction: row-reverse !important;
+}
+
+.fx-grow {
+  flex-grow: 1 !important;
+}
+
+.fx-wrap {
+  flex-wrap: wrap !important;
+}
+
+.fx-nowrap {
+  flex-wrap: nowrap !important;
+}
+
+.fx-wrap-reverse {
+  flex-wrap: wrap-reverse !important;
+}
+
+// Hide elements
+.hide {
+  display: none !important;
+}
+
+@each $name, $value in $breakpoints {
+  @media #{$value} {
+    .hide-#{$name} {
+      display: none !important;
+    }
+  }
+}
+
+@each $name, $value in $extra-breakpoints {
+  @media #{$value} {
+    .hide-#{$name} {
+      display: none !important;
+    }
+  }
+}
+
+// Alignments
+@import './utilities/alignments';
+
+// Margin / Padding
+@import './utilities/margin-padding';
+
+// Borders
+@import './utilities/borders';
+
+// Truncate
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Divider
+.divider {
+  width: 100%;
+  border-bottom: solid;
+  border-width: thin;
+  border-color: rgba(0, 0, 0, 0.3);
+}
+
+// Blockquote
+.blockquote {
+  border-left: 5px solid getColor('primary');
+  margin: 0;
+  padding: 1rem 2rem;
+}
+
+// Container
+.container {
+  width: 75%;
+  @extend .mx-auto;
+
+  @include responsive('sm-down') {
+    width: 85%;
+  }
+
+  @include responsive('xs') {
+    width: 90%;
+  }
+}
+
+// Rounded
+@import './utilities/rounded';
+
+// Text format
+.lowercase {
+  text-transform: lowercase !important;
+}
+
+.uppercase {
+  text-transform: uppercase !important;
+}
+
+.capitalize {
+  text-transform: capitalize !important;
+}
+
+// Positions
+.absolute-pos {
+  position: absolute !important;
+}
+
+.fixed-pos {
+  position: fixed !important;
+}
+
+.relative-pos {
+  position: relative !important;
+}
+
+// Cursors
+@each $cursor in $cursors {
+  .cursor-#{$cursor} {
+    cursor: #{$cursor} !important;
+  }
+}
+
+// Overflows
+@each $overflow in $overflows {
+  .overflow-#{$overflow} {
+    overflow: #{$overflow} !important;
+  }
+
+  .overflow-x-#{$overflow} {
+    overflow-x: #{$overflow} !important;
+  }
+
+  .overflow-y-#{$overflow} {
+    overflow-y: #{$overflow} !important;
+  }
+}
+
+// Line heights
+.lh-normal {
+  line-height: normal !important;
+}
+
+@each $name, $value in $lh-relative {
+  .lh-#{$name} {
+    line-height: #{$value} !important;
+  }
+}
+
+@each $name, $value in $lh-rem {
+  .lh-rem-#{$name} {
+    line-height: #{$value} !important;
+  }
+}
+
+// Z-index
+@for $i from 0 through 10 {
+  .z-index-#{$i} {
+    z-index: #{$i} !important;
+  }
+}
+
+// Opacity
+.opacity-0 {
+  opacity: 0 !important;
+}
+
+@for $i from 1 through 9 {
+  .opacity-#{$i * 10} {
+    opacity: unquote(0 + '.' + #{$i}) !important;
+  }
+}
+
+.opacity-100 {
+  opacity: 1 !important;
+}
+
+// Media
+.responsive-media {
+  max-width: 100%;
+  height: auto;
+}

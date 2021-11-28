@@ -1,0 +1,50 @@
+//------------------------------------------------------------
+// useful for initialization
+//------------------------------------------------------------
+@import '../axentix/scss/core/normalize';
+@import '../axentix/scss/utilities/mixins';
+@import '../axentix/scss/utilities/functions';
+@import '../axentix/scss/utilities/variables';
+@import '../axentix/scss/core/base';
+
+@import '../axentix/scss/components/utilities';
+
+//------------------------------------------------------------
+// colors here
+//------------------------------------------------------------
+@import '../axentix/scss/components/navbar';
+@import '../axentix/scss/components/footer';
+@import '../axentix/scss/components/card';
+@import '../axentix/scss/components/button';
+@import '../axentix/scss/components/grix';
+@import '../axentix/scss/components/sidenav';
+@import '../axentix/scss/components/utilities/alignments';
+@import '../axentix/scss/components/utilities/margin-padding';
+@import '../axentix/scss/components/utilities/borders';
+@import '../axentix/scss/components/utilities/rounded';
+@import '../axentix/scss/components/utilities/shadows';
+@import './customs_front/colors.scss';
+@import '../axentix/scss/core/colors';
+@import '../axentix/scss/components/pagination';
+@import '../axentix/scss/components/forms/forms'; // get all import from repo forms (delete switch later?)
+
+//------------------------------------------------------------
+//Custom import (by alphabetical order)
+//------------------------------------------------------------
+@import './customs_front/navbar_footer';
+@import './customs_front/form';
+
+//------------------------------------------------------------
+//Custom CSS
+//------------------------------------------------------------
+body{
+  background-color: $secondary;
+}
+
+.sidenav{
+  background-color: #0e880e;
+}
+
+.admin-main-content {
+  padding-left: 15rem;
+}

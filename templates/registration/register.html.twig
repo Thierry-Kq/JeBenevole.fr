@@ -1,48 +1,36 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout_front_office.html.twig' %}
 
-{% set register = 'registration'|trans %}
+{% from "macros/form.twig" import fieldset %}
 
-{% block title %}{{ register }}{% endblock %}
+{% block title %}{% trans %}registration{% endtrans %}{% endblock %}
 
 {% block body %}
     {% for flashError in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
-    <h1>{{ register }}</h1>
+    <main class="grix xs6 md12">
+         <section class="txt-center col-xs4 pos-xs2 col-md6 pos-md4">
+            <h1 class="txt-center">{% trans %}inscription_form_title{% endtrans %}</h1>
+            {{ form_start(registrationForm,{'attr': {'class': 'grix md1'}}) }}
 
-    {{ form_start(registrationForm) }}
+                {{ fieldset(registrationForm.lastName) }}
+                {{ fieldset(registrationForm.firstName) }}
+                {{ fieldset(registrationForm.email) }}
+                {{ fieldset(registrationForm.plainPassword.first) }}
+                {{ fieldset(registrationForm.plainPassword.second) }}
 
-    <fieldset>
-        {{ form_label(registrationForm.email) }}
-        {{ form_errors(registrationForm.email) }}
-        {{ form_widget(registrationForm.email) }}
-    </fieldset>
+                {# todo : add a link to rgpd page + create rgpd page #}
+                <fieldset class="grix xs1 md8">
+                    {{ form_label(registrationForm.rgpd,'',{'label_attr': {'class': ' self-left txt-left col-md7'}}) }}
+                    {{ form_errors(registrationForm.rgpd, {'attr': {'class': 'form-helper'}}) }}
+                    {{ form_widget(registrationForm.rgpd, {'attr': {'class': ' m-1 p-1 col-md1 self-right'}}) }}
+                </fieldset>
 
-    <fieldset>
-        {{ form_label(registrationForm.firstName) }}
-        {{ form_errors(registrationForm.firstName) }}
-        {{ form_widget(registrationForm.firstName) }}
-    </fieldset>
+                <button type="submit" class="btn primary mx-auto my-2">{% trans %}form_btn_valider{% endtrans %}</button>
 
-    <fieldset>
-        {{ form_label(registrationForm.lastName) }}
-        {{ form_errors(registrationForm.lastName) }}
-        {{ form_widget(registrationForm.lastName) }}
-    </fieldset>
+            {{ form_end(registrationForm) }}
 
-    <fieldset>
-        {{ form_label(registrationForm.plainPassword) }}
-        {{ form_errors(registrationForm.plainPassword) }}
-        {{ form_widget(registrationForm.plainPassword) }}
-    </fieldset>
-
-    {# todo : add a link to rgpd page + create rgpd page #}
-    <fieldset>
-        {{ form_errors(registrationForm.rgpd) }}
-        {{ form_widget(registrationForm.rgpd) }}
-        {{ form_label(registrationForm.rgpd) }}
-    </fieldset>
-
-        <button type="submit" class="btn">{{ register}}</button>
-    {{ form_end(registrationForm) }}
+            <a class="my-2 link" href="{{ path('app_login') }}">{% trans %}already_registered{% endtrans %}</a>
+        </section>
+    </main>
 {% endblock %}

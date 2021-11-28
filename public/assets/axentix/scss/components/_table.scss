@@ -1,0 +1,132 @@
+.card .table {
+  word-break: normal;
+}
+
+.table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  border: none;
+
+  &.bordered {
+    td,
+    th {
+      border: 1px solid rgb(210, 210, 210);
+    }
+
+    tr {
+      border: none;
+    }
+  }
+
+  &.centered {
+    th,
+    td {
+      text-align: center;
+    }
+  }
+
+  &.border-0,
+  &.striped {
+    td,
+    th {
+      border: none;
+    }
+  }
+
+  &.hover {
+    tbody > tr {
+      transition: background-color 0.3s ease;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.07);
+      }
+    }
+  }
+
+  &.striped {
+    tbody > tr:nth-child(odd) {
+      background-color: rgba(0, 0, 0, 0.07);
+    }
+
+    tr {
+      border: none;
+    }
+  }
+
+  caption {
+    caption-side: bottom;
+    text-align: center;
+    font-weight: 400;
+    font-size: 1rem;
+    padding: 0.5rem 0;
+    color: #797676;
+  }
+
+  td,
+  th {
+    text-align: left;
+    padding: 0.8rem 0.5rem;
+    vertical-align: middle;
+    border-bottom: 1px solid rgb(210, 210, 210);
+  }
+
+  thead {
+    color: inherit;
+  }
+
+  th {
+    font-weight: 700;
+    color: inherit;
+  }
+}
+
+.responsive-table {
+  overflow-x: auto;
+  width: 100%;
+  display: block;
+
+  td,
+  th {
+    max-width: 80vw;
+    overflow-wrap: break-word;
+  }
+}
+
+.responsive-table-2 {
+  width: 100%;
+  display: block;
+  overflow-x: auto;
+
+  @include responsive('xs') {
+    .table {
+      display: flex;
+
+      thead {
+        tr {
+          display: flex;
+          height: 100%;
+          flex-direction: column;
+          border-right: 1px solid rgb(210, 210, 210);
+          padding-right: 0.25rem;
+        }
+      }
+
+      tbody {
+        display: flex;
+        white-space: nowrap;
+        overflow-x: auto;
+
+        tr {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+        }
+      }
+
+      td,
+      th {
+        border: 0;
+      }
+    }
+  }
+}

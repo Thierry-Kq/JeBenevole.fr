@@ -44,6 +44,14 @@ class AssociationsRepository extends ServiceEntityRepository
        return $this->paginatorService->paginate($query, $resultByPage, $page);
     }
 
+    public function findAllByUserId($userId)
+    {
+        return $this->createQueryBuilder('a')
+            ->innerJoin('a.users', 'u')
+            ->where("u.id = $userId")
+            ->andWhere('a.isDeleted = 0');
+    }
+
     // todo : rename both findAll
     /**
      * @return Paginator Returns an instance of paginator

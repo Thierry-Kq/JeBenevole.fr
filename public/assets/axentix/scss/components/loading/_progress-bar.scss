@@ -1,0 +1,68 @@
+.progress {
+  display: flex;
+  height: 0.5rem;
+  font-size: 0.5rem;
+  width: 100%;
+  background-color: getColor('airforce', 'light', 4);
+  overflow: hidden;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+
+  &.large {
+    height: 0.75rem;
+    font-size: 0.7rem;
+  }
+
+  &.small {
+    height: 0.25rem;
+    font-size: 0.3rem;
+  }
+
+  .progress-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: width 0.5s ease;
+  }
+
+  &.indeterminate {
+    .progress-bar {
+      animation: pbar-indeterminate 1s infinite linear;
+      width: 100%;
+      transform-origin: 0% 50%;
+
+      &.rainbow {
+        animation: pbar-indeterminate 1s infinite linear, pbar-colors 3s ease-in-out infinite;
+      }
+    }
+  }
+}
+
+@keyframes pbar-indeterminate {
+  0% {
+    transform: translateX(0) scaleX(0);
+  }
+  40% {
+    transform: translateX(0) scaleX(0.4);
+  }
+  100% {
+    transform: translateX(100%) scaleX(0.5);
+  }
+}
+
+@keyframes pbar-colors {
+  0% {
+    background-color: getColor('blue');
+  }
+  25% {
+    background-color: getColor('red');
+  }
+  50% {
+    background-color: getColor('viride');
+  }
+  75% {
+    background-color: getColor('green');
+  }
+  100% {
+    background-color: getColor('airforce');
+  }
+}

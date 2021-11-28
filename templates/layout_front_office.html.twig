@@ -1,0 +1,74 @@
+{% extends ('base.html.twig') %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{asset('assets/scss/front_office.css')}}">
+{% endblock %}
+{% set route = app.request.get('_route') %}
+
+{% block navbar %}
+  <header>
+    <nav class="navbar shadow-1 primary">
+      <a href="#" target="_blank" class="navbar-logo"><img src="{{ absolute_url(asset('assets/logo.png')) }}" alt="Logo" /></a>
+      <div class="navbar-menu w100 ml-auto hide-md-down">
+        <a class="navbar-link {% if route == 'homepage' %} active {% endif %}" href="{{ path('homepage') }}">Accueil</a>
+        <a class="navbar-link {% if route == 'offers' %} active {% endif %}" href="{{ path('offers') }}">Liste des annonces</a>
+        <a class="navbar-link {% if route == 'requests' %} active {% endif %}" href="{{ path('requests') }}">Liste des demandes</a>
+        <a class="navbar-link" href="#">Contact</a>
+        {% if app.user %}
+          <a class="navbar-link {% if route == 'show_profile' %} active {% endif %}" href="{{ path('show_profile') }}">Profil</a>
+          <a class="navbar-link {% if route == 'app_logout' %} active {% endif %}" href="{{ path('app_logout') }}">Déconnexion</a>
+        {% else %}
+          <a class="navbar-link {% if route == 'app_register' %} active {% endif %}" href="{{ path('app_register') }}">Inscription</a>
+          <a class="navbar-link {% if route == 'app_login' %} active {% endif %}" href="{{ path('app_login') }}">Connexion</a>
+        {% endif %}
+      </div>
+      <div class="navbar-menu w100 hide-lg-up fx-right">
+        <button data-target="deploy-sidenav" class="btn rounded-1 press primary sidenav-trigger">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+          <line x1="4" y1="6" x2="20" y2="6" />
+          <line x1="4" y1="12" x2="20" y2="12" />
+          <line x1="4" y1="18" x2="20" y2="18" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <nav class="sidenav shadow-1 white hide-lg-up primary" id="deploy-sidenav" data-ax="sidenav">
+      <div class="sidenav-header">
+        <button data-target="deploy-sidenav" class="sidenav-trigger">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+        <img class="sidenav-logo dropshadow-1" src="{{ absolute_url(asset('assets/logo.png')) }}" alt="Logo" />
+      </div>
+      <a class="sidenav-link {% if route == 'homepage' %} active {% endif %}" href="{{ path('homepage') }}">Accueil</a>
+        <a class="sidenav-link {% if route == 'offers' %} active {% endif %}" href="{{ path('offers') }}">Liste des annonces</a>
+        <a class="sidenav-link {% if route == 'requests' %} active {% endif %}" href="{{ path('requests') }}">Liste des demandes</a>
+        <a class="sidenav-link" href="#">Contact</a>
+        {% if app.user %}
+          <a class="sidenav-link {% if route == 'show_profile' %} active {% endif %}" href="{{ path('show_profile') }}">Profil</a>
+          <a class="sidenav-link {% if route == 'app_logout' %} active {% endif %}" href="{{ path('app_logout') }}">Déconnexion</a>
+        {% else %}
+          <a class="sidenav-link {% if route == 'app_register' %} active {% endif %}" href="{{ path('app_register') }}">Inscription</a>
+          <a class="sidenav-link {% if route == 'app_login' %} active {% endif %}" href="{{ path('app_login') }}">Connexion</a>
+        {% endif %}
+    </nav>
+  </header>
+{% endblock %}
+
+{% block footer %}
+  <footer class="footer primary mt-2">
+    <nav class="grix xs2 md4 lg6 w100 txt-center">
+      <a class="p-1 col-xs2 col-md1" href="#">Contact</a>
+      <a class="p-1 col-xs2 col-md1" href="#">Mentions Légales</a>
+      <a class="p-1 col-xs2 col-md1 {% if route == 'rgpd' %} active {% endif %}" href="{{ path('rgpd') }}">RGPD</a>
+      <a class="p-1 col-xs2 col-md1" href="#">Préférence des cookies</a>
+      <a class="pos-md2 pos-lg5 p-1" href="#">@Copyright JBenevole.fr</a>
+      <a class="pos-md3 pos-lg6 p-1" href="#">L’équipe JeBenevole</a>
+    </nav>
+  </footer>
+ {% endblock %}

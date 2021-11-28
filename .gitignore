@@ -24,4 +24,14 @@
 .idea
 ###< phpstorm config
 
+###> assets
 /public/images
+/public/assets/scss/front_office.css
+/public/assets/scss/back_office.css
+/public/assets/scss/front_office.min.css
+/public/assets/scss/back_office.min.css
+###< assets
+
+###> scss from linux
+/public/assets/scss/*.map
+###> scss from linux

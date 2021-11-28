@@ -43,6 +43,8 @@ class AssociationController extends AbstractController
 
         $association = new Associations();
 
+        $this->denyAccessUnlessGranted('create', $association);
+
         $form = $this->createForm(AssociationType::class, $association);
         $form->handleRequest($request);
 
@@ -55,6 +57,7 @@ class AssociationController extends AbstractController
 
             $slug = $slugger->slug($association->getName());
             $association->setSlug($slug);
+            $association->setUsers($this->getUser());
 
             $em->persist($association);
             try{
@@ -80,6 +83,7 @@ class AssociationController extends AbstractController
         if ($association->getIsDeleted()) {
             throw new HttpException('410');
         }
+        $this->denyAccessUnlessGranted('edit', $association);
 
         $associationOldPicture = $association->getPicture();
 
@@ -116,6 +120,7 @@ class AssociationController extends AbstractController
         if ($association->getIsDeleted()) {
             throw new HttpException('410');
         }
+        $this->denyAccessUnlessGranted('anonymize', $association);
 
         $association->setIsDeleted(1);
 
@@ -133,11 +138,10 @@ class AssociationController extends AbstractController
         $association->setLinkedin('deleted');
         $association->setYoutube('deleted');
         $association->setTwitter('deleted');
-        // TODO : When association delete user must loose is role
 
         $em->flush();
 
-        return $this->redirectToRoute('associations'); // TODO : In futur this should redirect user to homepage
+        return $this->redirectToRoute('associations');
     }
 
     /**

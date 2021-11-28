@@ -1,0 +1,21 @@
+{% extends ('base.html.twig') %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{asset('assets/scss/back_office.css')}}">
+{% endblock %}
+{% set route = app.request.get('_route') %}
+
+{% block navbar %}
+  <div class="sidenav shadow-1 fixed large " id="example-sidenav" data-ax="sidenav">
+    <a href="#" class="sidenav-link{% if route == 'homepage' %} active {% endif %}">Panneau d'administration</a>
+    <a href="#" class="sidenav-link">Gestion Utilisateurs</a>
+    <a href="#" class="sidenav-link">Gestion Offres</a>
+    <a href="#" class="sidenav-link">Gestion Demandes</a>
+    <a href="#" class="sidenav-link">Gestion Organisations</a>
+    <a href="#" class="sidenav-link">Modifier Profil</a>
+    <a href="#" class="sidenav-link">Deconnexion</a>
+  </div>
+{% endblock %}
+
+{% block body %}
+{% endblock %}

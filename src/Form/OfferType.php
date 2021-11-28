@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Associations;
 use App\Entity\Categories;
 use App\Entity\Offers;
 use Doctrine\ORM\EntityRepository;
@@ -15,7 +16,9 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
@@ -23,6 +26,15 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class OfferType extends AbstractType
 {
+    private $requestStack;
+    private $security;
+
+    public function __construct(RequestStack $requestStack, Security $security)
+    {
+        $this->requestStack = $requestStack;
+        $this->security = $security;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -132,6 +144,16 @@ class OfferType extends AbstractType
                     ])
                 ]
             ]);
+        if (in_array($this->requestStack->getCurrentRequest()->get('_route'), ['new_offer', 'edit_offer']) ) {
+            $builder->add('associations', EntityType::class, [
+                    'class' => Associations::class,
+                    'query_builder' => function (EntityRepository $entityRepository){
+                        return $entityRepository->findAllByUserId($this->security->getUser()->getId());
+                    },
+                    'choice_label' => 'name',
+                    'placeholder' => 'Choisissez une association'
+                ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
