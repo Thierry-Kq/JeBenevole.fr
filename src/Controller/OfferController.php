@@ -51,14 +51,10 @@ class OfferController extends AbstractController
         SluggerInterface $slugger
     ): Response
     {
-        // todo : if user without asso on offer  -> redirect to request ( set a ROLE for associations owner ? )
-        // todo : so maybe split this route or this Controller
-
         $offers = new Offers();
 
         $this->denyAccessUnlessGranted('create', $offers);
 
-        $route = $request->get('_route');
 
         $form = $this->createForm(OfferType::class, $offers);
         $form->handleRequest($request);
