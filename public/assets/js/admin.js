@@ -25,6 +25,7 @@ function onClickAnonymize(event){
             }).then(response => response.json()).then(json => { // invisibleName(json) => {} parenthese optionnelles si 1 seul params avec arrow function, json est le params
 
                 if (json.code === 'success') {
+                    // todo : change the html for the anonymised association
                     this.parentNode.remove();
                 }
                 displayMessage(json);
@@ -51,8 +52,7 @@ function onClickDelete(event){
             }).then(response => response.json()).then(json => { // invisibleName(json) => {} parenthese optionnelles si 1 seul params avec arrow function, json est le params
 
                 if (json.code === 'success') {
-                    // todo
-                    // the element is changed to 'deleted', change this
+                    // todo : remove the html for the deleted association
                 }
                 displayMessage(json);
 

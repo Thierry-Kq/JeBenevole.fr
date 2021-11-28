@@ -120,6 +120,7 @@ class Offers
 
     /**
      * @ORM\ManyToOne(targetEntity=Associations::class, inversedBy="offers")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private ?Associations $associations;
 

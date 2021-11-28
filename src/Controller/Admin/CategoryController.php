@@ -18,6 +18,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CategoryController extends AbstractController
 {
 
+    // todo : split this into 2 controllers (admin/public)
+
     /**
      * @Route("/categories/creation", name="new_category")
      */

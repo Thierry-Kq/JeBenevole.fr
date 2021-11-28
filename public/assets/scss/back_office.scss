@@ -12,9 +12,9 @@
 //------------------------------------------------------------
 // colors here
 //------------------------------------------------------------
-@import '../axentix/scss/components/navbar';
-@import '../axentix/scss/components/footer';
-@import '../axentix/scss/components/card';
+//@import '../axentix/scss/components/navbar';
+//@import '../axentix/scss/components/footer';
+//@import '../axentix/scss/components/card';
 @import '../axentix/scss/components/button';
 @import '../axentix/scss/components/grix';
 @import '../axentix/scss/components/sidenav';
@@ -23,7 +23,7 @@
 @import '../axentix/scss/components/utilities/borders';
 @import '../axentix/scss/components/utilities/rounded';
 @import '../axentix/scss/components/utilities/shadows';
-@import './customs_front/colors.scss';
+@import './customs_back/colors.scss';
 @import '../axentix/scss/core/colors';
 @import '../axentix/scss/components/pagination';
 @import '../axentix/scss/components/forms/forms'; // get all import from repo forms (delete switch later?)
@@ -31,8 +31,8 @@
 //------------------------------------------------------------
 //Custom import (by alphabetical order)
 //------------------------------------------------------------
-@import './customs_front/navbar_footer';
-@import './customs_front/form';
+//@import './customs_front/navbar_footer';
+//@import './customs_front/form';
 
 //------------------------------------------------------------
 //Custom CSS
@@ -42,7 +42,8 @@ body{
 }
 
 .sidenav{
-  background-color: #0e880e;
+  background-color: $sidenav;
+  //background-color: #0e880e;
 }
 
 .admin-main-content {

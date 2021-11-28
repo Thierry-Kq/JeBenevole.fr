@@ -1,5 +1,8 @@
 {% extends ('base.html.twig') %}
 
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{asset('assets/scss/front_office.css')}}">
+{% endblock %}
 {% set route = app.request.get('_route') %}
 
 {% block navbar %}

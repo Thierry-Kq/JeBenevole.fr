@@ -11,7 +11,7 @@ class DefaultController extends AbstractController
      * @Route("/administration", name="admin_dashboard")
      */
     public function dashboard(){
-        // do something
+        // todo : do something
 
         return $this->render('admin/dashboard.html.twig');
     }
