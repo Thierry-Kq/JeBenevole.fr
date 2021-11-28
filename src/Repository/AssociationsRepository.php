@@ -52,7 +52,7 @@ class AssociationsRepository extends ServiceEntityRepository
             ->andWhere('a.isDeleted = 0');
     }
 
-    // todo : rename both findAll
+    // todo : rename both findAll (or better, only 1 function)
     /**
      * @return Paginator Returns an instance of paginator
      */
