@@ -57,16 +57,15 @@ class AssociationController extends AbstractController
             $association->setAddress('deleted');
             $association->setZip('00000');
             $association->setCity('deleted');
-            $association->setFixNumber(0000000000);
-            $association->setCellNumber(0000000000);
-            $association->setFaxNumber(0000000000);
+            $association->setFixNumber('0000000000');
+            $association->setCellNumber('0000000000');
+            $association->setFaxNumber('0000000000');
             $association->setDescription('deleted');
             $association->setWebSite('deleted');
             $association->setFacebook('deleted');
             $association->setLinkedin('deleted');
             $association->setYoutube('deleted');
             $association->setTwitter('deleted');
-    //        // TODO : When association delete user must loose is role
             $em->flush();
 
             return $this->json(['code' => 'success', 'message'=> 'L\'association à bien été anonymisée'], 200 );
