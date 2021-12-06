@@ -1,0 +1,10 @@
+<div class="sidenav shadow-1 fixed large " id="example-sidenav" data-ax="sidenav">
+
+    <a href="{{ path('admin_dashboard') }}" class="sidenav-link{% if route == 'admin_dashboard' %} active {% endif %}">Panneau d'administration</a>
+    <a href="{{ path('admin_users') }}" class="sidenav-link{% if route == 'admin_users' %} active {% endif %}">Gestion Utilisateurs</a>
+    <a href="{{ path('admin_offers') }}" class="sidenav-link{% if route == 'admin_offers' %} active {% endif %}">Gestion Offres</a>
+    <a href="{{ path('admin_requests') }}" class="sidenav-link{% if route == 'admin_requests' %} active {% endif %}">Gestion Demandes</a>
+    <a href="{{ path('admin_association') }}" class="sidenav-link{% if route == 'admin_association' %} active {% endif %}">Gestion Organisations</a>
+    {#    <a href="#" class="sidenav-link{% if route == 'admin_association' %} active {% endif %}">Modifier Profil</a>#}
+    <a href="{{ path('app_logout') }}" class="sidenav-link">Deconnexion</a>
+</div>

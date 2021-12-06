@@ -1,0 +1,17 @@
+{% extends ('base.html.twig') %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{asset('assets/scss/back_office.css')}}">
+{% endblock %}
+{% set route = app.request.get('_route') %}
+
+{% block navbar %}
+    {% include 'admin/partials/sidenav.html.twig' %}
+{% endblock %}
+
+{% block body %}
+    <div class="admin-main-content container">
+    {% block admin_container%}
+    {% endblock %}
+    </div>
+{% endblock %}

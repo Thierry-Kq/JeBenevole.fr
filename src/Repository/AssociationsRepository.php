@@ -51,4 +51,21 @@ class AssociationsRepository extends ServiceEntityRepository
             ->where("u.id = $userId")
             ->andWhere('a.isDeleted = 0');
     }
+
+    // todo : rename both findAll (or better, only 1 function)
+    /**
+     * @return Paginator Returns an instance of paginator
+     */
+    public function findAllAssociationsAdmin(int $page, int $resultByPage = 10): array
+    {
+        $firstResult = ($page * $resultByPage) - $resultByPage;
+
+        $query = $this->createQueryBuilder('a')
+            ->setMaxResults($resultByPage)
+            ->setFirstResult($firstResult)
+            ->getQuery();
+
+        return $this->paginatorService->paginate($query, $resultByPage, $page);
+    }
+
 }

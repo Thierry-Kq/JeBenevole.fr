@@ -1,0 +1,31 @@
+{% extends 'layout_back_office.html.twig' %}
+
+{# todo : title #}
+{% block title %}{% endblock %}
+{% block admin_container %}
+    <h1 class="txt-center">Gestion Organisations</h1>
+    <div class="p-3 my-2 rounded-2 hide" id="message-ajax"></div>
+    {% if paginator['items'] is not empty %}
+        <div class="grix xs3 mt-5 mb-5">
+            <div>Nom</div>
+            <div>Description</div>
+            <div>Actions</div>
+        </div>
+        {% for association in paginator['items'] %}
+            <div class="grix xs3">
+                <div>{{ association.name }}</div>
+                <div>{{ association.description }}</div>
+                <div>{% if not association.isDeleted %}
+                        <a class="anonymize" href="{{ path('admin_anonymize_association', {'slug': association.slug}) }}" data-token="{{ csrf_token('anonymize' ~ association.slug) }}"><i class="fas fa-low-vision"></i></a>
+                    {% endif %}
+                    <a href="{{ path('admin_delete_association', {'slug': association.slug}) }}" data-token="{{ csrf_token('delete' ~ association.slug) }}" class="delete"><i class="fas fa-trash-alt"></i></a></div>
+            </div>
+
+
+        {% endfor %}
+        {% include 'partials/_paginator.html.twig' %}
+    {% else %}
+        <p>{% trans %}no_result{% endtrans %}</p>
+    {% endif %}
+
+{% endblock %}

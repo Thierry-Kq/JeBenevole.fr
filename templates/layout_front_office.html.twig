@@ -1,5 +1,8 @@
 {% extends ('base.html.twig') %}
 
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{asset('assets/scss/front_office.css')}}">
+{% endblock %}
 {% set route = app.request.get('_route') %}
 
 {% block navbar %}
@@ -30,7 +33,7 @@
         </button>
       </div>
     </nav>
-  
+
     <nav class="sidenav shadow-1 white hide-lg-up primary" id="deploy-sidenav" data-ax="sidenav">
       <div class="sidenav-header">
         <button data-target="deploy-sidenav" class="sidenav-trigger">

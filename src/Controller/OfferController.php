@@ -55,11 +55,11 @@ class OfferController extends AbstractController
 
         $this->denyAccessUnlessGranted('create', $offers);
 
-        $route = $request->get('_route');
 
         $form = $this->createForm(OfferType::class, $offers);
         $form->handleRequest($request);
 
+        $route = $request->get('_route');
 
         if ($form->isSubmitted() && $form->isValid())
         {
