@@ -1,6 +1,7 @@
 {% extends 'layout_front_office.html.twig' %}
 
 {% block title %}JeBenevole - {% trans %}association_create_page_title{% endtrans %}{% endblock %}
+{% block javascripts %} <script defer src="{{asset('assets/js/validations/association.js')}}"></script> {% endblock %}
 
 {% block body %}
     {%if app.request.attributes.get('_route') == 'new_association' %}
