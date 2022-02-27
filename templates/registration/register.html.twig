@@ -4,6 +4,8 @@
 
 {% block title %}{% trans %}registration{% endtrans %}{% endblock %}
 
+{% block javascripts %}<script defer src="{{asset('assets/js/validations/registration.js')}}"></script> {% endblock %}
+
 {% block body %}
     {% for flashError in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
@@ -11,7 +13,8 @@
     <main class="grix xs6 md12">
          <section class="txt-center col-xs4 pos-xs2 col-md6 pos-md4">
             <h1 class="txt-center">{% trans %}inscription_form_title{% endtrans %}</h1>
-            {{ form_start(registrationForm,{'attr': {'class': 'grix md1'}}) }}
+            <p class="error"></p>
+            {{ form_start(registrationForm,{'attr': {'class': 'grix md1', 'id': 'form'}}) }}
 
                 {{ fieldset(registrationForm.lastName) }}
                 {{ fieldset(registrationForm.firstName) }}

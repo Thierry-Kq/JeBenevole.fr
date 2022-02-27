@@ -1,4 +1,6 @@
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': {'id': 'form'}}) }}
+
+        <p class="error"></p>
 
         <fieldset class="form-field inline">
             {{ form_label(form.name) }}

@@ -27,12 +27,12 @@ class Associations
     use SlugTrait;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=100, unique=true)
      */
     private ?string $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=100)
      */
     private ?string $address;
 
@@ -42,7 +42,7 @@ class Associations
     private ?string $zip;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=100)
      */
     private ?string $city;
 
@@ -82,27 +82,27 @@ class Associations
     private ?string $picture = null;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=200, nullable=true)
      */
     private ?string $webSite = null;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=200, nullable=true)
      */
     private ?string $facebook = null;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=200, nullable=true)
      */
     private ?string $linkedin = null;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=200, nullable=true)
      */
     private ?string $youtube = null;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=200, nullable=true)
      */
     private ?string $twitter = null;
 
