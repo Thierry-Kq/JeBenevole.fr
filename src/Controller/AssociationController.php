@@ -64,7 +64,7 @@ class AssociationController extends AbstractController
 
             $image = $form->get('picture')->getData();
             if ($image != null){
-                $association->setPicture($uploadService->uploadImage($image, 'associations'));
+                $association->setPicture($uploadService->uploadImage($image, UploadService::ASSOCIATIONS_FOLDER_NAME));
             }
 
             $slug = $slugger->slug($association->getName());
@@ -121,8 +121,8 @@ class AssociationController extends AbstractController
 
             $imageChange = $form->get('picture')->getData();
             if($imageChange != null){
-                $uploadService->deleteImage($associationOldPicture, 'associations');
-                $association->setPicture($uploadService->uploadImage($imageChange, 'associations'));
+                $uploadService->deleteImage($associationOldPicture, UploadService::ASSOCIATIONS_FOLDER_NAME);
+                $association->setPicture($uploadService->uploadImage($imageChange, UploadService::ASSOCIATIONS_FOLDER_NAME));
             }
 
             $slug = $slugger->slug($association->getName());

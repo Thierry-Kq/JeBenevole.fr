@@ -66,7 +66,7 @@ class OfferController extends AbstractController
         {
             $image = $form->get('file')->getData();
             if ($image != null){
-                $offers->setFile($uploadService->uploadImage($image, 'offers'));
+                $offers->setFile($uploadService->uploadImage($image, UploadService::OFFERS_FOLDER_NAME));
             }
 
             $slug = $slugger->slug($offers->getTitle());
@@ -124,8 +124,8 @@ class OfferController extends AbstractController
         {
             $imageChange = $form->get('file')->getData();
             if ($imageChange != null){
-                $uploadService->deleteImage($offersOldPicture, 'offers');
-                $offers->setFile($uploadService->uploadImage($imageChange, 'offers'));
+                $uploadService->deleteImage($offersOldPicture, UploadService::OFFERS_FOLDER_NAME);
+                $offers->setFile($uploadService->uploadImage($imageChange, UploadService::OFFERS_FOLDER_NAME));
             }
 
             $oldSlug = $offers->getSlug();

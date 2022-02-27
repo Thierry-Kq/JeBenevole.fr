@@ -58,7 +58,7 @@ class AnonymizeService
 
     public function anonymizeOffer(Offers $offer): void
     {
-        $this->uploadService->deleteImage($offer->getFile(), 'offers');
+        $this->uploadService->deleteImage($offer->getFile(), UploadService::OFFERS_FOLDER_NAME);
 
         $offer
             ->setIsDeleted(1)
