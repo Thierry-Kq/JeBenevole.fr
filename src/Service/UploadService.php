@@ -8,13 +8,19 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UploadService
 {
+    public const ASSOCIATIONS_FOLDER_NAME = 'associations';
+    public const OFFERS_FOLDER_NAME = 'offers';
+    public const USERS_FOLDER_NAME = 'users';
+    public const CATEGORIES_FOLDER_NAME = 'categories';
+    public const DIRECTORY_FOLDER_NAME = 'images_directory';
+
     private ParameterBagInterface $params;
     private string $path = '';
 
     public function __construct(ParameterBagInterface $params)
     {
         $this->params = $params;
-        $this->path = $this->params->get('images_directory');
+        $this->path = $this->params->get(self::DIRECTORY_FOLDER_NAME);
     }
 
     /**
@@ -42,7 +48,7 @@ class UploadService
         $fileSystem = new Filesystem();
         $fileExist = $fileSystem->exists($this->path . $folder . '/' . $image);
 
-        if ($image != null && $fileExist) {  
+        if ($image != null && $fileExist) {
             unlink($this->path.$folder . '/' . $image);
         }
     }
