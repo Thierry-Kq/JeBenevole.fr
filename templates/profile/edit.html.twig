@@ -1,12 +1,15 @@
 {% extends 'layout_front_office.html.twig' %}
 
 {% block title %}JeBenevole - {{ 'user_edit_title'|trans }}{% endblock %}
+{% block javascripts %} <script defer src="{{asset('assets/js/validations/profile.js')}}"></script> {% endblock %}
 
 {% block body %}
 
     <h1>{{ 'user_edit_title'|trans }}</h1>
 
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': {'id': 'form'}}) }}
+
+    <p class="error"></p>
 
     <fieldset>
         {{ form_label(form.description) }}
