@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Associations;
 use App\Form\AssociationType;
+use App\Service\AnonymizeService;
 use App\Service\UploadService;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\AssociationsRepository;
@@ -147,31 +148,16 @@ class AssociationController extends AbstractController
     /**
      * @Route("/associations/anonymisation/{slug}", name="anonymize_association")
      */
-    public function anonymize(Associations $association, EntityManagerInterface $em): Response
-    {
+    public function anonymize(
+        Associations $association,
+        EntityManagerInterface $em,
+        AnonymizeService $anonymizeService
+    ): Response {
         if ($association->getIsDeleted()) {
             throw new HttpException('410');
         }
         $this->denyAccessUnlessGranted('anonymize', $association);
-
-        $association->setIsDeleted(1);
-
-        $association->setName('deleted');
-        $association->setEmail('deleted' . $association->getId() . '@deleted.del');
-        $association->setAddress('deleted');
-        $association->setZip('00000');
-        $association->setCity('deleted');
-        $association->setFixNumber(0000000000);
-        $association->setCellNumber(0000000000);
-        $association->setFaxNumber(0000000000);
-        $association->setDescription('deleted');
-        $association->setWebSite('deleted');
-        $association->setFacebook('deleted');
-        $association->setLinkedin('deleted');
-        $association->setYoutube('deleted');
-        $association->setTwitter('deleted');
-
-        $em->flush();
+        $anonymizeService->anonymizeAssociation($association);
 
         return $this->redirectToRoute('associations');
     }

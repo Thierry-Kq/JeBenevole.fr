@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Offers;
 use App\Form\OfferType;
 use App\Repository\OffersRepository;
+use App\Service\AnonymizeService;
 use App\Service\UploadService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -159,7 +160,7 @@ class OfferController extends AbstractController
         Offers $offers,
         EntityManagerInterface $em,
         Request $request,
-        UploadService $uploadService
+        AnonymizeService $anonymizeService
     ): Response
     {
         if ($offers->getIsDeleted()) {
@@ -168,20 +169,8 @@ class OfferController extends AbstractController
         $this->denyAccessUnlessGranted('anonymize', $offers);
 
         $route = $request->get('_route');
-
         $targetPath = $route === 'anonymize_offer' ? 'offers' : 'requests';
-
-        $offers->setIsDeleted(1);
-
-        $offers->setTitle('deleted');
-        $offers->setAddress('deleted');
-        $offers->setZip('00000');
-        $offers->setCity('deleted');
-        $offers->setDescription('deleted');
-        $offers->setContactExternalName('deleted');
-        $offers->setContactExternalEmail('deleted');
-        $offers->setContactExternalTel('deleted');
-        $uploadService->deleteImage($offers->getFile(), 'offers');
+        $anonymizeService->anonymizeOffer($offers);
 
         $em->flush();
 
