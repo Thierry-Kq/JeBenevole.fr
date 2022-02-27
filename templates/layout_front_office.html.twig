@@ -8,7 +8,7 @@
 {% block navbar %}
   <header>
     <nav class="navbar shadow-1 primary">
-      <a href="#" target="_blank" class="navbar-logo"><img src="{{ absolute_url(asset('assets/logo.png')) }}" alt="Logo" /></a>
+      <a href="{{ path('homepage') }}" class="navbar-logo"><img src="{{ absolute_url(asset('assets/logo.png')) }}" alt="Logo"/></a>
       <div class="navbar-menu w100 ml-auto hide-md-down">
         <a class="navbar-link {% if route == 'homepage' %} active {% endif %}" href="{{ path('homepage') }}">Accueil</a>
         <a class="navbar-link {% if route == 'offers' %} active {% endif %}" href="{{ path('offers') }}">Liste des annonces</a>
@@ -43,7 +43,7 @@
             <line x1="6" y1="6" x2="18" y2="18" />
           </svg>
         </button>
-        <img class="sidenav-logo dropshadow-1" src="{{ absolute_url(asset('assets/logo.png')) }}" alt="Logo" />
+        <a href="{{ path('homepage') }}"><img class="sidenav-logo dropshadow-1" src="{{ absolute_url(asset('assets/logo.png')) }}" alt="Logo"/></a>
       </div>
       <a class="sidenav-link {% if route == 'homepage' %} active {% endif %}" href="{{ path('homepage') }}">Accueil</a>
         <a class="sidenav-link {% if route == 'offers' %} active {% endif %}" href="{{ path('offers') }}">Liste des annonces</a>
@@ -71,4 +71,12 @@
       <a class="pos-md3 pos-lg6 p-1" href="#">L’équipe JeBenevole</a>
     </nav>
   </footer>
- {% endblock %}
+{% endblock %}
+
+{% block messageflash %}
+  {% for key, messages in app.flashes %}
+      {% for message in messages %}
+          <p class="{{key}}">{{message}}</p>
+      {% endfor %}
+  {% endfor %}
+{% endblock %}
