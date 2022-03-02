@@ -23,4 +23,20 @@ class DefaultController extends AbstractController
     {
         return $this->render('default/rgpd.html.twig');
     }
+
+    /**
+     * @Route("/contact", name="contact")
+     */
+    public function contact(): Response
+    {
+        return $this->render('default/contact.html.twig');
+    }
+
+    /**
+     * @Route("/equipe", name="team")
+     */
+    public function team(): Response
+    {
+        return $this->render('default/team.html.twig');
+    }
 }
