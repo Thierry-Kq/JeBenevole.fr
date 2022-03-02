@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\ContactType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,7 +30,10 @@ class DefaultController extends AbstractController
      */
     public function contact(): Response
     {
-        return $this->render('default/contact.html.twig');
+        $form = $this->createForm(ContactType::class);
+        return $this->render('default/contact.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     /**
