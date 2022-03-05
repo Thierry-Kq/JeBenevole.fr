@@ -35,7 +35,7 @@ class CategoryController extends AbstractController
         {
             $image = $form->get('picture')->getData();
             if ($image != null){
-                $category->setPicture($uploadService->uploadImage($image, 'categories'));
+                $category->setPicture($uploadService->uploadImage($image, UploadService::CATEGORIES_FOLDER_NAME));
             }
 
             $slug = $slugger->slug($category->getName());
@@ -98,8 +98,8 @@ class CategoryController extends AbstractController
         {
             $imageChange = $form->get('picture')->getData();
             if($imageChange != null){
-                $uploadService->deleteImage($categoryOldPicture, 'categories');
-                $category->setPicture($uploadService->uploadImage($imageChange, 'categories'));
+                $uploadService->deleteImage($categoryOldPicture, UploadService::CATEGORIES_FOLDER_NAME);
+                $category->setPicture($uploadService->uploadImage($imageChange, UploadService::CATEGORIES_FOLDER_NAME));
             }
 
             $oldSlug = $category->getSlug();
