@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 use App\Form\ContactType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mime\Address;
 
 class DefaultController extends AbstractController
 {
@@ -28,9 +32,27 @@ class DefaultController extends AbstractController
     /**
      * @Route("/contact", name="contact")
      */
-    public function contact(): Response
+    public function contact(Request $request, MailerInterface $mailer): Response
     {
         $form = $this->createForm(ContactType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $informations = $form->getData();
+            if (!$this->getUser() == null) {
+                $informations += ['firstName' => $this->getUser()->getFirstName(), 'lastName' => $this->getUser()->getlastName(), 'email' => $this->getUser()->getEmail(), 'phone' => $this->getUser()->getCellNumber(), 'member' => true];
+            }
+            //config of sender and receiver email in .env
+            $email = (new TemplatedEmail())
+                ->from(new Address($this->getParameter('contact_sender'), 'L\'équipe JeBénévole.fr'))
+                ->to(new Address($this->getParameter('contact_receiver')))
+                ->subject('Nouvelle demande sur JeBénévole.fr')
+                ->htmlTemplate('default/contact_email.html.twig')
+                ->context(['informations' => $informations]);
+            $mailer->send($email);
+            $this->addFlash('success', 'contact_form_flash_success');
+            return $this->redirectToRoute('homepage');
+        }
+
         return $this->render('default/contact.html.twig', [
             'form' => $form->createView()
         ]);

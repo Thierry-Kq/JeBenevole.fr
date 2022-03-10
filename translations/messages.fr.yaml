@@ -92,3 +92,4 @@
 'contact_form_phone': 'Téléphone'
 'contact_form_subject': 'Sujet'
 'contact_form_message': 'Message'
+'contact_form_flash_success': 'Votre message a été envoyé.'
