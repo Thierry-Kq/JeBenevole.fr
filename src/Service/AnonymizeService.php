@@ -7,7 +7,6 @@ use App\Entity\Categories;
 use App\Entity\Offers;
 use App\Entity\Users;
 use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
 
 class AnonymizeService
 {
@@ -16,14 +15,11 @@ class AnonymizeService
     private const DELETED_NUMBER = '0000000000';
     private const DELETED_MAIL = 'deleted@deleted.del';
 
-    private EntityManagerInterface $entityManager;
     private UploadService $uploadService;
 
     public function __construct(
-        EntityManagerInterface $entityManager,
         UploadService $uploadService
     ) {
-        $this->entityManager = $entityManager;
         $this->uploadService = $uploadService;
     }
 
@@ -52,8 +48,6 @@ class AnonymizeService
             ->setTwitter(self::DELETED)
             ->setPicture(null)
             ->setUpdatedAt(new  DateTime());
-
-        $this->entityManager->flush();
     }
 
     public function anonymizeOffer(Offers $offer): void
@@ -74,8 +68,6 @@ class AnonymizeService
             ->setLongitude(null)
             ->setFile(null)
             ->setUpdatedAt(new  DateTime());
-
-        $this->entityManager->flush();
     }
 
     public function anonymizeUser(Users  $user): void

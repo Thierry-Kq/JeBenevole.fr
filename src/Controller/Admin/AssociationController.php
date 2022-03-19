@@ -53,6 +53,7 @@ class AssociationController extends AbstractController
         $data = json_decode($request->getContent(), true);
         if ($this->isCsrfTokenValid('anonymize' . $association->getSlug(), $data['_token'])) {
             $anonymizeService->anonymizeAssociation($association);
+            $em->flush();
 
             return $this->json(['code' => 'success', 'message'=> 'L\'association à bien été anonymisée'], 200 );
         }
