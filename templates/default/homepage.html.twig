@@ -1,7 +1,35 @@
 {% extends 'layout_front_office.html.twig' %}
 
 {% block body %}
-
-    <h1>Homepage</h1>
-
+    {#   todo : voir les grix requis pour la homepage, et voir pour avoir un container environ 90% au lieu de 75 #}
+    <div class="container">
+        <div class="grix sm3  txt-center ">
+            <div>
+                <p class="m-2">
+                    {{ 'Dernieres Offres'|trans }}
+                </p>
+                {% for lastOffer in lastOffers %}
+                    <a href="{{ path('show_offer', {'slug': lastOffer.slug}) }}">
+                        <div class="card shadow-1 rounded-3 white">
+                            <p>{{ lastOffer.title }}</p>
+                            <p>{{ lastOffer.description }}</p>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+            <div class="pos-sm3">
+                <p class="m-2">
+                    {{ 'Dernieres Demandes'|trans }}
+                </p>
+                {% for lastRequest in lastRequests %}
+                    <a href="{{ path('show_request', {'slug': lastRequest.slug}) }}">
+                        <div class="card shadow-1 rounded-3 white">
+                            <p>{{ lastRequest.title }}</p>
+                            <p>{{ lastRequest.description }}</p>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
