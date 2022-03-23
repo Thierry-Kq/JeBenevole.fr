@@ -38,8 +38,15 @@ class DefaultController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $informations = $form->getData();
-            if (!$this->getUser() == null) {
-                $informations += ['firstName' => $this->getUser()->getFirstName(), 'lastName' => $this->getUser()->getlastName(), 'email' => $this->getUser()->getEmail(), 'phone' => $this->getUser()->getCellNumber(), 'member' => true];
+            $user = $this->getUser();
+            if ($user) {
+                $informations += [
+                    'firstName' => $user->getFirstName(),
+                    'lastName' => $user->getlastName(),
+                    'email' => $user->getEmail(),
+                    'phone' => $user->getCellNumber(),
+                    'member' => true
+                ];
             }
             //config of sender and receiver email in .env
             $email = (new TemplatedEmail())
@@ -56,13 +63,5 @@ class DefaultController extends AbstractController
         return $this->render('default/contact.html.twig', [
             'form' => $form->createView()
         ]);
-    }
-
-    /**
-     * @Route("/equipe", name="team")
-     */
-    public function team(): Response
-    {
-        return $this->render('default/team.html.twig');
     }
 }

@@ -11,6 +11,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Length;
 
 class ContactType extends AbstractType
 {
@@ -41,7 +43,8 @@ class ContactType extends AbstractType
                 ->add('email', EmailType::class, [
                     'label' => 'contact_form_email',
                     'constraints' => [
-                        new NotBlank(['message' => 'required_field'])
+                        new NotBlank(['message' => 'required_field']),
+                        new Email()
                     ],
                     'attr' => [
                         'type' => 'email'
@@ -59,21 +62,26 @@ class ContactType extends AbstractType
             ->add('subject', TextType::class, [
                 'label' => 'contact_form_subject',
                 'constraints' => [
-                    new NotBlank(['message' => 'required_field'])
+                    new NotBlank(['message' => 'required_field']),
+                    new Length([
+                        'max' => 255,
+                        'maxMessage' => 'max_length',
+                        'min' => 2,
+                        'minMessage' => 'min_length'
+                    ])
                 ]
             ])
             ->add('message', TextareaType::class, [
                 'label' => 'contact_form_message',
                 'constraints' => [
-                    new NotBlank(['message' => 'required_field'])
+                    new NotBlank(['message' => 'required_field']),
+                    new Length([
+                        'max' => 1000,
+                        'maxMessage' => 'max_length',
+                        'min' => 2,
+                        'minMessage' => 'min_length'
+                    ])
                 ]
             ]);
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            // Configure your form options here
-        ]);
     }
 }
