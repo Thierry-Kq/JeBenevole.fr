@@ -35,3 +35,7 @@
 ###> scss from linux
 /public/assets/scss/*.map
 ###> scss from linux
+
+###> VsCode Config
+.vscode
+###< VsCode Config

@@ -158,6 +158,7 @@ class AssociationController extends AbstractController
         }
         $this->denyAccessUnlessGranted('anonymize', $association);
         $anonymizeService->anonymizeAssociation($association);
+        $em->flush();
 
         return $this->redirectToRoute('associations');
     }

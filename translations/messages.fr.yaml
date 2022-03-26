@@ -84,7 +84,12 @@
 # Users templates
 'user_edit_title': 'Modifier le profil'
 
-
-
-
-
+# Contact form
+'contact_form_title': 'Formulaire de contact'
+'contact_form_first_name': 'Prénom'
+'contact_form_last_name': 'Nom'
+'contact_form_email': 'Email'
+'contact_form_phone': 'Téléphone'
+'contact_form_subject': 'Sujet'
+'contact_form_message': 'Message'
+'contact_form_flash_success': 'Votre message a été envoyé.'
