@@ -6,7 +6,7 @@
         <div class="grix sm3  txt-center ">
             <div>
                 <p class="m-2">
-                    {{ 'Dernieres Offres'|trans }}
+                    {{ 'last_offers'|trans }}
                 </p>
                 {% for lastOffer in lastOffers %}
                     <a href="{{ path('show_offer', {'slug': lastOffer.slug}) }}">
@@ -19,7 +19,7 @@
             </div>
             <div class="pos-sm3">
                 <p class="m-2">
-                    {{ 'Dernieres Demandes'|trans }}
+                    {{ 'last_requests'|trans }}
                 </p>
                 {% for lastRequest in lastRequests %}
                     <a href="{{ path('show_request', {'slug': lastRequest.slug}) }}">
