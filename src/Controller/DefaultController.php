@@ -6,9 +6,10 @@ use App\Form\ContactType;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
+use App\Repository\OffersRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mime\Address;
 
 class DefaultController extends AbstractController
@@ -16,9 +17,15 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="homepage")
      */
-    public function homepage(): Response
+    public function homepage(OffersRepository $offersRepository): Response
     {
-        return $this->render('default/homepage.html.twig');
+        $lastOffers = $offersRepository->getLastOffers('associations');
+        $lastRequests = $offersRepository->getLastOffers('users');
+
+        return $this->render('default/homepage.html.twig', [
+            'lastOffers' => $lastOffers,
+            'lastRequests' => $lastRequests,
+        ]);
     }
 
     /**
