@@ -5,6 +5,8 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     images_directory: '%kernel.project_dir%/public/images/'
+    contact_sender: '%env(resolve:CONTACT_SENDER)%'
+    contact_receiver: '%env(resolve:CONTACT_RECEIVER)%'
 
 services:
     # default configuration for services in *this* file

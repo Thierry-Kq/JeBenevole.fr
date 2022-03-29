@@ -42,8 +42,8 @@ class ProfileController extends AbstractController
         {
             $imageChange = $form->get('picture')->getData();
             if ($imageChange != null){
-                $uploadService->deleteImage($userOldPicture, 'users');
-                $user->setPicture($uploadService->uploadImage($imageChange, 'users'));
+                $uploadService->deleteImage($userOldPicture, UploadService::USERS_FOLDER_NAME);
+                $user->setPicture($uploadService->uploadImage($imageChange, UploadService::USERS_FOLDER_NAME));
             }
 
             $user = $form->getData();

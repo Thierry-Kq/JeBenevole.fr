@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Associations;
 use App\Repository\AssociationsRepository;
+use App\Service\AnonymizeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +42,8 @@ class AssociationController extends AbstractController
     public function anonymize(
         Associations $association,
         EntityManagerInterface $em,
-        Request $request
+        Request $request,
+        AnonymizeService $anonymizeService
     ): Response {
 
         if ($association->getIsDeleted()) {
@@ -50,22 +52,7 @@ class AssociationController extends AbstractController
 
         $data = json_decode($request->getContent(), true);
         if ($this->isCsrfTokenValid('anonymize' . $association->getSlug(), $data['_token'])) {
-
-            $association->setIsDeleted(1);
-            $association->setName('deleted' . $association->getId());
-            $association->setEmail('deleted' . $association->getId() . '@deleted.del');
-            $association->setAddress('deleted');
-            $association->setZip('00000');
-            $association->setCity('deleted');
-            $association->setFixNumber('0000000000');
-            $association->setCellNumber('0000000000');
-            $association->setFaxNumber('0000000000');
-            $association->setDescription('deleted');
-            $association->setWebSite('deleted');
-            $association->setFacebook('deleted');
-            $association->setLinkedin('deleted');
-            $association->setYoutube('deleted');
-            $association->setTwitter('deleted');
+            $anonymizeService->anonymizeAssociation($association);
             $em->flush();
 
             return $this->json(['code' => 'success', 'message'=> 'L\'association à bien été anonymisée'], 200 );

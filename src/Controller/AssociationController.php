@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Associations;
 use App\Form\AssociationType;
+use App\Service\AnonymizeService;
 use App\Service\UploadService;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\AssociationsRepository;
@@ -63,7 +64,7 @@ class AssociationController extends AbstractController
 
             $image = $form->get('picture')->getData();
             if ($image != null){
-                $association->setPicture($uploadService->uploadImage($image, 'associations'));
+                $association->setPicture($uploadService->uploadImage($image, UploadService::ASSOCIATIONS_FOLDER_NAME));
             }
 
             $slug = $slugger->slug($association->getName());
@@ -121,8 +122,8 @@ class AssociationController extends AbstractController
 
             $imageChange = $form->get('picture')->getData();
             if($imageChange != null){
-                $uploadService->deleteImage($associationOldPicture, 'associations');
-                $association->setPicture($uploadService->uploadImage($imageChange, 'associations'));
+                $uploadService->deleteImage($associationOldPicture, UploadService::ASSOCIATIONS_FOLDER_NAME);
+                $association->setPicture($uploadService->uploadImage($imageChange, UploadService::ASSOCIATIONS_FOLDER_NAME));
             }
 
             $slug = $slugger->slug($association->getName());
@@ -149,30 +150,16 @@ class AssociationController extends AbstractController
     /**
      * @Route("/associations/anonymisation/{slug}", name="anonymize_association")
      */
-    public function anonymize(Associations $association, EntityManagerInterface $em): Response
-    {
+    public function anonymize(
+        Associations $association,
+        EntityManagerInterface $em,
+        AnonymizeService $anonymizeService
+    ): Response {
         if ($association->getIsDeleted()) {
             throw new HttpException('410');
         }
         $this->denyAccessUnlessGranted('anonymize', $association);
-
-        $association->setIsDeleted(1);
-
-        $association->setName('deleted');
-        $association->setEmail('deleted' . $association->getId() . '@deleted.del');
-        $association->setAddress('deleted');
-        $association->setZip('00000');
-        $association->setCity('deleted');
-        $association->setFixNumber(0000000000);
-        $association->setCellNumber(0000000000);
-        $association->setFaxNumber(0000000000);
-        $association->setDescription('deleted');
-        $association->setWebSite('deleted');
-        $association->setFacebook('deleted');
-        $association->setLinkedin('deleted');
-        $association->setYoutube('deleted');
-        $association->setTwitter('deleted');
-
+        $anonymizeService->anonymizeAssociation($association);
         $em->flush();
         $this->addFlash('success', 'success_msg');
         
