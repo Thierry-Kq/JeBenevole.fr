@@ -51,7 +51,7 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             if ($usersRepository->findOneBy(['email' => $form->get('email')->getData()])) {
-                $this->addFlash('warning', 'an_error_occurred');
+                $this->addFlash('error', 'error_msg');
                 return $this->redirectToRoute('app_register');
             }
 
@@ -70,8 +70,9 @@ class RegistrationController extends AbstractController
 
             try {
                 $entityManager->flush();
+                $this->addFlash('success', 'success_msg');
             } catch (Exception $e) {
-                $this->addFlash('warning', 'not_unique_nickname');
+                $this->addFlash('error', 'error_msg');
 
                 return $this->redirectToRoute('app_register');
             }
@@ -106,13 +107,14 @@ class RegistrationController extends AbstractController
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
         } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $exception->getReason());
+            //$this->addFlash('verify_email_error', $exception->getReason());
+            $this->addFlash('error', 'error_msg');
 
             return $this->redirectToRoute('app_register');
         }
 
         // @TODO handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
+        $this->addFlash('success', 'success_msg');
 
         return $this->redirectToRoute('homepage');
     }

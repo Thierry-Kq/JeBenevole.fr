@@ -48,6 +48,7 @@ class ProfileController extends AbstractController
 
             $user = $form->getData();
             $em->flush();
+            $this->addFlash('success', 'success_msg');
 
             return $this->redirectToRoute('show_profile', ['slug' => $user->getSlug()]);
         }

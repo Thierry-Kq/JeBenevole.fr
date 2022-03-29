@@ -79,8 +79,9 @@ class OfferController extends AbstractController
 
             try {
                 $em->flush();
+                $this->addFlash('success', 'success_msg');
             } catch (Exception $e) {
-                $this->addFlash('warning', 'not_unique_title');
+                $this->addFlash('error', 'error_msg');
 
                 return $this->redirectToRoute($route);
             }
@@ -133,8 +134,9 @@ class OfferController extends AbstractController
 
             try {
                 $em->flush();
+                $this->addFlash('success', 'success_msg');
             } catch (Exception $e) {
-                $this->addFlash('warning', 'not_unique_title');
+                $this->addFlash('error', 'error_msg');
 
                 return $this->redirectToRoute($route, ['slug' => $oldSlug]);
             }
@@ -184,6 +186,7 @@ class OfferController extends AbstractController
         $uploadService->deleteImage($offers->getFile(), 'offers');
 
         $em->flush();
+        $this->addFlash('success', 'success_msg');
 
         return $this->redirectToRoute($targetPath);
     }

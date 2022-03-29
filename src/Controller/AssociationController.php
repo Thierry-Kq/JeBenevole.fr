@@ -73,8 +73,9 @@ class AssociationController extends AbstractController
             $em->persist($association);
             try {
                 $em->flush();
+                $this->addFlash('success', 'success_msg');
             } catch (Exception $e) {
-                $this->addFlash('warning', 'not_unique_name');
+                $this->addFlash('error', 'error_msg');
 
                 return $this->redirectToRoute('new_association');
             }
@@ -113,7 +114,7 @@ class AssociationController extends AbstractController
         {
             $oldSlug = $association->getSlug();
             if ($associationsRepository->findOneBy(['email' => $form->get('email')->getData()])) {
-                $this->addFlash('warning', 'an_error_occurred');
+                $this->addFlash('error', 'error_msg');
 
                 return $this->redirectToRoute('edit_association', ['slug' => $oldSlug]);
             }
@@ -129,8 +130,9 @@ class AssociationController extends AbstractController
 
             try {
                 $em->flush();
+                $this->addFlash('success', 'success_msg');
             } catch (Exception $e) {
-                $this->addFlash('warning', 'not_unique_name');
+                $this->addFlash('error', 'error_msg');
 
                 return $this->redirectToRoute('edit_association', ['slug' => $oldSlug]);
             }
@@ -172,7 +174,8 @@ class AssociationController extends AbstractController
         $association->setTwitter('deleted');
 
         $em->flush();
-
+        $this->addFlash('success', 'success_msg');
+        
         return $this->redirectToRoute('associations');
     }
 
