@@ -2,19 +2,20 @@
 
 namespace App\Controller;
 
+use Exception;
 use App\Entity\Offers;
 use App\Form\OfferType;
-use App\Repository\OffersRepository;
-use App\Service\AnonymizeService;
 use App\Service\UploadService;
+use App\Service\AnonymizeService;
+use App\Repository\OffersRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class OfferController extends AbstractController
 {
@@ -49,7 +50,8 @@ class OfferController extends AbstractController
         Request $request,
         EntityManagerInterface $em,
         UploadService $uploadService,
-        SluggerInterface $slugger
+        SluggerInterface $slugger,
+        TranslatorInterface $translator
     ): Response
     {
         $offers = new Offers();
@@ -80,9 +82,9 @@ class OfferController extends AbstractController
 
             try {
                 $em->flush();
-                $this->addFlash('success', 'success_msg');
+                $this->addFlash('success', $translator->trans('success_msg'));
             } catch (Exception $e) {
-                $this->addFlash('error', 'error_msg');
+                $this->addFlash('error', $translator->trans('error_msg'));
 
                 return $this->redirectToRoute($route);
             }
@@ -106,7 +108,8 @@ class OfferController extends AbstractController
         Offers $offers,
         EntityManagerInterface $em,
         UploadService $uploadService,
-        SluggerInterface $slugger
+        SluggerInterface $slugger,
+        TranslatorInterface $translator
     ): Response
     {
         if ($offers->getIsDeleted()) {
@@ -135,9 +138,9 @@ class OfferController extends AbstractController
 
             try {
                 $em->flush();
-                $this->addFlash('success', 'success_msg');
+                $this->addFlash('success', $translator->trans('success_msg'));
             } catch (Exception $e) {
-                $this->addFlash('error', 'error_msg');
+                $this->addFlash('error', $translator->trans('error_msg'));
 
                 return $this->redirectToRoute($route, ['slug' => $oldSlug]);
             }
@@ -162,7 +165,8 @@ class OfferController extends AbstractController
         Offers $offers,
         EntityManagerInterface $em,
         Request $request,
-        AnonymizeService $anonymizeService
+        AnonymizeService $anonymizeService,
+        TranslatorInterface $translator
     ): Response
     {
         if ($offers->getIsDeleted()) {
@@ -175,7 +179,7 @@ class OfferController extends AbstractController
         $anonymizeService->anonymizeOffer($offers);
 
         $em->flush();
-        $this->addFlash('success', 'success_msg');
+        $this->addFlash('success', $translator->trans('success_msg'));
 
         return $this->redirectToRoute($targetPath);
     }

@@ -2,17 +2,18 @@
 
 namespace App\Controller;
 
+use Exception;
 use App\Entity\Associations;
 use App\Form\AssociationType;
-use App\Service\AnonymizeService;
 use App\Service\UploadService;
+use App\Service\AnonymizeService;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\AssociationsRepository;
-use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -44,7 +45,8 @@ class AssociationController extends AbstractController
         EntityManagerInterface $em,
         UploadService $uploadService,
         SluggerInterface $slugger,
-        AssociationsRepository $associationsRepository
+        AssociationsRepository $associationsRepository,
+        TranslatorInterface $translator
     ): Response
     {
         $association = new Associations();
@@ -57,7 +59,7 @@ class AssociationController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             if ($associationsRepository->findOneBy(['email' => $form->get('email')->getData()])) {
-                $this->addFlash('warning', 'an_error_occurred');
+                $this->addFlash('warning', $translator->trans('error_msg'));
 
                 return $this->redirectToRoute('new_association');
             }
@@ -74,9 +76,9 @@ class AssociationController extends AbstractController
             $em->persist($association);
             try {
                 $em->flush();
-                $this->addFlash('success', 'success_msg');
+                $this->addFlash('success', $translator->trans('success_msg'));
             } catch (Exception $e) {
-                $this->addFlash('error', 'error_msg');
+                $this->addFlash('error', $translator->trans('error_msg'));
 
                 return $this->redirectToRoute('new_association');
             }
@@ -98,7 +100,8 @@ class AssociationController extends AbstractController
         EntityManagerInterface $em,
         SluggerInterface $slugger,
         UploadService $uploadService,
-        AssociationsRepository $associationsRepository
+        AssociationsRepository $associationsRepository,
+        TranslatorInterface $translator
     ): Response
     {
         if ($association->getIsDeleted()) {
@@ -115,7 +118,7 @@ class AssociationController extends AbstractController
         {
             $oldSlug = $association->getSlug();
             if ($associationsRepository->findOneBy(['email' => $form->get('email')->getData()])) {
-                $this->addFlash('error', 'error_msg');
+                $this->addFlash('error', $translator->trans('error_msg'));
 
                 return $this->redirectToRoute('edit_association', ['slug' => $oldSlug]);
             }
@@ -131,9 +134,9 @@ class AssociationController extends AbstractController
 
             try {
                 $em->flush();
-                $this->addFlash('success', 'success_msg');
+                $this->addFlash('success', $translator->trans('success_msg'));
             } catch (Exception $e) {
-                $this->addFlash('error', 'error_msg');
+                $this->addFlash('error', $translator->trans('error_msg'));
 
                 return $this->redirectToRoute('edit_association', ['slug' => $oldSlug]);
             }
@@ -153,7 +156,8 @@ class AssociationController extends AbstractController
     public function anonymize(
         Associations $association,
         EntityManagerInterface $em,
-        AnonymizeService $anonymizeService
+        AnonymizeService $anonymizeService,
+        TranslatorInterface $translator
     ): Response {
         if ($association->getIsDeleted()) {
             throw new HttpException('410');
@@ -161,7 +165,7 @@ class AssociationController extends AbstractController
         $this->denyAccessUnlessGranted('anonymize', $association);
         $anonymizeService->anonymizeAssociation($association);
         $em->flush();
-        $this->addFlash('success', 'success_msg');
+        $this->addFlash('success', $translator->trans('success_msg'));
         
         return $this->redirectToRoute('associations');
     }

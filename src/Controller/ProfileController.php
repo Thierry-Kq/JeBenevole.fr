@@ -5,10 +5,11 @@ namespace App\Controller;
 use App\Form\ProfileFormType;
 use App\Service\UploadService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProfileController extends AbstractController
 {
@@ -28,7 +29,8 @@ class ProfileController extends AbstractController
     public function edit(
         Request $request,
         UploadService $uploadService,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        TranslatorInterface $translator
     ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
@@ -48,7 +50,7 @@ class ProfileController extends AbstractController
 
             $user = $form->getData();
             $em->flush();
-            $this->addFlash('success', 'success_msg');
+            $this->addFlash('success', $translator->trans('success_msg'));
 
             return $this->redirectToRoute('show_profile', ['slug' => $user->getSlug()]);
         }

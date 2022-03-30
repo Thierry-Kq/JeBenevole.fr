@@ -38,7 +38,8 @@
 
 # Messages Flash
 'success_msg': 'Action réalisée avec succès.'
-'error_msg': 'Echec de l'action.'
+'error_msg': 'Echec de l''action.'
+'confirm_inscription': 'Vous avez 1 heure pour confirmer votre inscription en cliquant sur le lien reçu par mail.'
 
 # Offers templates
 'offers_list_page_title': 'liste des offres'
