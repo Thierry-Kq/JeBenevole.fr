@@ -151,7 +151,7 @@ form.addEventListener('submit', (e) => {
 })
 
 function validateEmail(email) {
-    const mailformat = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
+    const mailformat = /\S+@\S+\.\S+/; 
     if(mailformat.test(email)){
         return true;
     }
