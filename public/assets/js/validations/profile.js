@@ -1,4 +1,4 @@
-const form = document.getElementById('form');
+const form = document.querySelector('#form');
 const displayError = document.querySelector('.error');
 
 form.addEventListener('submit', (e) => {
@@ -6,10 +6,10 @@ form.addEventListener('submit', (e) => {
     let messages = [];
     let error = false;
 
-    const description = document.getElementById('profile_form_description').value;
-    const picture = document.getElementById('profile_form_picture');
-    const fixNumber = document.getElementById('profile_form_fixNumber').value;
-    const cellNumber = document.getElementById('profile_form_cellNumber').value;
+    const description = document.querySelector('p#rofile_form_description').value;
+    const picture = document.querySelector('#profile_form_picture');
+    const fixNumber = document.querySelector('#profile_form_fixNumber').value;
+    const cellNumber = document.querySelector('#profile_form_cellNumber').value;
     
     if(description.length < 15 ){
         messages.push('Description trop courte');

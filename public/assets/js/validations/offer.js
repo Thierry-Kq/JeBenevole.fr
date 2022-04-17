@@ -1,4 +1,4 @@
-const form = document.getElementById('form');
+const form = document.querySelector('#form');
 const displayError = document.querySelector('.error');
 
 form.addEventListener('submit', (e) => {
@@ -6,21 +6,21 @@ form.addEventListener('submit', (e) => {
     let messages = [];
     let error = false;
 
-    const title = document.getElementById('offer_title').value;
-    const address = document.getElementById('offer_address').value;
-    const zip = document.getElementById('offer_zip').value;
-    const city = document.getElementById('offer_city').value;
-    const description = document.getElementById('offer_description').value;
-    const startdateD = document.getElementById('offer_dateStart_day').value;
-    const startdateM = document.getElementById('offer_dateStart_month').value;
-    const startdateY = document.getElementById('offer_dateStart_year').value;
-    const enddateD = document.getElementById('offer_dateEnd_day').value;
-    const enddateM = document.getElementById('offer_dateEnd_month').value;
-    const enddateY = document.getElementById('offer_dateEnd_year').value;
-    const picture = document.getElementById('offer_file');
-    const name = document.getElementById('offer_contactExternalName').value;
-    const email = document.getElementById('offer_contactExternalEmail').value;
-    const phone = document.getElementById('offer_contactExternalTel').value;
+    const title = document.querySelector('#offer_title').value;
+    const address = document.querySelector('#offer_address').value;
+    const zip = document.querySelector('#offer_zip').value;
+    const city = document.querySelector('#offer_city').value;
+    const description = document.querySelector('#offer_description').value;
+    const startdateD = document.querySelector('#offer_dateStart_day').value;
+    const startdateM = document.querySelector('#offer_dateStart_month').value;
+    const startdateY = document.querySelector('#offer_dateStart_year').value;
+    const enddateD = document.querySelector('#offer_dateEnd_day').value;
+    const enddateM = document.querySelector('#offer_dateEnd_month').value;
+    const enddateY = document.querySelector('#offer_dateEnd_year').value;
+    const picture = document.querySelector('#offer_file');
+    const name = document.querySelector('#offer_contactExternalName').value;
+    const email = document.querySelector('#offer_contactExternalEmail').value;
+    const phone = document.querySelector('#offer_contactExternalTel').value;
 
     if(title.length < 30 ){
         messages.push('Titre de l\'offre trop court');

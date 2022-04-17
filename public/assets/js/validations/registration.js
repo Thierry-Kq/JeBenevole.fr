@@ -1,4 +1,4 @@
-const form = document.getElementById('form');
+const form = document.querySelector('#form');
 const displayError = document.querySelector('.error');
 
 
@@ -8,13 +8,13 @@ form.addEventListener('submit', (e) => {
     let error = false;
 
     // Get form inputs
-    const lastName = document.getElementById('registration_form_lastName').value;
-    const firstName = document.getElementById('registration_form_firstName').value;
-    const nickname = document.getElementById('registration_form_nickname').value;
-    const email = document.getElementById('registration_form_email').value;
-    const password = document.getElementById('registration_form_plainPassword_first').value;
-    const confirmation = document.getElementById('registration_form_plainPassword_second').value;
-    const rgpd = document.getElementById('registration_form_rgpd').value;
+    const lastName = document.querySelector('#registration_form_lastName').value;
+    const firstName = document.querySelector('#registration_form_firstName').value;
+    const nickname = document.querySelector('#registration_form_nickname').value;
+    const email = document.querySelector('#registration_form_email').value;
+    const password = document.querySelector('#registration_form_plainPassword_first').value;
+    const confirmation = document.querySelector('#registration_form_plainPassword_second').value;
+    const rgpd = document.querySelector('#registration_form_rgpd').value;
 
 ;    //Check inputs
     if(lastName.length < 2){
