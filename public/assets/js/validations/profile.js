@@ -6,7 +6,7 @@ form.addEventListener('submit', (e) => {
     let messages = [];
     let error = false;
 
-    const description = document.querySelector('p#rofile_form_description').value;
+    const description = document.querySelector('#profile_form_description').value;
     const picture = document.querySelector('#profile_form_picture');
     const fixNumber = document.querySelector('#profile_form_fixNumber').value;
     const cellNumber = document.querySelector('#profile_form_cellNumber').value;
