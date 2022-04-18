@@ -1,11 +1,15 @@
 {% extends 'layout_front_office.html.twig' %}
 {% from "macros/form.twig" import fieldset %}
+{% block javascripts %}
+	<script defer src="{{ asset('assets/js/validations/contact.js') }}"></script>
+{% endblock %}
 {% block body %}
 	<main class="grix xs6 md12">
 		<section class="txt-center col-xs4 pos-xs2 col-md6 pos-md4">
 			<h1 class="txt-center">{{ 'contact_form_title'|trans }}</h1>
 
-			{{form_start(form)}}
+			{{form_start(form, {'attr':{'id': 'form'}})}}
+			<p class="error"></p>
 			{% if not app.user %}
 				{{ fieldset(form.firstName)}}
 				{{ fieldset(form.lastName)}}
