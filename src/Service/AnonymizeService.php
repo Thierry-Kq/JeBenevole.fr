@@ -14,6 +14,7 @@ class AnonymizeService
     private const DELETED_ZIP = '00000';
     private const DELETED_NUMBER = '0000000000';
     private const DELETED_MAIL = 'deleted@deleted.del';
+    private const DELETED_USER_MAIL = 'user@deleted.del';
 
     private UploadService $uploadService;
 
@@ -31,7 +32,7 @@ class AnonymizeService
         $this->uploadService->deleteImage($association->getPicture(), UploadService::ASSOCIATIONS_FOLDER_NAME);
 
         $association
-            ->setIsDeleted(1)
+            ->setIsDeleted(true)
             ->setName(self::DELETED . $association->getId())
             ->setEmail($association->getId() . self::DELETED_MAIL)
             ->setAddress(self::DELETED)
@@ -55,7 +56,7 @@ class AnonymizeService
         $this->uploadService->deleteImage($offer->getFile(), UploadService::OFFERS_FOLDER_NAME);
 
         $offer
-            ->setIsDeleted(1)
+            ->setIsDeleted(true)
             ->setTitle(self::DELETED)
             ->setAddress(self::DELETED)
             ->setZip(self::DELETED_ZIP)
@@ -72,7 +73,25 @@ class AnonymizeService
 
     public function anonymizeUser(Users  $user): void
     {
-        // for an user, anonymize his associations ( and cascade asso's offers ) and his offers
+        foreach ($user->getAssociations()as $association) {
+            $this->anonymizeAssociation($association);
+        }
+        foreach ($user->getOffers() as $offer) {
+            $this->anonymizeOffer($offer);
+        }
+        $this->uploadService->deleteImage($user->getPicture(), UploadService::USERS_FOLDER_NAME);
+
+        $user
+            ->setFirstName(self::DELETED)
+            ->setLastName(self::DELETED)
+            ->setDescription(self::DELETED)
+            ->setFixNumber(self::DELETED_NUMBER)
+            ->setCellNumber(self::DELETED_NUMBER)
+            ->setFacebookId(self::DELETED)
+            ->setNickname(self::DELETED)
+            ->setIsDeleted(true)
+            ->setEmail($user->getId() . self::DELETED_USER_MAIL)
+            ->setUpdatedAt(new  DateTime());
     }
 
     public function anonymizeCategory(Categories  $category): void

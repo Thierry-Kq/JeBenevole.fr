@@ -42,10 +42,12 @@ class OfferVoter extends Voter
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
+
         $user = $token->getUser();
         if (!$user instanceof Users) {
             return false;
         }
+
         if ($this->security->isGranted('ROLE_ADMIN')) {
             return true;
         }
