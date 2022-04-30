@@ -107,7 +107,7 @@ class OfferType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new Image([
-                        'maxSize' => '1024',
+                        'maxSize' => '1024k',
                     ])
                 ],
                 'data_class' => null
