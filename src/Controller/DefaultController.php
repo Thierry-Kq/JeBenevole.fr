@@ -3,14 +3,15 @@
 namespace App\Controller;
 
 use App\Form\ContactType;
+use Symfony\Component\Mime\Address;
+use App\Repository\OffersRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
-use App\Repository\OffersRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Mime\Address;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DefaultController extends AbstractController
 {
@@ -39,7 +40,7 @@ class DefaultController extends AbstractController
     /**
      * @Route("/contact", name="contact")
      */
-    public function contact(Request $request, MailerInterface $mailer): Response
+    public function contact(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
     {
         $form = $this->createForm(ContactType::class);
         $form->handleRequest($request);
@@ -63,7 +64,7 @@ class DefaultController extends AbstractController
                 ->htmlTemplate('default/contact_email.html.twig')
                 ->context(['informations' => $informations]);
             $mailer->send($email);
-            $this->addFlash('success', 'contact_form_flash_success');
+            $this->addFlash('success', $translator->trans('error_msg'));
             return $this->redirectToRoute('homepage');
         }
 
