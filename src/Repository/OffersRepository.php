@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Offers;
 use App\Service\PaginatorService;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
@@ -56,5 +57,24 @@ class OffersRepository extends ServiceEntityRepository
             ->getQuery();
 
         return $this->paginatorService->paginate($query, $resultByPage, $page);
+    }
+
+    public function getLastOffers($relation, $maxResults = 3): ?array
+    {
+        $join = 'o.' . $relation;
+        $query = $this->createQueryBuilder('o')
+            ->select('o.title, o.description, o.slug')
+            ->andWhere('o.isActived = :isActived')
+            ->andWhere('o.isPublished = :isPublished')
+            ->andWhere('o.isDeleted = :isDeleted')
+            ->andWhere('o.dateStart > :dateNow')
+            ->setParameter(':isActived', true)
+            ->setParameter(':isPublished', true)
+            ->setParameter(':isDeleted', false)
+            ->setParameter(':dateNow', new DateTime())
+            ->setMaxResults($maxResults)
+            ->join($join, 'u');
+
+        return $query->getQuery()->getResult();
     }
 }

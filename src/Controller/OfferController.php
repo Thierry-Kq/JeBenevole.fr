@@ -2,18 +2,20 @@
 
 namespace App\Controller;
 
+use Exception;
 use App\Entity\Offers;
 use App\Form\OfferType;
-use App\Repository\OffersRepository;
 use App\Service\UploadService;
+use App\Service\AnonymizeService;
+use App\Repository\OffersRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class OfferController extends AbstractController
 {
@@ -48,7 +50,8 @@ class OfferController extends AbstractController
         Request $request,
         EntityManagerInterface $em,
         UploadService $uploadService,
-        SluggerInterface $slugger
+        SluggerInterface $slugger,
+        TranslatorInterface $translator
     ): Response
     {
         $offers = new Offers();
@@ -65,7 +68,7 @@ class OfferController extends AbstractController
         {
             $image = $form->get('file')->getData();
             if ($image != null){
-                $offers->setFile($uploadService->uploadImage($image, 'offers'));
+                $offers->setFile($uploadService->uploadImage($image, UploadService::OFFERS_FOLDER_NAME));
             }
 
             $slug = $slugger->slug($offers->getTitle());
@@ -79,8 +82,9 @@ class OfferController extends AbstractController
 
             try {
                 $em->flush();
+                $this->addFlash('success', $translator->trans('success_msg'));
             } catch (Exception $e) {
-                $this->addFlash('warning', 'not_unique_title');
+                $this->addFlash('error', $translator->trans('error_msg'));
 
                 return $this->redirectToRoute($route);
             }
@@ -104,7 +108,8 @@ class OfferController extends AbstractController
         Offers $offers,
         EntityManagerInterface $em,
         UploadService $uploadService,
-        SluggerInterface $slugger
+        SluggerInterface $slugger,
+        TranslatorInterface $translator
     ): Response
     {
         if ($offers->getIsDeleted()) {
@@ -123,8 +128,8 @@ class OfferController extends AbstractController
         {
             $imageChange = $form->get('file')->getData();
             if ($imageChange != null){
-                $uploadService->deleteImage($offersOldPicture, 'offers');
-                $offers->setFile($uploadService->uploadImage($imageChange, 'offers'));
+                $uploadService->deleteImage($offersOldPicture, UploadService::OFFERS_FOLDER_NAME);
+                $offers->setFile($uploadService->uploadImage($imageChange, UploadService::OFFERS_FOLDER_NAME));
             }
 
             $oldSlug = $offers->getSlug();
@@ -133,8 +138,9 @@ class OfferController extends AbstractController
 
             try {
                 $em->flush();
+                $this->addFlash('success', $translator->trans('success_msg'));
             } catch (Exception $e) {
-                $this->addFlash('warning', 'not_unique_title');
+                $this->addFlash('error', $translator->trans('error_msg'));
 
                 return $this->redirectToRoute($route, ['slug' => $oldSlug]);
             }
@@ -159,7 +165,8 @@ class OfferController extends AbstractController
         Offers $offers,
         EntityManagerInterface $em,
         Request $request,
-        UploadService $uploadService
+        AnonymizeService $anonymizeService,
+        TranslatorInterface $translator
     ): Response
     {
         if ($offers->getIsDeleted()) {
@@ -168,22 +175,11 @@ class OfferController extends AbstractController
         $this->denyAccessUnlessGranted('anonymize', $offers);
 
         $route = $request->get('_route');
-
         $targetPath = $route === 'anonymize_offer' ? 'offers' : 'requests';
-
-        $offers->setIsDeleted(1);
-
-        $offers->setTitle('deleted');
-        $offers->setAddress('deleted');
-        $offers->setZip('00000');
-        $offers->setCity('deleted');
-        $offers->setDescription('deleted');
-        $offers->setContactExternalName('deleted');
-        $offers->setContactExternalEmail('deleted');
-        $offers->setContactExternalTel('deleted');
-        $uploadService->deleteImage($offers->getFile(), 'offers');
+        $anonymizeService->anonymizeOffer($offers);
 
         $em->flush();
+        $this->addFlash('success', $translator->trans('success_msg'));
 
         return $this->redirectToRoute($targetPath);
     }

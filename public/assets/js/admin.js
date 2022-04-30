@@ -62,7 +62,7 @@ function onClickDelete(event){
 }
 
 function displayMessage(json){
-    const div = document.getElementById('message-ajax');
+    const div = document.querySelector('#message-ajax');
 
     div.classList.remove('hide', 'success', 'warning', 'error');
     div.classList.add(json.code);

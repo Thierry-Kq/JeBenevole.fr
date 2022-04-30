@@ -17,6 +17,7 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
@@ -36,7 +37,8 @@ class RegistrationController extends AbstractController
         SluggerInterface $slugger,
         UserAuthenticatorInterface $authenticator,
         LoginAuthenticator $login,
-        UsersRepository $usersRepository
+        UsersRepository $usersRepository,
+        TranslatorInterface $translator
     ): Response
     {
 
@@ -51,7 +53,7 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             if ($usersRepository->findOneBy(['email' => $form->get('email')->getData()])) {
-                $this->addFlash('warning', 'an_error_occurred');
+                $this->addFlash('error', $translator->trans('error_msg'));
                 return $this->redirectToRoute('app_register');
             }
 
@@ -70,8 +72,9 @@ class RegistrationController extends AbstractController
 
             try {
                 $entityManager->flush();
+                $this->addFlash('success', $translator->trans('success_msg'));
             } catch (Exception $e) {
-                $this->addFlash('warning', 'not_unique_nickname');
+                $this->addFlash('error', $translator->trans('error_msg'));
 
                 return $this->redirectToRoute('app_register');
             }
@@ -86,7 +89,8 @@ class RegistrationController extends AbstractController
 
             $authenticator->authenticateUser($user, $login, $request);
 
-            // todo : add a flash to tell the user he have 1 hour to confirm his mail,
+            $this->addFlash('warning', $translator->trans('confirm_inscription'));
+
             return $this->redirectToRoute('associations');
 
         }
@@ -99,20 +103,19 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/verification/email", name="app_verify_email")
      */
-    public function verifyUserEmail(Request $request): Response
+    public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
         } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $exception->getReason());
+            $this->addFlash('error', $translator->trans('error_msg'));
 
             return $this->redirectToRoute('app_register');
         }
 
-        // @TODO handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
+        $this->addFlash('success', $translator->trans('success_msg'));
 
         return $this->redirectToRoute('homepage');
     }

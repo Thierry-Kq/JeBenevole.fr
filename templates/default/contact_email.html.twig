@@ -1,0 +1,18 @@
+<p>Bonjour,</p>
+<p>Un nouveau message a été envoyé depuis le formulaire de contact sur JeBénévole.fr</p>
+<p>La demande provient de :
+	{{informations.firstName}}
+	{{informations.lastName}}<br>
+	{{ 'contact_form_email'|trans }}
+	:
+	{{informations.email}}
+	-
+	{{ 'contact_form_phone'|trans }}
+	:
+	{{informations.phone}}</p>
+<p>Sujet :
+	{{informations.subject}}</p>
+<p style="white-space: pre;">{{ 'contact_form_message'|trans }}:
+	<br>{{informations.message}}</p>
+{% if informations.member is defined %}Est membre
+{% endif %}
