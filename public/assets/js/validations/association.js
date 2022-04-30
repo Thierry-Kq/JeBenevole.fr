@@ -1,4 +1,4 @@
-const form = document.getElementById('form');
+const form = document.querySelector('#form');
 const displayError = document.querySelector('.error');
 
 form.addEventListener('submit', (e) => {
@@ -6,21 +6,21 @@ form.addEventListener('submit', (e) => {
     let messages = [];
     let error = false;
 
-    const associationName = document.getElementById('association_name').value;
-    const email = document.getElementById('association_email').value;
-    const address = document.getElementById('association_address').value;
-    const zip = document.getElementById('association_zip').value;
-    const city = document.getElementById('association_city').value;
-    const fixNumber = document.getElementById('association_fixNumber').value;
-    const cellNumber = document.getElementById('association_cellNumber').value;
-    const faxNumber = document.getElementById('association_faxNumber').value;
-    const description = document.getElementById('association_description').value;
-    const picture = document.getElementById('association_picture');
-    const webSite = document.getElementById('association_webSite').value;
-    const facebook = document.getElementById('association_facebook').value;
-    const youtube = document.getElementById('association_youtube').value;
-    const linkedin = document.getElementById('association_linkedin').value;
-    const twitter = document.getElementById('association_twitter').value;
+    const associationName = document.querySelector('#association_name').value;
+    const email = document.querySelector('#association_email').value;
+    const address = document.querySelector('#association_address').value;
+    const zip = document.querySelector('#association_zip').value;
+    const city = document.querySelector('#association_city').value;
+    const fixNumber = document.querySelector('#association_fixNumber').value;
+    const cellNumber = document.querySelector('#association_cellNumber').value;
+    const faxNumber = document.querySelector('#association_faxNumber').value;
+    const description = document.querySelector('#association_description').value;
+    const picture = document.querySelector('#association_picture');
+    const webSite = document.querySelector('#association_webSite').value;
+    const facebook = document.querySelector('#association_facebook').value;
+    const youtube = document.querySelector('#association_youtube').value;
+    const linkedin = document.querySelector('#association_linkedin').value;
+    const twitter = document.querySelector('#association_twitter').value;
 
     if(associationName.length < 2 ){
         messages.push('Nom de l\'association trop court');
@@ -151,7 +151,7 @@ form.addEventListener('submit', (e) => {
 })
 
 function validateEmail(email) {
-    const mailformat = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
+    const mailformat = /\S+@\S+\.\S+/; 
     if(mailformat.test(email)){
         return true;
     }
