@@ -10,6 +10,7 @@
 'not_unique_name': 'Ce nom est déjà pris !'
 'not_unique_nickname': 'Ce pseudo est déjà pris !'
 'an_error_occurred': 'Une erreur s''est produite !'
+'custom_email_validator': 'Vous ne pouvez pas utilisez les mots "deleted" ou "jebevole" pour vous inscrire !'
 
 
 

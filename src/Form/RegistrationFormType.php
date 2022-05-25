@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Users;
+use App\Validator\CustomEmail;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -26,7 +27,8 @@ class RegistrationFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'constraints' => [
                     new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
-                    new Email()
+                    new Email(),
+                    new CustomEmail()
                 ]
             ])
             ->add('firstName', TextType::class, [
