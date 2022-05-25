@@ -2,23 +2,27 @@
 
 namespace App\Controller;
 
+use App\Entity\AnonymizationAsked;
 use App\Form\ProfileFormType;
+use App\Repository\AnonymizationAskedRepository;
 use App\Service\UploadService;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+/**
+ * @IsGranted("ROLE_USER")
+ */
 class ProfileController extends AbstractController
 {
     /**
      * @Route("/profil", name="show_profile")
      */
     public function display(): Response {
-
-        $this->denyAccessUnlessGranted('ROLE_USER');
 
         return $this->render('profile/show.html.twig');
     }
@@ -32,7 +36,6 @@ class ProfileController extends AbstractController
         EntityManagerInterface $em,
         TranslatorInterface $translator
     ): Response {
-        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
 
         $userOldPicture = $user->getPicture();
@@ -59,4 +62,34 @@ class ProfileController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/profil/anonymization", name="anonymize_profile")
+     */
+    public function anonymize(
+        Request $request,
+        UploadService $uploadService,
+        EntityManagerInterface $em,
+        TranslatorInterface $translator,
+        AnonymizationAskedRepository $anonymizationAskedRepository
+    ): Response {
+        $user = $this->getUser();
+        $alreadyAsked = $anonymizationAskedRepository->findOneBy(['users' => $user]);
+        if (!$alreadyAsked) {
+            $anonymizationAsked = new AnonymizationAsked();
+            $anonymizationAsked->setUsers($user);
+            $em->persist($anonymizationAsked);
+            $em->flush();
+            $this->addFlash('success', 'ok');
+        } else {
+            $this->addFlash('warning', 'already');
+        }
+
+        return $this->redirectToRoute('show_profile');
+    }
+    /**
+     *  ici action de demande d'anonymize
+     *  bouton + modal, confirmation fait un appel en ajax, on verifie le crsf +
+     *  a voir comment on procede, on a un bouton, qui ouvre une modal, si on confirm, creation de la table, flashmessage ?
+     */
 }
